@@ -1,3 +1,4 @@
+-   DownClim 0.1.0.9035: ds_bc fixed and testing documentation
 -   DownClim 0.1.0.9034: few fixes to be shared with Thomas
 -   DownClim 0.1.0.9033: lighter and faster wkl with aggregation fused to data retrieval
 -   DownClim 0.1.0.9032: cordex with wget

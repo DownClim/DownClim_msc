@@ -85,3 +85,9 @@ Python questions/devs:
 -   Ask help to Thomas for figures in python
 -   Ask help to Thomas for dictionaries in netcdf metadata
 -   Schedule a meeting with Ghislain and Achille
+
+## 24/04/08 - Ghislain, Achille, Thomas
+
+-   Test the difference of bias correction then downscaling versus downscaling then bias correction
+-    Prepare a description to test and share
+-   Next meeting on th 24/05/03 8:30

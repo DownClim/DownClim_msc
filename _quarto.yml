@@ -8,10 +8,11 @@ book:
   date: last-modified
   chapters:
     - index.qmd
+    - 01_test.qmd
   appendices:
-    - literature.qmd
-    - meetings.qmd
-    - references.qmd
+    - 97_literature.qmd
+    - 98_meetings.qmd
+    - 99_references.qmd
 
 bibliography: references.bib
 

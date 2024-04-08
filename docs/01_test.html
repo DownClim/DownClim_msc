@@ -7,7 +7,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
 
-<title>DownClim - Downscale Climate Projections - Meetings</title>
+<title>DownClim - Downscale Climate Projections - Test</title>
 <style>
 code{white-space: pre-wrap;}
 span.smallcaps{font-variant: small-caps;}
@@ -30,8 +30,8 @@ ul.task-list li input[type="checkbox"] {
 <script src="site_libs/quarto-search/fuse.min.js"></script>
 <script src="site_libs/quarto-search/quarto-search.js"></script>
 <meta name="quarto:offset" content="./">
-<link href="./references.html" rel="next">
-<link href="./literature.html" rel="prev">
+<link href="./97_literature.html" rel="next">
+<link href="./index.html" rel="prev">
 <script src="site_libs/quarto-html/quarto.js"></script>
 <script src="site_libs/quarto-html/popper.min.js"></script>
 <script src="site_libs/quarto-html/tippy.umd.min.js"></script>
@@ -74,7 +74,7 @@ ul.task-list li input[type="checkbox"] {
       <button type="button" class="quarto-btn-toggle btn" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar,#quarto-sidebar-glass" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
         <i class="bi bi-layout-text-sidebar-reverse"></i>
       </button>
-      <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="./literature.html">Appendices</a></li><li class="breadcrumb-item"><a href="./meetings.html">Meetings</a></li></ol></nav>
+      <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="./01_test.html">Test</a></li></ol></nav>
       <a class="flex-grow-1" role="button" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar,#quarto-sidebar-glass" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">      
       </a>
       <button type="button" class="btn quarto-search-button" aria-label="" onclick="window.quartoOpenSearch();">
@@ -105,6 +105,12 @@ ul.task-list li input[type="checkbox"] {
  <span class="menu-text">Introduction</span></a>
   </div>
 </li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./01_test.html" class="sidebar-item-text sidebar-link active">
+ <span class="menu-text">Test</span></a>
+  </div>
+</li>
         <li class="sidebar-item sidebar-item-section">
       <div class="sidebar-item-container"> 
             <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-1" aria-expanded="true">
@@ -116,19 +122,19 @@ ul.task-list li input[type="checkbox"] {
       <ul id="quarto-sidebar-section-1" class="collapse list-unstyled sidebar-section depth1 show">  
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="./literature.html" class="sidebar-item-text sidebar-link">
+  <a href="./97_literature.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">Literature</span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="./meetings.html" class="sidebar-item-text sidebar-link active">
+  <a href="./98_meetings.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">Meetings</span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="./references.html" class="sidebar-item-text sidebar-link">
+  <a href="./99_references.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">References</span></a>
   </div>
 </li>
@@ -144,10 +150,16 @@ ul.task-list li input[type="checkbox"] {
     <h2 id="toc-title">Table of contents</h2>
    
   <ul>
-  <li><a href="#kick-off" id="toc-kick-off" class="nav-link active" data-scroll-target="#kick-off">23/11/22 - Kick off</a></li>
-  <li><a href="#dev-summary" id="toc-dev-summary" class="nav-link" data-scroll-target="#dev-summary">23/12/05 - Dev summary</a></li>
-  <li><a href="#thomas-a." id="toc-thomas-a." class="nav-link" data-scroll-target="#thomas-a.">23/12/05 - Thomas A.</a></li>
-  <li><a href="#thomas-a.-1" id="toc-thomas-a.-1" class="nav-link" data-scroll-target="#thomas-a.-1">24/01/12 - Thomas A.</a></li>
+  <li><a href="#installation" id="toc-installation" class="nav-link active" data-scroll-target="#installation">Installation</a></li>
+  <li><a href="#credentials" id="toc-credentials" class="nav-link" data-scroll-target="#credentials">Credentials</a></li>
+  <li><a href="#configuration" id="toc-configuration" class="nav-link" data-scroll-target="#configuration">Configuration</a></li>
+  <li><a href="#dry-run" id="toc-dry-run" class="nav-link" data-scroll-target="#dry-run">Dry run</a></li>
+  <li><a href="#run" id="toc-run" class="nav-link" data-scroll-target="#run">Run</a></li>
+  <li><a href="#results" id="toc-results" class="nav-link" data-scroll-target="#results">Results</a></li>
+  <li><a href="#benchmark" id="toc-benchmark" class="nav-link" data-scroll-target="#benchmark">Benchmark</a></li>
+  <li><a href="#rule-tests" id="toc-rule-tests" class="nav-link" data-scroll-target="#rule-tests">Rule tests</a></li>
+  <li><a href="#bugs" id="toc-bugs" class="nav-link" data-scroll-target="#bugs">Bugs</a></li>
+  <li><a href="#contributing" id="toc-contributing" class="nav-link" data-scroll-target="#contributing">Contributing</a></li>
   </ul>
 </nav>
     </div>
@@ -156,7 +168,7 @@ ul.task-list li input[type="checkbox"] {
 
 <header id="title-block-header" class="quarto-title-block default">
 <div class="quarto-title">
-<h1 class="title">Meetings</h1>
+<h1 class="title">Test</h1>
 </div>
 
 
@@ -171,100 +183,93 @@ ul.task-list li input[type="checkbox"] {
 
 </header>
 
-<section id="kick-off" class="level2">
-<h2 class="anchored" data-anchor-id="kick-off">23/11/22 - Kick off</h2>
-<p><em>Ghislain V., Thomas A., Achille M.</em></p>
-<ul>
-<li>Keep it simple first</li>
-<li>Evaluation: from weather stations, test on an area with a lot of weather stations</li>
-<li>Evaluation climate data vs baseline climate data</li>
-<li>Interpolation
-<ul>
-<li>bilinear is commonly used</li>
-</ul></li>
-<li>Achille previously work downscaling from all available, bioclim computing, and evaluation, for AFRICA and 15 RCM, shell + CDO + wget + GRASS</li>
-<li>Project differences in moist tropical forest distribution between GCM and RCM</li>
-<li>Finally provide a tool and a product</li>
-<li>Have a look to CORDEX downscaling on Europe and North America</li>
-<li>Maybe add Swiss</li>
-</ul>
+<p>Here is a small chapter to help you test DownClim.</p>
+<section id="installation" class="level2">
+<h2 class="anchored" data-anchor-id="installation">Installation</h2>
+<p>You only need mamba to get everything else. See <a href="https://github.com/conda-forge/miniforge#mambaforge" class="uri">https://github.com/conda-forge/miniforge#mambaforge</a> for mambaforge installation. Once mamba installed you can add Python ≥3.5 and Snakemake ≥5.24.1, eventually using an environment called snakmake as is:</p>
+<pre><code>conda activate base
+mamba create -c conda-forge -c bioconda -n snakemake snakemake
+conda activate snakemake
+snakemake --help</code></pre>
 </section>
-<section id="dev-summary" class="level2">
-<h2 class="anchored" data-anchor-id="dev-summary">23/12/05 - Dev summary</h2>
-<p>Dev points:</p>
-<ul>
-<li>File naming, for instance longest is results/evaluation/{country}_{domain}_{gcm}_{rcm}_{rcp}_{period_eval}_{period_base}.tsv</li>
-<li>Modularity:
-<ul>
-<li><strong>Space</strong>: currenlty country level based on GADM, but should be adapted to work at regional scale, global scale, and defined bounding box. Resolution of the baseline.</li>
-<li><strong>Time</strong>: currently resolution of months. I would keep finer resolution, i.e.&nbsp;days or x-hourly, for another version (but maybe more complicated to implement with current structure). I do not think year resolution is useful. Period depend on the different products, for instance beware of the short period of evaluation of CHELSA (2010) which can question the comparison with other such as WorldClim</li>
-<li><strong>Baseline</strong>: currently CHELSA 2.1, add WorldClim? add ERA5-Land?, ready for more?</li>
-<li><strong>Projection</strong>: currently CORDEX, add CMIP5 for comparison, add CMIP6?, add CMIP6 HighRes?</li>
-<li><strong>Scenarios</strong>: all RCPs, add SSPs (depend on CMIP6)?; linked to projection</li>
-<li><strong>Downscaling</strong>: bias correction based on delta / change factor of anomalies only? I would keep more sophisticated quantile based approach for another version (but maybe more complicated to implement with current structure)</li>
-<li><strong>Pre-selection</strong>: currently none. Could be based on climatic range of projections in the defined area. But it is needed for lack of computing power, which I think is not the case here.</li>
-<li><strong>Evaluation</strong>: all available metrics, automatic report. Which data? Currently same as the baseline used. External data could be added for multiple evaluations, e.g.&nbsp;CRU TS 4.</li>
-<li><strong>Post-selection</strong>: currently none. Could be based on previous evaluation. But I do not think it is useful by itself, but could be included eventually in ensemble.</li>
-<li><strong>Ensemble</strong>: currently none. Should be added for general users relying on ensemble projections, while reporting uncertainties (very important). Could be simple multi-model averaging or more complex approaches including Bayesian model averaging.</li>
-</ul></li>
-</ul>
-<p>Python questions/devs:</p>
-<ul>
-<li>Environment management local / Rstudio / conda with mamba-forge</li>
-<li>Local / Rstudio envs conflict</li>
-<li>Very slow conda envs (but working for country)</li>
-<li>Help on online nc reading from CHELSA or esgf</li>
-<li>Help on xarray use, but currently pretty autonomous</li>
-<li>Fresh installation tutorial</li>
-<li>Updating management of HPC with profiles in snakemake</li>
-<li>Python/R script for automatic experiment table creation with available CORDEX</li>
-</ul>
+<section id="credentials" class="level2">
+<h2 class="anchored" data-anchor-id="credentials">Credentials</h2>
+<p>Data are retrieve from ESGF through the <a href="https://esgf-node.ipsl.upmc.fr/search/cordex-ipsl/">Institut Pierre-Simon Laplace node</a>. You need first to <a href="https://esgf.github.io/esgf-user-support/user_guide.html#create-an-account">create an account</a> on this page (<a href="https://esgf-node.ipsl.upmc.fr/user/add/?next=http://esgf-node.ipsl.upmc.fr/search/cordex-ipsl/">create account</a> link at corner right). Then you’ll need to register credentials locally to use the workflow. For that use a credentials_esgf yaml file reported in config.yml with keys openid and pwd. For example using bash in linux:</p>
+<pre><code>openid=https://esgf-node.ipsl.upmc.fr/esgf-idp/openid/{user}
+pwd={pwd}
+echo -e "openid: $openid\npwd: $pwd" &gt; config/credentials_esgf.yml</code></pre>
 </section>
-<section id="thomas-a." class="level2">
-<h2 class="anchored" data-anchor-id="thomas-a.">23/12/05 - Thomas A.</h2>
-<p><strong>Dev</strong>:</p>
-<ul class="task-list">
-<li><input type="checkbox">Use any filenaming according to the dev, but include all key informations as metadata in the NetCDF data files and TSV evaluation files</li>
-<li><input type="checkbox">Use all CORDEX and ESGF terminology for projections (including ensemble etc)</li>
-<li><input type="checkbox">Check GADM ability to work with continent, and develop the specific case of defined bounding box</li>
-<li><input type="checkbox">Define the projection in configuration with default available projection common for all outputs in the project</li>
-<li><input type="checkbox">Develop architecture (but not code, include stops) for daily and x-hourly data</li>
-<li><input type="checkbox">Develop architecture (but not code, include stops) for statistical / quantile-based downscaling</li>
-<li><input type="checkbox">Develop architecture (but not code, include stops) for pre- and post- selection</li>
-<li><input type="checkbox">Develop architecture &amp; code for CHELSA and WorldClim baseline, while developing generic getter architecture for further products (e.g.&nbsp;ERA5-Land, but each product will need its own getter). The resulting NetCDF file should be the cleanest as possible and generic. The working unit will be a NetCDF file with all variables across the whole area and the whole time period.</li>
-<li><input type="checkbox">Gather summarise_cordex, get_anomalies &amp; downscale in a single bias-correction downscaling rule</li>
-<li><input type="checkbox">Develop architecture and code for evaluation based on the baseline and CRU TS 4 as independent data, while developing generic getter architecture for further products (e.g.&nbsp;ERA5-Land, but each product will need its own getter). Should be similar or same rules as the one used to get the baseline.</li>
-<li><input type="checkbox">Develop architecture and code for ensemble projections based on simple multi-model averaging producing both ensemble and <strong>uncertainties</strong>, and develop architecture (but not code, include stops) for more sophisticated method such as Bayesian model averaging.</li>
-</ul>
-<p><strong>Notes</strong>:</p>
-<ul>
-<li>Use Visual Studio for python dev</li>
-<li>Do not use pip for libraries</li>
-<li>Figure out how reticulate deals with environments, and which environment is used in Rstudio terminal</li>
-<li>Use conda with mamba forge as recommended for snakemake</li>
-<li>Re-install snakemake in a conda environment as recommended</li>
-<li>Use a personal dev environment in yaml to be shared with co-authors for tests and developments</li>
-<li>Use single rule minimal environments for rules libraries</li>
-<li>Ask for help on specific rules scripts on a continuous-flow basis using if possible GitHub issues</li>
-</ul>
+<section id="configuration" class="level2">
+<h2 class="anchored" data-anchor-id="configuration">Configuration</h2>
+<p>The configuration used by the workflow is defined at the top of the <code>Snakefile</code>:</p>
+<pre><code>configfile: "config/config_all.yml"
+
+...</code></pre>
+<p>I suggest you use <code>config/config_ex.yml</code>. Do not hesitate to manually edit the configuration file. You may need to change the projection list <code>config/projections_ex.tsv</code> (all available are listed in <code>config/projections_all.tsv</code>) and the country domains <code>config/domains.tsv</code> accordingly.</p>
 </section>
-<section id="thomas-a.-1" class="level2">
-<h2 class="anchored" data-anchor-id="thomas-a.-1">24/01/12 - Thomas A.</h2>
+<section id="dry-run" class="level2">
+<h2 class="anchored" data-anchor-id="dry-run">Dry run</h2>
+<p>To avoid sending large computation, I suggest you first use a dry run to check what you have scheduled with snakemake. For that use:</p>
+<pre><code>snakemake -np # dry run</code></pre>
+<p>You should obtain a similar table summarising all the jobs you are about to launch:</p>
+<pre><code>Job stats:
+job             count
+------------  -------
+all                 1
+downscale_bc        8
+eval_proj           4
+get_chelsa2         1
+get_cmip6           1
+get_cordex          1
+hist_base           2
+hist_proj           4
+merge_eval          1
+merge_hist          1
+total              24</code></pre>
+</section>
+<section id="run" class="level2">
+<h2 class="anchored" data-anchor-id="run">Run</h2>
+<p>Then you are ready to run the workflow with:</p>
+<pre><code>snakemake -j 10 --resources mem_mb=10000 --use-conda --keep-runnning</code></pre>
+<p><code>-j</code> defines the maximum number of cores to be used at a time and similarly <code>-- ressources mem_mb</code> the maximum memory. <code>--use-conda</code> is mandatory as the workflow is using it to deal with environments. I advice on using <code>-keep-running</code> to ask the workflow to continue running if a rule fails. You may add <code>-rerun--incomplete</code> if you stopped a running workflow.</p>
+</section>
+<section id="results" class="level2">
+<h2 class="anchored" data-anchor-id="results">Results</h2>
+<p>All results are gathered in the <code>results/</code> folder with:</p>
 <ul>
-<li>Global grid to define (on baseline?)</li>
-<li>xECMF with xe.Regular instead of nc.to_lonlat</li>
-<li>Beware of downscale metadata with lost info</li>
-<li>Evaluation as netcdf</li>
-<li>Create monthly mean files with intermediate rule for temporal aggregation</li>
-<li>get_proj into get_cordex and get_cmip</li>
-<li>only 1 get_cordex per domain for all countries (same for get_chelsa and other baselines)</li>
-<li>add a rule to produce table of country per domain based on python library cordex</li>
-<li>Evaluation plots as R and suggest to be built as python</li>
-<li>Ask help to Thomas for workflow structure with countries</li>
-<li>Ask help to Thomas for figures in python</li>
-<li>Ask help to Thomas for dictionaries in netcdf metadata</li>
-<li>Schedule a meeting with Ghislain and Achille</li>
+<li><code>results/areas/</code> the countries shape files</li>
+<li><code>results/baselines/</code> CHELSA 2 data</li>
+<li><code>results/benchmarks/</code> benchmarking statistics</li>
+<li><code>results/downscaled/</code> downscaled projections</li>
+<li><code>results/evaluation/</code> evaluations and histograms tables</li>
+<li><code>results/logs/</code> all scripts logs</li>
+<li><code>results/projections/</code> CORDEX &amp; CMIP6 data</li>
 </ul>
+<p>So the main results are in <code>results/downscaled/</code> and <code>results/evaluation/</code>.</p>
+</section>
+<section id="benchmark" class="level2">
+<h2 class="anchored" data-anchor-id="benchmark">Benchmark</h2>
+<p>You can have a look to the pipeline performances with snakemake automatic reports using:</p>
+<pre><code>snakemake --report</code></pre>
+<p>which will produce a report.html summary. Or using the R code available in the <code>README.qmd</code>.</p>
+</section>
+<section id="rule-tests" class="level2">
+<h2 class="anchored" data-anchor-id="rule-tests">Rule tests</h2>
+<p>If you want to test manually how a rule and its associated script works, you can use the dev-dc environment as follow:</p>
+<pre><code>mamba env create -f envs/dev-dc.yml # init
+mamba env update -f envs/dev-dc.yml --prune # update
+mamab activate dev-dc</code></pre>
+<p>Then you can use any IDE (for instance Visual Studio Code) to manually run a script from <code>scripts/</code>. Most script will have a commented test section that you can uncomment and adapt with your local files to test the script.</p>
+</section>
+<section id="bugs" class="level2">
+<h2 class="anchored" data-anchor-id="bugs">Bugs</h2>
+<p>If you have bugs as we are a small teams you may simply send us or me a mail. However, you may also take advantage of GitHub to submit a new issue: <a href="https://github.com/sylvainschmitt/DownClim/issues" class="uri">https://github.com/sylvainschmitt/DownClim/issues</a> . Do not hesitate to use issues for bugs / error reports, but also suggest enhancement including future developments or simply improved user friendliness.</p>
+</section>
+<section id="contributing" class="level2">
+<h2 class="anchored" data-anchor-id="contributing">Contributing</h2>
+<p>If you feels comfortable you may also suggest developments. For that please use forks of the repository on GitHub and pull request changes to the <code>dev</code> branch on GitHub.</p>
+<p>Have a nice testing <a href="https://emojipedia.org/fr/visage-faisant-un-clin-d-%C5%93il">😉</a>,</p>
+<p><em>Sylvain</em></p>
 
 
 </section>
@@ -505,13 +510,13 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
 </script>
 <nav class="page-navigation">
   <div class="nav-page nav-page-previous">
-      <a href="./literature.html" class="pagination-link">
-        <i class="bi bi-arrow-left-short"></i> <span class="nav-page-text">Literature</span>
+      <a href="./index.html" class="pagination-link">
+        <i class="bi bi-arrow-left-short"></i> <span class="nav-page-text">Introduction</span>
       </a>          
   </div>
   <div class="nav-page nav-page-next">
-      <a href="./references.html" class="pagination-link">
-        <span class="nav-page-text">References</span> <i class="bi bi-arrow-right-short"></i>
+      <a href="./97_literature.html" class="pagination-link">
+        <span class="nav-page-text">Literature</span> <i class="bi bi-arrow-right-short"></i>
       </a>
   </div>
 </nav>
