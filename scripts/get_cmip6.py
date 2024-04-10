@@ -19,12 +19,13 @@ aggregation = snakemake.params.aggregation
 
 # test
 # base_files = ["results/baselines/New-Caledonia_chelsa2_monthly-means_1980-2005.nc", 
-#               "results/baselines/Vanuatu_chelsa2_monthly-means_1980-2005.nc"]
-# check_file = ["results/projections/New-Caledonia_CMIP6_world_MRI_MRI-ESM2-0_ssp126_r1i1p1f1_none_none_chelsa2_monthly-means_1980-2005.nc"]
-# areas = ["New-Caledonia", "Vanuatu"]
-# institute = "MRI"
-# model = "MRI-ESM2-0"
-# experiment = "ssp126"
+#               "results/baselines/Côte-d'Ivoire_chelsa2_monthly-means_1980-2005.nc", 
+#               "results/baselines/French-Guiana_chelsa2_monthly-means_1980-2005.nc"]
+# check_file = ["results/projections/_CMIP6_world_CAS_FGOALS-g3_ssp585_r1i1p1f1_none_none_chelsa2_done.txt"]
+# areas = ["New-Caledonia", "Côte-d'Ivoire", "French-Guiana"]
+# institute = "CAS"
+# model = "FGOALS-g3"
+# experiment = "ssp585"
 # ensemble = "r1i1p1f1"
 # baseline = "chelsa2"
 # variables =  ["pr", "tas", "tasmin", "tasmax"]
@@ -67,15 +68,15 @@ for exp in ["historical", experiment]:
     zstore = df_ta.zstore.values[-1]
     mapper = gcs.get_mapper(zstore)
     a.append(xr.open_zarr(mapper, consolidated=True))
-ds = xr.merge(a)
+ds = xr.merge(a, compat='override')
 ds['time'] = np.sort(ds['time'].values)
 dmin = min(map(lambda x: x.split("-")[0], periods)) + "-01-01"
 dmax = max(map(lambda x: x.split("-")[1], periods)) + "-01-01"
-ds = ds.sel(time=slice(dmin, dmax))
-ds = ds.chunk(chunks = {'time':100, 'lat': 400, 'lon': 400})
 cf = type(ds["time"].values[0]) is not np.datetime64
 if cf:
-  ds['time'] = [*map(convert_cf_to_dt, ds.time.values)] 
+  ds['time'] = [*map(convert_cf_to_dt, ds.time.values)]   
+ds = ds.sel(time=slice(dt.strptime(dmin, '%Y-%m-%d'), dt.strptime(dmax, '%Y-%m-%d')))
+ds = ds.chunk(chunks = {'time':100, 'lat': 400, 'lon': 400})
 if 'pr' in list(ds.keys()):
   ds['pr'] = ds.pr * 60*60*24*ds.time.dt.days_in_month  # s-1 to month-1
   ds.pr.attrs = {'standard_name': 'precipitation', 
@@ -100,7 +101,6 @@ if 'tasmax' in list(ds.keys()):
                      'long_name': 'Monthly maximum daily air temperature',
                      'units': '°C', 
                      'explanation' : 'Monthly maximum air temperatures at 2 meters.'}
-
 for period in periods:
   dmin = period.split("-")[0] + "-01-01"
   dmax = period.split("-")[1] + "-01-01"
@@ -115,3 +115,25 @@ for period in periods:
 f = open(check_file, "a")
 f.write("Done.")
 f.close()
+
+# # test
+# ## v1
+# anom = ds.sel(time=slice("2071-01-01", "2100-01-01")).groupby("time.month").mean("time") - ds.sel(time=slice("1980-01-01", "2005-01-01")).groupby("time.month").mean("time")
+# i = 0
+# base = xr.open_dataset(base_files[i])
+# regridder = xe.Regridder(anom, base, "bilinear")
+# anom_r = regridder(anom, keep_attrs=True)
+# anom_r.to_netcdf("anom_v1.nc")
+# ## v2
+# fut = ds.sel(time=slice("2071-01-01", "2100-01-01")).groupby("time.month").mean("time")
+# base = xr.open_dataset(base_files[i])
+# regridder = xe.Regridder(fut, base, "bilinear")
+# fut_r = regridder(fut, keep_attrs=True)
+# hist = ds.sel(time=slice("1980-01-01", "2005-01-01")).groupby("time.month").mean("time")
+# regridder = xe.Regridder(hist, base, "bilinear")
+# hist_r = regridder(hist, keep_attrs=True)
+# anom_r2 = fut_r - hist_r
+# anom_r2.to_netcdf("anom_v2.nc")
+# ## comp
+# diff = anom_r - anom_r2
+# diff.to_netcdf("diff.nc")

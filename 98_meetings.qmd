@@ -89,5 +89,5 @@ Python questions/devs:
 ## 24/04/08 - Ghislain, Achille, Thomas
 
 -   Test the difference of bias correction then downscaling versus downscaling then bias correction
--    Prepare a description to test and share
+-   Prepare a description to test and share
 -   Next meeting on th 24/05/03 8:30

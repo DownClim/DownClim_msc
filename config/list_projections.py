@@ -30,17 +30,30 @@ df.project = df.project.str.upper()
 cordex = df[['project', 'domain', 'institute', 'model', 'experiment', 'ensemble', 'rcm', 'downscaling']].drop_duplicates()
 
 # cmip6
-experiments = ["ssp126", "ssp585"]
-variables =  ["tas", "tasmin", "tasmax", "pr"]
-gcs = gcsfs.GCSFileSystem(token='anon')
-df = pd.read_csv('https://storage.googleapis.com/cmip6/cmip6-zarr-consolidated-stores.csv')
-df_ta = df.query("activity_id == 'ScenarioMIP' & table_id == 'Amon' & variable_id == @variables & experiment_id == @experiments")
-df_ta = df_ta.rename(columns = {"institution_id": "institute", "source_id": "model", "experiment_id": "experiment", "member_id": "ensemble"})
-df_ta.insert(0, "project", "CMIP6")
-df_ta.insert(0, "domain", "world")
-df_ta.insert(0, "rcm", "none")
-df_ta.insert(0, "downscaling", "none")
-cmip6 = df_ta[['project', 'domain', 'institute', 'model', 'experiment', 'ensemble', 'rcm', 'downscaling']].drop_duplicates().groupby(["institute", "model", 'experiment',]).tail(1)
+## list ScenarioMIP
+df_ta = df.query("activity_id == 'ScenarioMIP' & table_id == 'Amon' & variable_id == @variables & experiment_id == @experiments & member_id == 'r1i1p1f1'")
+## chek vars in ScenarioMIP
+df_ta["sim"] = df_ta["institution_id"] + "_" + df_ta["source_id"]
+out = df_ta.groupby('sim')['variable_id'].apply(lambda x: '-'.join(sorted(pd.Series(x).drop_duplicates().tolist())) == '-'.join(sorted(variables)))
+out = out.index[out].tolist()
+df_ta2 = df_ta.query("sim == @out")
+## list historical
+df_ta_hist = df.query("activity_id == 'CMIP' & table_id == 'Amon' & variable_id == @variables & experiment_id == 'historical' & member_id == 'r1i1p1f1'")
+## chek vars in historical
+df_ta_hist["sim"] = df_ta_hist["institution_id"] + "_" + df_ta_hist["source_id"]
+out = df_ta_hist.groupby('sim')['variable_id'].apply(lambda x: '-'.join(sorted(pd.Series(x).drop_duplicates().tolist())) == '-'.join(sorted(variables)))
+out = out.index[out].tolist()
+df_ta_hist2 = df_ta_hist.query("sim == @out")
+hist_projs = df_ta_hist2[['sim']].drop_duplicates().sim.to_list()
+## chek ScenarioMIP with historical
+df_ta3 = df_ta2.query("sim == @hist_projs")
+# prepare table
+df_ta3 = df_ta3.rename(columns = {"institution_id": "institute", "source_id": "model", "experiment_id": "experiment", "member_id": "ensemble"})
+df_ta3.insert(0, "project", "CMIP6")
+df_ta3.insert(0, "domain", "world")
+df_ta3.insert(0, "rcm", "none")
+df_ta3.insert(0, "downscaling", "none")
+cmip6 = df_ta3[['project', 'domain', 'institute', 'model', 'experiment', 'ensemble', 'rcm', 'downscaling']].drop_duplicates().groupby(["institute", "model", 'experiment',]).head(1)
 
 # save
 pd.concat([cordex, cmip6]).to_csv("config/projections_all.tsv", sep="\t", index=False)

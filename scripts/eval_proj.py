@@ -25,16 +25,16 @@ ds_method = snakemake.params.ds_method
 base_eval = snakemake.params.base_eval
       
 # test
-# ds_file = "results/downscaled/New-Caledonia_CMIP6_world_MRI_MRI-ESM2-0_ssp126_r1i1p1f1_none_none_chelsa2_monthly-means_2006-2019_1980-2005_bc.nc"
-# base_file = "results/baselines/New-Caledonia_chelsa2_monthly-means_1980-2005.nc"
-# area_file = "results/areas/New-Caledonia.shp"
-# area="New-Caledonia"
-# project="CMIP6"
+# ds_file = "results/downscaled/Côte-d'Ivoire_CMIP6_world_MIROC_MIROC-ES2L_ssp126_r8i1p1f2_none_none_chelsa2_monthly-means_2006-2019_1980-2005_bc.nc"
+# base_file = "results/baselines/Côte-d'Ivoire_chelsa2_monthly-means_1980-2005.nc"
+# area_file = "results/areas/Côte-d'Ivoire.shp"
+# area="Côte-d'Ivoire"
+# origin="CMIP6"
 # domain="world"
-# institute="MRI"
-# model="MRI-ESM2-0"
+# institute="MIROC"
+# model="MIROC-ES2L"
 # experiment="ssp126" 
-# ensemble="r1i1p1f1"
+# ensemble="r8i1p1f2"
 # rcm="none"
 # downscaling="none"
 # baseline="chelsa2"
@@ -57,10 +57,10 @@ def get_eval(pred_ds, base_ds, type_in):
     a = []
     for v in variables:
         for m in months:
-            pred = pred_ds.sel(month=m)[v].values.ravel()
-            pred = pred[~np.isnan(pred)]
+            pred_0 = pred_ds.sel(month=m)[v].values.ravel()
+            pred = pred_0[~np.isnan(pred_0)]
             obs = base_ds.sel(month=m)[v].values.ravel()
-            obs = obs[~np.isnan(obs)]
+            obs = obs[~np.isnan(pred_0)]
             d = {
                 'metric': ['CC', 'RMSE', "SDE", "bias"],
                 'value': [np.corrcoef(pred, obs)[1,0], np.sqrt(np.mean(pow(pred - obs, 2))), np.std(pred - obs), np.mean(pred - obs)]

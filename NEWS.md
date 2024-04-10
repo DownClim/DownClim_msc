@@ -1,3 +1,4 @@
+-   DownClim 0.1.0.9036: All CMIP6 working but reduced list in list_projections.py
 -   DownClim 0.1.0.9035: ds_bc fixed and testing documentation
 -   DownClim 0.1.0.9034: few fixes to be shared with Thomas
 -   DownClim 0.1.0.9033: lighter and faster wkl with aggregation fused to data retrieval
