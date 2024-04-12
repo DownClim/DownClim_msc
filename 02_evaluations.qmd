@@ -1,0 +1,142 @@
+```{r setup}
+#| include: false
+library(tidyverse)
+```
+
+# Evaluations {.unnumbered}
+
+## Histograms
+
+```{r hist_tas}
+#| message: false
+#| warning: false
+vroom::vroom("results/evaluation/histograms.tsv") %>% 
+  filter(variable == "tas") %>% 
+  group_by(origin, type, area, month) %>% 
+  mutate(density = count / sum(count)) %>% 
+  ggplot(aes(bin, density, 
+             fill = as.factor(month),
+             col = as.factor(month))) +
+  geom_col() +
+  theme_bw() +
+  facet_grid(area ~ paste(origin, type)) +
+  theme(axis.title = element_blank()) +
+  ggtitle("Mean monthly temperature at surface (tas, °C)") +
+  scale_fill_viridis_d("", direction = -1,
+                       labels = c("J", "F", "M", "A", "M", "J", "J", "A", "S", "O", "N", "D")) +
+  scale_color_viridis_d("",  direction = -1,
+                        labels = c("J", "F", "M", "A", "M", "J", "J", "A", "S", "O", "N", "D"))
+```
+
+```{r hist_pr}
+#| message: false
+#| warning: false
+vroom::vroom("results/evaluation/histograms.tsv") %>% 
+  filter(variable == "pr") %>% 
+  group_by(origin, type, area, month) %>% 
+  mutate(density = count / sum(count)) %>% 
+  filter(bin < 500) %>% 
+  ggplot(aes(bin, density, 
+             fill = as.factor(month),
+             col = as.factor(month))) +
+  geom_col() +
+  theme_bw() +
+  facet_grid(area ~ paste(origin, type)) +
+  theme(axis.title = element_blank()) +
+  ggtitle("Total monthly precipitation (pr, mm)") +
+  scale_fill_viridis_d("", direction = -1,
+                       labels = c("J", "F", "M", "A", "M", "J", "J", "A", "S", "O", "N", "D")) +
+  scale_color_viridis_d("",  direction = -1,
+                        labels = c("J", "F", "M", "A", "M", "J", "J", "A", "S", "O", "N", "D"))
+```
+
+## Metrics
+
+```{r eval_area}
+#| message: false
+#| warning: false
+vroom::vroom("results/evaluation/evaluations.tsv") %>% 
+  mutate(variable = recode(variable, 
+                           "pr" = "Precipitation\n(mm)",
+                           "tas" = "Mean\ntemperature\n(°C)",
+                           "tasmax" = "Maximum\ntemperature\n(°C)",
+                           "tasmin" = "Minimum\ntemperature\n(°C)")) %>% 
+  pivot_wider(names_from = metric, values_from = value) %>% 
+  filter(RMSE < 10^3) %>% 
+  ggplot(aes(RMSE, 1-CC, 
+             col = paste(origin, type)
+             )) +
+  geom_point(alpha = 0.1) +
+  stat_density_2d(geom = "polygon",
+                  aes(alpha = ..level.., fill = paste(origin, type)),
+                  bins = 100) +
+  facet_grid(area ~ variable, scales = "free_x") +
+  theme_bw() +
+  theme(legend.title = element_blank(), 
+        legend.position = "bottom") +
+  scale_y_log10(labels = function(x){1-x}) +
+  scale_x_log10() +
+  scale_alpha(guide = "none") +
+  xlab("Root Mean Square Error of Prediction (RMSEP)") +
+  ylab("Correlation Coefficient (CC)")
+```
+
+```{r eval_exp}
+#| message: false
+#| warning: false
+vroom::vroom("results/evaluation/evaluations.tsv") %>% 
+  filter(variable %in% c("tas", "pr")) %>% 
+  mutate(variable = recode(variable, 
+                           "pr" = "Precipitation\n(mm)",
+                           "tas" = "Mean\ntemperature\n(°C)",
+                           "tasmax" = "Maximum\ntemperature\n(°C)",
+                           "tasmin" = "Minimum\ntemperature\n(°C)")) %>% 
+  mutate(experiment = recode(experiment, 
+                           "rcp26" = "2.6",
+                           "ssp126" = "2.6",
+                           "rcp85" = "8.5",
+                           "ssp585" = "8.5")) %>% 
+  pivot_wider(names_from = metric, values_from = value) %>% 
+  filter(RMSE < 10^3) %>% 
+  ggplot(aes(RMSE, 1-CC, 
+             col = paste(origin, type)
+             )) +
+  geom_point(alpha = 0.1) +
+  stat_density_2d(geom = "polygon",
+                  aes(alpha = ..level.., fill = paste(origin, type)),
+                  bins = 100) +
+  facet_grid(experiment ~ variable, scales = "free_x") +
+  theme_bw() +
+  theme(legend.title = element_blank(), 
+        legend.position = "bottom") +
+  scale_y_log10(labels = function(x){1-x}) +
+  scale_x_log10() +
+  scale_alpha(guide = "none") +
+  xlab("Root Mean Square Error of Prediction (RMSEP)") +
+  ylab("Correlation Coefficient (CC)")
+```
+
+```{r eval_month}
+#| message: false
+#| warning: false
+vroom::vroom("results/evaluation/evaluations.tsv") %>% 
+  filter(variable %in% c("pr")) %>% 
+  pivot_wider(names_from = metric, values_from = value) %>% 
+  filter(RMSE < 10^3) %>% 
+  ggplot(aes(RMSE, 1-CC, 
+             col = paste(origin, type)
+             )) +
+  geom_point(alpha = 0.1) +
+  stat_density_2d(geom = "polygon",
+                  aes(alpha = ..level.., fill = paste(origin, type)),
+                  bins = 100) +
+  facet_wrap(~ month) +
+  theme_bw() +
+  theme(legend.title = element_blank(), 
+        legend.position = "bottom") +
+  scale_y_log10(labels = function(x){1-x}) +
+  scale_x_log10() +
+  scale_alpha(guide = "none") +
+  xlab("Root Mean Square Error of Prediction (RMSEP)") +
+  ylab("Correlation Coefficient (CC)")
+```

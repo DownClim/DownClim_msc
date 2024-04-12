@@ -7,7 +7,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
 
-<title>DownClim - Downscale Climate Projections - Test</title>
+<title>DownClim - Downscale Climate Projections - Benchmark</title>
 <style>
 code{white-space: pre-wrap;}
 span.smallcaps{font-variant: small-caps;}
@@ -20,6 +20,40 @@ ul.task-list li input[type="checkbox"] {
   margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
   vertical-align: middle;
 }
+/* CSS for syntax highlighting */
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+  }
+pre.numberSource { margin-left: 3em;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
 </style>
 
 
@@ -30,8 +64,8 @@ ul.task-list li input[type="checkbox"] {
 <script src="site_libs/quarto-search/fuse.min.js"></script>
 <script src="site_libs/quarto-search/quarto-search.js"></script>
 <meta name="quarto:offset" content="./">
-<link href="./02_evaluations.html" rel="next">
-<link href="./index.html" rel="prev">
+<link href="./97_literature.html" rel="next">
+<link href="./03_tmf.html" rel="prev">
 <script src="site_libs/quarto-html/quarto.js"></script>
 <script src="site_libs/quarto-html/popper.min.js"></script>
 <script src="site_libs/quarto-html/tippy.umd.min.js"></script>
@@ -74,7 +108,7 @@ ul.task-list li input[type="checkbox"] {
       <button type="button" class="quarto-btn-toggle btn" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar,#quarto-sidebar-glass" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
         <i class="bi bi-layout-text-sidebar-reverse"></i>
       </button>
-      <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="./01_test.html">Test</a></li></ol></nav>
+      <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="./04_benchmark.html">Benchmark</a></li></ol></nav>
       <a class="flex-grow-1" role="button" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar,#quarto-sidebar-glass" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">      
       </a>
       <button type="button" class="btn quarto-search-button" aria-label="" onclick="window.quartoOpenSearch();">
@@ -107,7 +141,7 @@ ul.task-list li input[type="checkbox"] {
 </li>
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="./01_test.html" class="sidebar-item-text sidebar-link active">
+  <a href="./01_test.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">Test</span></a>
   </div>
 </li>
@@ -125,7 +159,7 @@ ul.task-list li input[type="checkbox"] {
 </li>
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="./04_benchmark.html" class="sidebar-item-text sidebar-link">
+  <a href="./04_benchmark.html" class="sidebar-item-text sidebar-link active">
  <span class="menu-text">Benchmark</span></a>
   </div>
 </li>
@@ -164,29 +198,14 @@ ul.task-list li input[type="checkbox"] {
 <div id="quarto-sidebar-glass" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar,#quarto-sidebar-glass"></div>
 <!-- margin-sidebar -->
     <div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
-        <nav id="TOC" role="doc-toc" class="toc-active">
-    <h2 id="toc-title">Table of contents</h2>
-   
-  <ul>
-  <li><a href="#installation" id="toc-installation" class="nav-link active" data-scroll-target="#installation">Installation</a></li>
-  <li><a href="#credentials" id="toc-credentials" class="nav-link" data-scroll-target="#credentials">Credentials</a></li>
-  <li><a href="#configuration" id="toc-configuration" class="nav-link" data-scroll-target="#configuration">Configuration</a></li>
-  <li><a href="#dry-run" id="toc-dry-run" class="nav-link" data-scroll-target="#dry-run">Dry run</a></li>
-  <li><a href="#run" id="toc-run" class="nav-link" data-scroll-target="#run">Run</a></li>
-  <li><a href="#results" id="toc-results" class="nav-link" data-scroll-target="#results">Results</a></li>
-  <li><a href="#benchmark" id="toc-benchmark" class="nav-link" data-scroll-target="#benchmark">Benchmark</a></li>
-  <li><a href="#rule-tests" id="toc-rule-tests" class="nav-link" data-scroll-target="#rule-tests">Rule tests</a></li>
-  <li><a href="#bugs" id="toc-bugs" class="nav-link" data-scroll-target="#bugs">Bugs</a></li>
-  <li><a href="#contributing" id="toc-contributing" class="nav-link" data-scroll-target="#contributing">Contributing</a></li>
-  </ul>
-</nav>
+        
     </div>
 <!-- main -->
 <main class="content" id="quarto-document-content">
 
 <header id="title-block-header" class="quarto-title-block default">
 <div class="quarto-title">
-<h1 class="title">Test</h1>
+<h1 class="title">Benchmark</h1>
 </div>
 
 
@@ -201,96 +220,97 @@ ul.task-list li input[type="checkbox"] {
 
 </header>
 
-<p>Here is a small chapter to help you test DownClim.</p>
-<section id="installation" class="level2">
-<h2 class="anchored" data-anchor-id="installation">Installation</h2>
-<p>You only need mamba to get everything else. See <a href="https://github.com/conda-forge/miniforge#mambaforge" class="uri">https://github.com/conda-forge/miniforge#mambaforge</a> for mambaforge installation. Once mamba installed you can add Python ≥3.5 and Snakemake ≥5.24.1, eventually using an environment called snakmake as is:</p>
-<pre><code>conda activate base
-mamba create -c conda-forge -c bioconda -n snakemake snakemake
-conda activate snakemake
-snakemake --help</code></pre>
-</section>
-<section id="credentials" class="level2">
-<h2 class="anchored" data-anchor-id="credentials">Credentials</h2>
-<p>Data are retrieve from ESGF through the <a href="https://esgf-node.ipsl.upmc.fr/search/cordex-ipsl/">Institut Pierre-Simon Laplace node</a>. You need first to <a href="https://esgf.github.io/esgf-user-support/user_guide.html#create-an-account">create an account</a> on this page (<a href="https://esgf-node.ipsl.upmc.fr/user/add/?next=http://esgf-node.ipsl.upmc.fr/search/cordex-ipsl/">create account</a> link at corner right). Then you’ll need to register credentials locally to use the workflow. For that use a credentials_esgf yaml file reported in config.yml with keys openid and pwd. For example using bash in linux:</p>
-<pre><code>openid=https://esgf-node.ipsl.upmc.fr/esgf-idp/openid/{user}
-pwd={pwd}
-echo -e "openid: $openid\npwd: $pwd" &gt; config/credentials_esgf.yml</code></pre>
-</section>
-<section id="configuration" class="level2">
-<h2 class="anchored" data-anchor-id="configuration">Configuration</h2>
-<p>The configuration used by the workflow is defined at the top of the <code>Snakefile</code>:</p>
-<pre><code>configfile: "config/config_all.yml"
+<div class="cell">
+<details>
+<summary>Code</summary>
+<div class="sourceCode cell-code" id="cb1"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a>bc <span class="ot">&lt;-</span> <span class="fu">lapply</span>(<span class="fu">list.files</span>(<span class="st">"results/benchmarks/"</span>, <span class="at">full.names =</span> T), readr<span class="sc">::</span>read_tsv) <span class="sc">%&gt;%</span> </span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">bind_rows</span>() <span class="sc">%&gt;%</span> </span>
+<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">file =</span> <span class="fu">list.files</span>(<span class="st">"results/benchmarks/"</span>))</span>
+<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a>bc <span class="ot">&lt;-</span> bc <span class="sc">%&gt;%</span> </span>
+<span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">separate</span>(file, <span class="fu">c</span>(<span class="st">"rule1"</span>, <span class="st">"rule2"</span>)) <span class="sc">%&gt;%</span> </span>
+<span id="cb1-6"><a href="#cb1-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">rule =</span> <span class="fu">paste</span>(rule1, rule2)) <span class="sc">%&gt;%</span> </span>
+<span id="cb1-7"><a href="#cb1-7" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">rule =</span> <span class="fu">recode</span>(rule,</span>
+<span id="cb1-8"><a href="#cb1-8" aria-hidden="true" tabindex="-1"></a>                       <span class="st">"downscale bc"</span> <span class="ot">=</span> <span class="st">"downscale"</span>,</span>
+<span id="cb1-9"><a href="#cb1-9" aria-hidden="true" tabindex="-1"></a>                       <span class="st">"eval C"</span> <span class="ot">=</span> <span class="st">"eval"</span>,      </span>
+<span id="cb1-10"><a href="#cb1-10" aria-hidden="true" tabindex="-1"></a>                       <span class="st">"eval French"</span> <span class="ot">=</span> <span class="st">"eval"</span>,        </span>
+<span id="cb1-11"><a href="#cb1-11" aria-hidden="true" tabindex="-1"></a>                       <span class="st">"eval New"</span> <span class="ot">=</span> <span class="st">"eval"</span>,      </span>
+<span id="cb1-12"><a href="#cb1-12" aria-hidden="true" tabindex="-1"></a>                       <span class="st">"eval Vanuatu"</span> <span class="ot">=</span> <span class="st">"eval"</span>,      </span>
+<span id="cb1-13"><a href="#cb1-13" aria-hidden="true" tabindex="-1"></a>                       <span class="st">"get area"</span> <span class="ot">=</span> <span class="st">"area"</span>,    </span>
+<span id="cb1-14"><a href="#cb1-14" aria-hidden="true" tabindex="-1"></a>                       <span class="st">"get chelsa2"</span> <span class="ot">=</span> <span class="st">"CHELSA"</span>,</span>
+<span id="cb1-15"><a href="#cb1-15" aria-hidden="true" tabindex="-1"></a>                       <span class="st">"get cmip6"</span> <span class="ot">=</span> <span class="st">"CMIP6"</span>,   </span>
+<span id="cb1-16"><a href="#cb1-16" aria-hidden="true" tabindex="-1"></a>                       <span class="st">"get cordex"</span> <span class="ot">=</span> <span class="st">"CORDEX"</span>, </span>
+<span id="cb1-17"><a href="#cb1-17" aria-hidden="true" tabindex="-1"></a>                       <span class="st">"hist base"</span> <span class="ot">=</span> <span class="st">"hist"</span>,</span>
+<span id="cb1-18"><a href="#cb1-18" aria-hidden="true" tabindex="-1"></a>                       <span class="st">"hist ds"</span> <span class="ot">=</span> <span class="st">"hist"</span>,</span>
+<span id="cb1-19"><a href="#cb1-19" aria-hidden="true" tabindex="-1"></a>                       <span class="st">"merge eval"</span> <span class="ot">=</span> <span class="st">"merge"</span>,</span>
+<span id="cb1-20"><a href="#cb1-20" aria-hidden="true" tabindex="-1"></a>                       <span class="st">"merge hist"</span> <span class="ot">=</span> <span class="st">"merge"</span>,</span>
+<span id="cb1-21"><a href="#cb1-21" aria-hidden="true" tabindex="-1"></a>                       <span class="st">"tmf C"</span> <span class="ot">=</span> <span class="st">"tmf"</span>,</span>
+<span id="cb1-22"><a href="#cb1-22" aria-hidden="true" tabindex="-1"></a>                       <span class="st">"tmf French"</span> <span class="ot">=</span> <span class="st">"tmf"</span>,</span>
+<span id="cb1-23"><a href="#cb1-23" aria-hidden="true" tabindex="-1"></a>                       <span class="st">"tmf New"</span> <span class="ot">=</span> <span class="st">"tmf"</span>))</span>
+<span id="cb1-24"><a href="#cb1-24" aria-hidden="true" tabindex="-1"></a><span class="fu">write_tsv</span>(bc, <span class="at">file =</span> <span class="st">"outputs/bencmark.tsv"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+</div>
+<div class="cell">
+<details>
+<summary>Code</summary>
+<div class="sourceCode cell-code" id="cb2"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="fu">read_tsv</span>(<span class="st">"outputs/bencmark.tsv"</span>) <span class="sc">%&gt;%</span> </span>
+<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ggplot</span>(<span class="fu">aes</span>(s<span class="sc">/</span><span class="dv">60</span>, rule, <span class="at">label =</span> <span class="st">`</span><span class="at">h:m:s</span><span class="st">`</span>)) <span class="sc">+</span></span>
+<span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_boxplot</span>() <span class="sc">+</span></span>
+<span id="cb2-4"><a href="#cb2-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_point</span>() <span class="sc">+</span></span>
+<span id="cb2-5"><a href="#cb2-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme_bw</span>() <span class="sc">+</span></span>
+<span id="cb2-6"><a href="#cb2-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">scale_x_sqrt</span>() <span class="sc">+</span></span>
+<span id="cb2-7"><a href="#cb2-7" aria-hidden="true" tabindex="-1"></a>  <span class="fu">xlab</span>(<span class="st">"Minutes"</span>) <span class="sc">+</span> <span class="fu">ylab</span>(<span class="st">""</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+<div class="cell-output-display">
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="04_benchmark_files/figure-html/time-1.png" class="img-fluid figure-img" width="672"></p>
+<figcaption class="figure-caption">Rules execution time.</figcaption>
+</figure>
+</div>
+</div>
+</div>
+<div class="cell">
+<details>
+<summary>Code</summary>
+<div class="sourceCode cell-code" id="cb3"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="fu">read_tsv</span>(<span class="st">"outputs/bencmark.tsv"</span>) <span class="sc">%&gt;%</span> </span>
+<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ggplot</span>(<span class="fu">aes</span>(max_vms<span class="sc">/</span><span class="dv">10</span><span class="sc">^</span><span class="dv">3</span>, rule)) <span class="sc">+</span></span>
+<span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_boxplot</span>() <span class="sc">+</span></span>
+<span id="cb3-4"><a href="#cb3-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_point</span>() <span class="sc">+</span></span>
+<span id="cb3-5"><a href="#cb3-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme_bw</span>() <span class="sc">+</span></span>
+<span id="cb3-6"><a href="#cb3-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">scale_x_sqrt</span>() <span class="sc">+</span></span>
+<span id="cb3-7"><a href="#cb3-7" aria-hidden="true" tabindex="-1"></a>  <span class="fu">xlab</span>(<span class="st">"Maximum Virtual Memory Size (GB)"</span>) <span class="sc">+</span> <span class="fu">ylab</span>(<span class="st">""</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+<div class="cell-output-display">
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="04_benchmark_files/figure-html/mem-1.png" class="img-fluid figure-img" width="672"></p>
+<figcaption class="figure-caption">Rules Maximum “Virtual Memory Size”, this is the total amount of virtual memory used by the process.</figcaption>
+</figure>
+</div>
+</div>
+</div>
+<div class="cell">
+<details>
+<summary>Code</summary>
+<div class="sourceCode cell-code" id="cb4"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="fu">read_tsv</span>(<span class="st">"outputs/bencmark.tsv"</span>) <span class="sc">%&gt;%</span> </span>
+<span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ggplot</span>(<span class="fu">aes</span>(io_out<span class="sc">/</span><span class="dv">10</span><span class="sc">^</span><span class="dv">3</span>, rule)) <span class="sc">+</span></span>
+<span id="cb4-3"><a href="#cb4-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_boxplot</span>() <span class="sc">+</span></span>
+<span id="cb4-4"><a href="#cb4-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_point</span>() <span class="sc">+</span></span>
+<span id="cb4-5"><a href="#cb4-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme_bw</span>() <span class="sc">+</span></span>
+<span id="cb4-6"><a href="#cb4-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">scale_x_sqrt</span>() <span class="sc">+</span></span>
+<span id="cb4-7"><a href="#cb4-7" aria-hidden="true" tabindex="-1"></a>  <span class="fu">xlab</span>(<span class="st">"GB Written"</span>) <span class="sc">+</span> <span class="fu">ylab</span>(<span class="st">""</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+<div class="cell-output-display">
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="04_benchmark_files/figure-html/io_out-1.png" class="img-fluid figure-img" width="672"></p>
+<figcaption class="figure-caption">Rules writting volum.</figcaption>
+</figure>
+</div>
+</div>
+</div>
 
-...</code></pre>
-<p>I suggest you use <code>config/config_ex.yml</code>. Do not hesitate to manually edit the configuration file. You may need to change the projection list <code>config/projections_ex.tsv</code> (all available are listed in <code>config/projections_all.tsv</code>) and the country domains <code>config/domains.tsv</code> accordingly.</p>
-</section>
-<section id="dry-run" class="level2">
-<h2 class="anchored" data-anchor-id="dry-run">Dry run</h2>
-<p>To avoid sending large computation, I suggest you first use a dry run to check what you have scheduled with snakemake. For that use:</p>
-<pre><code>snakemake -np # dry run</code></pre>
-<p>You should obtain a similar table summarising all the jobs you are about to launch:</p>
-<pre><code>Job stats:
-job             count
-------------  -------
-all                 1
-downscale_bc        8
-eval_proj           4
-get_chelsa2         1
-get_cmip6           1
-get_cordex          1
-hist_base           2
-hist_proj           4
-merge_eval          1
-merge_hist          1
-total              24</code></pre>
-</section>
-<section id="run" class="level2">
-<h2 class="anchored" data-anchor-id="run">Run</h2>
-<p>Then you are ready to run the workflow with:</p>
-<pre><code>snakemake -j 10 --resources mem_mb=10000 --use-conda --keep-runnning</code></pre>
-<p><code>-j</code> defines the maximum number of cores to be used at a time and similarly <code>-- ressources mem_mb</code> the maximum memory. <code>--use-conda</code> is mandatory as the workflow is using it to deal with environments. I advice on using <code>-keep-running</code> to ask the workflow to continue running if a rule fails. You may add <code>-rerun--incomplete</code> if you stopped a running workflow.</p>
-</section>
-<section id="results" class="level2">
-<h2 class="anchored" data-anchor-id="results">Results</h2>
-<p>All results are gathered in the <code>results/</code> folder with:</p>
-<ul>
-<li><code>results/areas/</code> the countries shape files</li>
-<li><code>results/baselines/</code> CHELSA 2 data</li>
-<li><code>results/benchmarks/</code> benchmarking statistics</li>
-<li><code>results/downscaled/</code> downscaled projections</li>
-<li><code>results/evaluation/</code> evaluations and histograms tables</li>
-<li><code>results/logs/</code> all scripts logs</li>
-<li><code>results/projections/</code> CORDEX &amp; CMIP6 data</li>
-</ul>
-<p>So the main results are in <code>results/downscaled/</code> and <code>results/evaluation/</code>.</p>
-</section>
-<section id="benchmark" class="level2">
-<h2 class="anchored" data-anchor-id="benchmark">Benchmark</h2>
-<p>You can have a look to the pipeline performances with snakemake automatic reports using:</p>
-<pre><code>snakemake --report</code></pre>
-<p>which will produce a report.html summary. Or using the R code available in the <code>README.qmd</code>.</p>
-</section>
-<section id="rule-tests" class="level2">
-<h2 class="anchored" data-anchor-id="rule-tests">Rule tests</h2>
-<p>If you want to test manually how a rule and its associated script works, you can use the dev-dc environment as follow:</p>
-<pre><code>mamba env create -f envs/dev-dc.yml # init
-mamba env update -f envs/dev-dc.yml --prune # update
-mamab activate dev-dc</code></pre>
-<p>Then you can use any IDE (for instance Visual Studio Code) to manually run a script from <code>scripts/</code>. Most script will have a commented test section that you can uncomment and adapt with your local files to test the script.</p>
-</section>
-<section id="bugs" class="level2">
-<h2 class="anchored" data-anchor-id="bugs">Bugs</h2>
-<p>If you have bugs as we are a small teams you may simply send us or me a mail. However, you may also take advantage of GitHub to submit a new issue: <a href="https://github.com/sylvainschmitt/DownClim/issues" class="uri">https://github.com/sylvainschmitt/DownClim/issues</a> . Do not hesitate to use issues for bugs / error reports, but also suggest enhancement including future developments or simply improved user friendliness.</p>
-</section>
-<section id="contributing" class="level2">
-<h2 class="anchored" data-anchor-id="contributing">Contributing</h2>
-<p>If you feels comfortable you may also suggest developments. For that please use forks of the repository on GitHub and pull request changes to the <code>dev</code> branch on GitHub.</p>
-<p>Have a nice testing <a href="https://emojipedia.org/fr/visage-faisant-un-clin-d-%C5%93il">😉</a>,</p>
-<p><em>Sylvain</em></p>
 
-
-</section>
 
 </main> <!-- /main -->
 <script id="quarto-html-after-body" type="application/javascript">
@@ -528,13 +548,13 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
 </script>
 <nav class="page-navigation">
   <div class="nav-page nav-page-previous">
-      <a href="./index.html" class="pagination-link">
-        <i class="bi bi-arrow-left-short"></i> <span class="nav-page-text">Introduction</span>
+      <a href="./03_tmf.html" class="pagination-link">
+        <i class="bi bi-arrow-left-short"></i> <span class="nav-page-text">Tropical Moist Forests</span>
       </a>          
   </div>
   <div class="nav-page nav-page-next">
-      <a href="./02_evaluations.html" class="pagination-link">
-        <span class="nav-page-text">Evaluations</span> <i class="bi bi-arrow-right-short"></i>
+      <a href="./97_literature.html" class="pagination-link">
+        <span class="nav-page-text">Literature</span> <i class="bi bi-arrow-right-short"></i>
       </a>
   </div>
 </nav>

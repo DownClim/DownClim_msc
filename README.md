@@ -9,8 +9,6 @@ Apr 12, 2024
 - [Workflow](#workflow)
 - [Data](#data)
 - [Development](#development)
-- [Benchmark](#benchmark)
-- [Results](#results)
 
 [`snakemake`](https://github.com/sylvainschmitt/snakemake_singularity)
 workflow to downscale climate projections.
@@ -223,18 +221,6 @@ before and after downscaling.
 
 Merge all evaluations.
 
-define_tmf
-
-`PET = 0.0023 * RA * (Tmean + 17.8) * TD ^ 0.5`
-
-PET = monthly pet
-
-RA = monthly srad
-
-Tmean = monthly tas
-
-TD = tasmax - tasmin
-
 # Data
 
 ## Baselines
@@ -293,15 +279,3 @@ mamba env create -f envs/dev-dc.yml # init
 mamba env update -f envs/dev-dc.yml --prune # update
 mamab activate dev-dc
 ```
-
-# Benchmark
-
-![](README_files/figure-commonmark/stats-1.png)
-
-# Results
-
-![](README_files/figure-commonmark/hists_tas-1.png)
-
-![](README_files/figure-commonmark/hists_pr-1.png)
-
-![](README_files/figure-commonmark/eval-1.png)

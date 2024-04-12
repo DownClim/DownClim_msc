@@ -9,6 +9,9 @@ book:
   chapters:
     - index.qmd
     - 01_test.qmd
+    - 02_evaluations.qmd
+    - 03_tmf.qmd
+    - 04_benchmark.qmd
   appendices:
     - 97_literature.qmd
     - 98_meetings.qmd

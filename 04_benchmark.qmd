@@ -1,0 +1,73 @@
+```{r setup}
+#| include: false
+library(tidyverse)
+```
+
+# Benchmark {.unnumbered}
+
+```{r prep}
+#| eval: false
+bc <- lapply(list.files("results/benchmarks/", full.names = T), readr::read_tsv) %>% 
+  bind_rows() %>% 
+  mutate(file = list.files("results/benchmarks/"))
+bc <- bc %>% 
+  separate(file, c("rule1", "rule2")) %>% 
+  mutate(rule = paste(rule1, rule2)) %>% 
+  mutate(rule = recode(rule,
+                       "downscale bc" = "downscale",
+                       "eval C" = "eval",      
+                       "eval French" = "eval",        
+                       "eval New" = "eval",      
+                       "eval Vanuatu" = "eval",      
+                       "get area" = "area",    
+                       "get chelsa2" = "CHELSA",
+                       "get cmip6" = "CMIP6",   
+                       "get cordex" = "CORDEX", 
+                       "hist base" = "hist",
+                       "hist ds" = "hist",
+                       "merge eval" = "merge",
+                       "merge hist" = "merge",
+                       "tmf C" = "tmf",
+                       "tmf French" = "tmf",
+                       "tmf New" = "tmf"))
+write_tsv(bc, file = "outputs/bencmark.tsv")
+```
+
+```{r time}
+#| message: false
+#| warning: false
+#| fig-cap: "Rules execution time."
+read_tsv("outputs/bencmark.tsv") %>% 
+  ggplot(aes(s/60, rule, label = `h:m:s`)) +
+  geom_boxplot() +
+  geom_point() +
+  theme_bw() +
+  scale_x_sqrt() +
+  xlab("Minutes") + ylab("")
+```
+
+```{r mem}
+#| message: false
+#| warning: false
+#| fig-cap: "Rules Maximum “Virtual Memory Size”, this is the total amount of virtual memory used by the process."
+read_tsv("outputs/bencmark.tsv") %>% 
+  ggplot(aes(max_vms/10^3, rule)) +
+  geom_boxplot() +
+  geom_point() +
+  theme_bw() +
+  scale_x_sqrt() +
+  xlab("Maximum Virtual Memory Size (GB)") + ylab("")
+```
+
+```{r io_out}
+#| message: false
+#| warning: false
+#| fig-cap: "Rules writting volum."
+read_tsv("outputs/bencmark.tsv") %>% 
+  ggplot(aes(io_out/10^3, rule)) +
+  geom_boxplot() +
+  geom_point() +
+  theme_bw() +
+  scale_x_sqrt() +
+  xlab("GB Written") + ylab("")
+```

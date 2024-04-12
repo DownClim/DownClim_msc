@@ -1,0 +1,107 @@
+```{r setup}
+#| include: false
+library(tidyverse)
+library(terra)
+```
+
+# Tropical Moist Forests {.unnumbered}
+
+```{r prep}
+#| eval: false
+index <- data.frame(
+  file = list.files("results/tmf/nc/", full.names = F),
+  path = list.files("results/tmf/nc/", full.names = T)
+) %>% 
+  separate(file, c("country", "project", "domain", "institute", "model", "experiment",
+                   "ensemble", "rcm", "downscaling", "base", "aggregation",
+                   "period_proj", "period_hist"), sep = "_", remove = F)
+files <- index %>% 
+  select(country, project, experiment) %>% 
+  unique()
+for(r in 1:nrow(files))
+  rast(filter(index, 
+              country == files$country[r], 
+              project == files$project[r], 
+              experiment == files$experiment[r])$path) %>% 
+  sum() %>% 
+  writeRaster(filename = paste0("outputs/tmf/",
+                                files$country[r], "_",
+                                files$project[r], "_",
+                                files$experiment[r], ".tif"))
+```
+
+```{r fg}
+#| message: false
+#| warning: false
+#| fig-cap: "Tropical moist forest ditribution predicted in French Guiana by the end of the century for CMIP6 and CORDEX model with experiment 2.6 and 8.5"
+fg <- rast(list.files("outputs/tmf/", pattern = "Guiana", full.names = T))
+names(fg) <- c("CMIP6_2.6", "CMIP6_8.5", "CORDEX_2.6", "CORDEX_8.5")
+as.data.frame(fg, xy = T) %>% 
+  mutate_at(c("CMIP6_2.6", "CMIP6_8.5", "CORDEX_2.6", "CORDEX_8.5"), ~./max(.)) %>% 
+  mutate("CMIP6-CORDEX_2.6" = CMIP6_2.6 - CORDEX_2.6) %>% 
+  mutate("CMIP6-CORDEX_8.5" = CMIP6_8.5 - CORDEX_8.5) %>% 
+  gather(projection, tmf, -x, -y) %>% 
+  filter(tmf != 0) %>% 
+  separate(projection, c("project", "experiment"), "_") %>% 
+  mutate(project = factor(project, levels = c("CMIP6", "CORDEX", "CMIP6-CORDEX"))) %>% 
+  ggplot(aes(x, y, fill = tmf)) +
+  geom_raster() +
+  coord_equal() +
+  facet_grid(experiment ~ project) +
+  theme_bw() +
+  theme(axis.title = element_blank(), 
+        axis.ticks = element_blank(),
+        axis.text = element_blank()) +
+  scale_fill_gradient2("", low = "#e40400", mid = "white", high = "#48712d", midpoint = 0)
+```
+
+```{r ci}
+#| message: false
+#| warning: false
+#| fig-cap: "Tropical moist forest ditribution predicted in Ivory Coast by the end of the century for CMIP6 and CORDEX model with experiment 2.6 and 8.5"
+ci <- rast(list.files("outputs/tmf/", pattern = "Ivoire", full.names = T))
+names(ci) <- c("CMIP6_2.6", "CMIP6_8.5", "CORDEX_2.6", "CORDEX_8.5")
+as.data.frame(ci, xy = T) %>% 
+  mutate_at(c("CMIP6_2.6", "CMIP6_8.5", "CORDEX_2.6", "CORDEX_8.5"), ~./max(.)) %>% 
+  mutate("CMIP6-CORDEX_2.6" = CMIP6_2.6 - CORDEX_2.6) %>% 
+  mutate("CMIP6-CORDEX_8.5" = CMIP6_8.5 - CORDEX_8.5) %>% 
+  gather(projection, tmf, -x, -y) %>% 
+  filter(tmf != 0) %>% 
+  separate(projection, c("project", "experiment"), "_") %>% 
+  mutate(project = factor(project, levels = c("CMIP6", "CORDEX", "CMIP6-CORDEX"))) %>% 
+  ggplot(aes(x, y, fill = tmf)) +
+  geom_raster() +
+  coord_equal() +
+  facet_grid(experiment ~ project) +
+  theme_bw() +
+  theme(axis.title = element_blank(), 
+        axis.ticks = element_blank(),
+        axis.text = element_blank()) +
+  scale_fill_gradient2("", low = "#e40400", mid = "white", high = "#48712d", midpoint = 0)
+```
+
+```{r nc}
+#| message: false
+#| warning: false
+#| fig-cap: "Tropical moist forest ditribution predicted in New Caledonia by the end of the century for CMIP6 and CORDEX model with experiment 2.6 and 8.5"
+nc <- rast(list.files("outputs/tmf/", pattern = "Caledonia", full.names = T))
+names(nc) <- c("CMIP6_2.6", "CMIP6_8.5", "CORDEX_2.6", "CORDEX_8.5")
+as.data.frame(nc, xy = T) %>% 
+  mutate_at(c("CMIP6_2.6", "CMIP6_8.5", "CORDEX_2.6", "CORDEX_8.5"), ~./max(.)) %>% 
+  mutate("CMIP6-CORDEX_2.6" = CMIP6_2.6 - CORDEX_2.6) %>% 
+  mutate("CMIP6-CORDEX_8.5" = CMIP6_8.5 - CORDEX_8.5) %>% 
+  gather(projection, tmf, -x, -y) %>% 
+  filter(tmf != 0) %>% 
+  filter(x > 163, x < 168.5) %>% 
+  separate(projection, c("project", "experiment"), "_") %>% 
+  mutate(project = factor(project, levels = c("CMIP6", "CORDEX", "CMIP6-CORDEX"))) %>% 
+  ggplot(aes(x, y, fill = tmf)) +
+  geom_raster() +
+  coord_equal() +
+  facet_grid(experiment ~ project) +
+  theme_bw() +
+  theme(axis.title = element_blank(), 
+        axis.ticks = element_blank(),
+        axis.text = element_blank()) +
+  scale_fill_gradient2("", low = "#e40400", mid = "white", high = "#48712d", midpoint = 0)
+```

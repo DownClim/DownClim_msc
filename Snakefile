@@ -29,7 +29,15 @@ rule all:
              ds_method=config["ds_method"]),
       # evaluations
       "results/evaluation/histograms.tsv",
-      "results/evaluation/evaluations.tsv"
+      "results/evaluation/evaluations.tsv",
+      # tmf
+      expand("results/tmf/nc/{proj}_{baseline}_{aggregation}_{period_proj}_{period_base}_{ds_method}.nc",
+             proj=proj_dom.id,
+             baseline=config["baseline"],
+             aggregation=config["aggregation"],
+             period_base=config["hist_years"],
+             period_proj=config["proj_years"],
+             ds_method=config["ds_method"]),
 
 ## downscaling ##
 include: "rules/get_area.py"
@@ -44,3 +52,6 @@ include: "rules/hist_proj.py"
 include: "rules/merge_hist.py"
 include: "rules/eval_proj.py"
 include: "rules/merge_eval.py"
+
+## post ##
+include: "rules/get_tmf.py"
