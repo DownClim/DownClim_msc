@@ -27,6 +27,7 @@ rule eval_proj:
       period_proj="{period_proj}",
       period_eval="{period_eval}",
       ds_method="{ds_method}",
-      base_eval="{base_eval}"
+      base_eval="{base_eval}",
+      variables=config["variables"]
     script:
       "../scripts/eval_proj.py"

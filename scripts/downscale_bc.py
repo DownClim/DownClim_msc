@@ -21,21 +21,22 @@ period_future = snakemake.params.period_future
 period_hist = snakemake.params.period_hist
 
 # test
-# proj_file="results/projections/_Côte-d'Ivoire_CMIP6_world_CNRM-CERFACS_CNRM-CM6-1_ssp126_r3i1p1f2_none_none_chelsa2_done.txt"
+# proj_file="results/projections/_CORDEX_AFR-22_CLMcom-KIT_NCC-NorESM1-M_rcp85_r1i1p1_CCLM5-0-15_v1_chelsa2_done.txt"
 # base_hist_file="results/baselines/Côte-d'Ivoire_chelsa2_monthly-means_1980-2005.nc"
 # area="Côte-d'Ivoire"
-# project="CMIP6"
-# domain="world"
-# institute="CNRM-CERFACS"
-# model="CNRM-CM6-1"
-# experiment="ssp126"
-# ensemble="r3i1p1f2"
-# rcm="none"
-# downscaling="none"
+# project="CORDEX"
+# domain="AFR-22"
+# institute="CLMcom-KIT"
+# model="NorESM1-M"
+# experiment="rcp85"
+# ensemble="r1i1p1"
+# rcm="CCLM5-0-15"
+# downscaling="v1"
 # baseline="chelsa2"
 # aggregation="monthly-means"
 # period_future="2071-2100"
 # period_hist="1980-2005"
+# ds="results/downscaled/Côte-d'Ivoire_CORDEX_AFR-22_CLMcom-KIT_NCC-NorESM1-M_rcp85_r1i1p1_CCLM5-0-15_v1_chelsa2_monthly-means_2071-2100_1980-2005_bc.nc"
 
 # libs
 import os

@@ -1,5 +1,5 @@
 def list_areas(wildcards):
-    return dom[dom.domain == wildcards.domain].area
+    return dom[dom.domain == wildcards.domain].area.values
 
 def list_cordex_in(wildcards):
     return expand("results/baselines/{area}_{base}_{aggregation}_{period}.nc", 
@@ -19,7 +19,7 @@ rule get_cordex:
         "results/benchmarks/get_cordex_CORDEX_{domain}_{institute}_{model}_{experiment}_{ensemble}_{rcm}_{downscaling}_{base}.benchmark.txt"
     threads: 10
     resources:
-        mem_mb=1000
+        mem_mb=10000
     conda:
         "../envs/xarray.yml"
     params:

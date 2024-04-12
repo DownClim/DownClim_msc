@@ -1,6 +1,6 @@
 # DownClim - Downscale Climate Projections
 Sylvain Schmitt -
-Apr 10, 2024
+Apr 12, 2024
 
 - [Installation](#installation)
 - [Credentials](#credentials)
@@ -222,6 +222,18 @@ before and after downscaling.
 ### [merge_eval](https://github.com/sylvainschmitt/DownClim/blob/dev/rules/merge_eval.py)
 
 Merge all evaluations.
+
+define_tmf
+
+`PET = 0.0023 * RA * (Tmean + 17.8) * TD ^ 0.5`
+
+PET = monthly pet
+
+RA = monthly srad
+
+Tmean = monthly tas
+
+TD = tasmax - tasmin
 
 # Data
 

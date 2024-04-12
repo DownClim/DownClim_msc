@@ -162,6 +162,20 @@ Compute evaluation metrics (CC, RMSEP, SDE, Bias) for the projection before and 
 
 Merge all evaluations.
 
+## Tropical Moist Forests
+
+define_tmf
+
+`PET = 0.0023 * RA * (Tmean + 17.8) * TD ^ 0.5`
+
+PET = monthly pet
+
+RA = monthly srad
+
+Tmean = monthly tas
+
+TD = tasmax - tasmin
+
 # Data
 
 ## Baselines
@@ -228,7 +242,7 @@ vroom::vroom("results/evaluation/histograms.tsv") %>%
   ggplot(aes(bin, density, fill = paste(origin, type), col = paste(origin, type))) +
   geom_col(position = "dodge", col = NA) +
   theme_bw() +
-  facet_wrap(~ area ~ paste(origin, type), scales = "free_y") +
+  facet_grid(area ~ paste(origin, type)) +
   theme(axis.title = element_blank()) +
   scale_color_discrete("") + scale_fill_discrete("") +
   theme(legend.position = "bottom") +
@@ -246,7 +260,7 @@ vroom::vroom("results/evaluation/histograms.tsv") %>%
   ggplot(aes(bin, density, fill = paste(origin, type), col = paste(origin, type))) +
   geom_col(position = "dodge", col = NA) +
   theme_bw() +
-  facet_wrap(~ area ~ paste(origin, type), scales = "free_y") +
+  facet_grid(area ~ paste(origin, type)) +
   theme(axis.title = element_blank()) +
   scale_color_discrete("") + scale_fill_discrete("") +
   theme(legend.position = "bottom") +
@@ -259,6 +273,7 @@ vroom::vroom("results/evaluation/histograms.tsv") %>%
 #| fig-height: 9
 vroom::vroom("results/evaluation/evaluations.tsv") %>% 
   pivot_wider(names_from = metric, values_from = value) %>% 
+  filter(RMSE < 10^3) %>% 
   ggplot(aes(RMSE, 1-CC, 
              # shape =  paste(institute, model, rcm), 
              col = paste(origin, type)
