@@ -229,8 +229,18 @@ div.csl-indent {
 
 <section id="introduction" class="level1 unnumbered">
 <h1 class="unnumbered">Introduction</h1>
-<p>The purpose of <code>DownClim</code> is to offer a tool for regional and national climate projections including the mechanistic ‘dynamic’ downscaling of the CORDEX initiative. <code>DownClim</code> is opposed to the direct statistical downscaling of global climate projections found in WorldClim and CHELSA. <code>DownClim</code> is directly inspired of AFRICLIM <span class="citation" data-cites="platts2014">(<a href="99_references.html#ref-platts2014" role="doc-biblioref">Platts, Omeny, and Marchant 2014</a>)</span>. The approach is justified by an improvement in regional projections of CORDEX compared to CMIP (insert few references), although it can increase uncertainty and sometimes be less reliable (insert indian monsoon reference). The tool is an automated <code>snakemake</code> workflow easily reproducible and scalable associated to <code>conda</code> environments for enhance reproducibility and portability.</p>
-<p>As a first step we will develop the pipeline for three study countries (French Guiana, Ivory Coast and New Caledonia) over three continents, with a single baseline (CHELSA V2) and a reduced number of global (GCM) and regional (RCM) climate models for a few scenarios (RCP or SSP). Behind the choice of countries we have different hypotheses. (1) we expect New Caledonia regional topography to be important for projections. (2) we expect Ivory Coast regional climates to be important for projections. (3) we assume French Guiana to be a control with mainly lowland and homogeneous climate. To demonstrate the aim of the tool, we want to validate and/or assess the projections for each country using (1) projections on observed year (e.g.&nbsp;2005&gt;2020, even if the differences between scenarios will not be significant), and (2) the difference with forest climatic extent with this product versus classical products.</p>
+<p>The purpose of <code>DownClim</code> is to offer a tool for regional and national climate projections including the choice to use mechanistic ‘dynamic’ downscaling of the CORDEX initiative. <code>DownClim</code> is opposed to the single direct statistical downscaling of global climate projections found in WorldClim and CHELSA. <code>DownClim</code> is directly inspired of AFRICLIM <span class="citation" data-cites="platts2014">(<a href="99_references.html#ref-platts2014" role="doc-biblioref">Platts, Omeny, and Marchant 2014</a>)</span>. The approach is justified by an improvement in regional projections of CORDEX compared to CMIP (insert few references), although it can increase uncertainty and sometimes be less reliable (insert indian monsoon reference). The tool is an automated <code>snakemake</code> workflow easily reproducible and scalable associated to <code>conda</code> environments for enhance reproducibility and portability.</p>
+<p>As a first step we ran the pipeline for three study countries (French Guiana, Ivory Coast and New Caledonia) over three continents, with a single baseline (CHELSA V2) and all available global (GCM) and regional (RCM) climate models of the area for two experiments (2.6: RCP-2.6 or SSP1-2.6 and 8.5: RCP-8.5 or SSP5-8.5). Behind the choice of countries we have different hypotheses:</p>
+<ul>
+<li>(1) we expect New Caledonia regional topography to be important for projections,</li>
+<li>(2) we expect Ivory Coast regional climates to be important for projections,</li>
+<li>(3) we assume French Guiana to be a control with mainly lowland and homogeneous climate</li>
+</ul>
+<p>To demonstrate the aim of the tool, we want to validate and/or assess the projections for each country using:</p>
+<ul>
+<li><p>(1) projections on observed year from 2005-2020,</p></li>
+<li><p>(2) the variation of projected tropical moist forest distribution according on the product and the experiment.</p></li>
+</ul>
 <section id="poeple" class="level2">
 <h2 class="anchored" data-anchor-id="poeple">Poeple</h2>
 <ul>

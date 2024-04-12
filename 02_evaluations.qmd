@@ -5,11 +5,16 @@ library(tidyverse)
 
 # Evaluations {.unnumbered}
 
+For every projection we extracted histograms before and after downscaling in the evaluation period that we compared to the observations distribution. We further computed for every projection evaluations metrics against observed before and after downscaling against observations in the evaluation period. Evaluation metrics include Pearson's correlation coefficient (CC), root mean square error (RMSE), standard deviation of errors (SDE), and mean bias (bias).
+
 ## Histograms
+
+The effect of downscaling on histograms of temperature at surface was very country dependant. In Côte d'Ivoire, histograms of temperature at surface revealed more spread distribution of temperature for raw CMIP6 and CORDEX projections compared to CHELSA 2, that downscaling correctly gathered and piked. However, both downscaling included a low temperature that CORDEX raw distributions were lacking. Similarly in French Guiana, histograms of temperature at surface revealed even more spread distribution of temperature for raw CMIP6 and CORDEX projections compared to CHELSA 2, that downscaling correctly gathered and piked. Oppositely in New Caledonia, histograms of temperature at surface revealed narrower distribution of temperature for raw CMIP6 projections compared to CHELSA 2, that downscaling correctly spread. Downscaling also extended the low temperature distribution of CORDEX, which was already pretty well distributed for high values.
 
 ```{r hist_tas}
 #| message: false
 #| warning: false
+#| fig-cap: "Histograms of mean monthlys temperature at surface (tas, °C) for all projections of CMIP6 and CORDEX before and after downscaling compared to CHELSA 2. Bar colours indicate the month."
 vroom::vroom("results/evaluation/histograms.tsv") %>% 
   filter(variable == "tas") %>% 
   group_by(origin, type, area, month) %>% 
@@ -31,6 +36,7 @@ vroom::vroom("results/evaluation/histograms.tsv") %>%
 ```{r hist_pr}
 #| message: false
 #| warning: false
+#| fig-cap: "Histograms of total monthlys precipitaiton (pr, mm) for all projections of CMIP6 and CORDEX before and after downscaling compared to CHELSA 2. Bar colours indicate the month."
 vroom::vroom("results/evaluation/histograms.tsv") %>% 
   filter(variable == "pr") %>% 
   group_by(origin, type, area, month) %>% 
@@ -52,9 +58,12 @@ vroom::vroom("results/evaluation/histograms.tsv") %>%
 
 ## Metrics
 
+Evaluations metrics revealed that raw CORDEX projections were globally outperforming raw CMIP6 projections for all variables with higher correlations with observations (CC of 0.64 and 0.56 for CORDEX temperature and precipitation against 0.37 and 0.45 for CMIP6) and lower error (RMSE of 1.26 °C and 65 mm for CORDEX temperature and precipitation against 1.62 °C and 64 mm for CMIP6). However after downscaling, downscaled CMIP6 projections were equal or slightly outperforming downscaled CORDEX projections for all variables with higher correlations with observations (CC of 0.996 and 0.980 for CMIP6 temperature and precipitation against 0.995 and 0.941 for CORDEX) and lower error (RMSE of 0.40 °C and 20 mm for CMIP6 temperature and precipitation against 0.54 °C and 27 mm for CORDEX). We observed no significant differences between experiments are 2.6 and 8.5 forcing are not very different on the evaluation period (before 2020). We observed small differences among months but with the same global pattern.
+
 ```{r eval_area}
 #| message: false
 #| warning: false
+#| fig-cap: "Evaluations of raw and downscaled CORDEX and CMIP6 projections compared to CHELSA 2 between 2006 and 2019 for every variable and every country. Each point represents one value for one month and one projection including several project, downscaling, institutes, global models, regional models and experiments."
 vroom::vroom("results/evaluation/evaluations.tsv") %>% 
   mutate(variable = recode(variable, 
                            "pr" = "Precipitation\n(mm)",
@@ -81,9 +90,47 @@ vroom::vroom("results/evaluation/evaluations.tsv") %>%
   ylab("Correlation Coefficient (CC)")
 ```
 
+```{r eval_tab}
+#| message: false
+#| warning: false
+vroom::vroom("results/evaluation/evaluations.tsv") %>% 
+  filter(variable %in% c("tas", "pr")) %>% 
+  mutate(variable = recode(variable, 
+                           "pr" = "precipitation",
+                           "tas" = "temperature")) %>% 
+  group_by(area, origin, type, variable, metric) %>% 
+  summarise(value = round(median(value, na.rm = T), 3)) %>% 
+  pivot_wider(names_from = metric, values_from = value) %>% 
+  mutate(value = paste0(RMSE, " (", CC, ")")) %>% 
+  select(-CC, -RMSE, -SDE, -bias) %>% 
+  pivot_wider(names_from = type, values_from = value) %>% 
+  knitr::kable()
+```
+
+```{r bias_box}
+#| message: false
+#| warning: false
+vroom::vroom("results/evaluation/evaluations.tsv") %>% 
+  filter(metric == "bias") %>% 
+  mutate(variable = recode(variable, 
+                           "pr" = "Precipitation\n(mm)",
+                           "tas" = "Mean\ntemperature\n(°C)",
+                           "tasmax" = "Maximum\ntemperature\n(°C)",
+                           "tasmin" = "Minimum\ntemperature\n(°C)")) %>% 
+  filter(abs(value) < 10^3) %>% 
+  ggplot(aes(paste(origin, type), value, fill = area)) +
+  geom_boxplot() +
+  facet_wrap(~ variable, scales = "free_x") +
+  theme_bw() +
+  coord_flip() +
+  theme(legend.position = "bottom", axis.title = element_blank()) +
+  scale_fill_discrete("")
+```
+
 ```{r eval_exp}
 #| message: false
 #| warning: false
+#| fig-cap: "Evaluations of raw and downscaled CORDEX and CMIP6 projections compared to CHELSA 2 between 2006 and 2019 for temperature and precipitation for the four experiments gathered in two forcing. Each point represents one value for one month, one country and one projection including several project, downscaling, institutes, global models, and regional models."
 vroom::vroom("results/evaluation/evaluations.tsv") %>% 
   filter(variable %in% c("tas", "pr")) %>% 
   mutate(variable = recode(variable, 
@@ -119,6 +166,7 @@ vroom::vroom("results/evaluation/evaluations.tsv") %>%
 ```{r eval_month}
 #| message: false
 #| warning: false
+#| fig-cap: "Evaluations of raw and downscaled CORDEX and CMIP6 projections compared to CHELSA 2 between 2006 and 2019 for temperature and for every month. Each point represents one value for one country and one projection including several project, downscaling, institutes, global models, regional models and experiments."
 vroom::vroom("results/evaluation/evaluations.tsv") %>% 
   filter(variable %in% c("pr")) %>% 
   pivot_wider(names_from = metric, values_from = value) %>% 

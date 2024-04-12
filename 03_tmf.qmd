@@ -6,6 +6,14 @@ library(terra)
 
 # Tropical Moist Forests {.unnumbered}
 
+Tropical moist forest (TMF) climatic niche distributions were projected at the end of the century (2070-2100) using downscaled CMIP6 and CORDEX projections for scenario 2.6 and 8.5. Specifically, we used the definition from Holdridge 1976 (ref) as areas with a mean annual temperature over 16°C, a total annual precipitation over 1,000 mm/year, and a ratio of potential evapotranspiration over precipitation below 1. Potential evaportanspiration (pet, mm/month) was derived from monthly means, maxmimum and minimum temperatures (tas, tas_min, tas_max, 0C) and surface downward shortwave radiation (rsds, MJ/m2/month) as:
+
+$$
+ pet = 0.0023 \times rsds \times (tas + 17.8) \times (tasmax - tasmin)^{0.5}
+$$
+
+Surface downward shortwave radiation was derived from CHELSA 2 historical climatologies and assumed constant.
+
 ```{r prep}
 #| eval: false
 index <- data.frame(
@@ -29,6 +37,8 @@ for(r in 1:nrow(files))
                                 files$project[r], "_",
                                 files$experiment[r], ".tif"))
 ```
+
+Surprisingly, CORDEX projections systematically predicted reduced TMF climatic distribution for both experiment 2.6 and 8.5 compared to CMIP6, with more forest near the coast and in the west following the east to west rainfall gradient. However, in both CORDEX and CMIP6 and both experiments at least one projection was always predicting TMF in every cell. The difference between the two experiments was also a reduced TMF distribution under higher temperature of 8.5, with more forest near the coast and in the west following the east to west rainfall gradient.
 
 ```{r fg}
 #| message: false
@@ -55,6 +65,8 @@ as.data.frame(fg, xy = T) %>%
   scale_fill_gradient2("", low = "#e40400", mid = "white", high = "#48712d", midpoint = 0)
 ```
 
+CORDEX simulations predicted less TMF in the central and south west of Ivory Coast but more near the coast , especially in scenario 2.6. **I need to explore the drivers, determining variables tas, pet, pr to be added. I also need to explore the weird CORDEX patterns in the North.**
+
 ```{r ci}
 #| message: false
 #| warning: false
@@ -79,6 +91,8 @@ as.data.frame(ci, xy = T) %>%
         axis.text = element_blank()) +
   scale_fill_gradient2("", low = "#e40400", mid = "white", high = "#48712d", midpoint = 0)
 ```
+
+CORDEX and CMIP6 major projected distributions of TMF were in agreement in New Caledonia. Only less models projected TMF in the south east of the Grande Terre in CORDEX while more models projected TMF on the west coast in CORDEX, especially in the central west coast in experiment 8.5.
 
 ```{r nc}
 #| message: false

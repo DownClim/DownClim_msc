@@ -227,8 +227,10 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 
 </header>
 
+<p>For every projection we extracted histograms before and after downscaling in the evaluation period that we compared to the observations distribution. We further computed for every projection evaluations metrics against observed before and after downscaling against observations in the evaluation period. Evaluation metrics include Pearson’s correlation coefficient (CC), root mean square error (RMSE), standard deviation of errors (SDE), and mean bias (bias).</p>
 <section id="histograms" class="level2">
 <h2 class="anchored" data-anchor-id="histograms">Histograms</h2>
+<p>The effect of downscaling on histograms of temperature at surface was very country dependant. In Côte d’Ivoire, histograms of temperature at surface revealed more spread distribution of temperature for raw CMIP6 and CORDEX projections compared to CHELSA 2, that downscaling correctly gathered and piked. However, both downscaling included a low temperature that CORDEX raw distributions were lacking. Similarly in French Guiana, histograms of temperature at surface revealed even more spread distribution of temperature for raw CMIP6 and CORDEX projections compared to CHELSA 2, that downscaling correctly gathered and piked. Oppositely in New Caledonia, histograms of temperature at surface revealed narrower distribution of temperature for raw CMIP6 projections compared to CHELSA 2, that downscaling correctly spread. Downscaling also extended the low temperature distribution of CORDEX, which was already pretty well distributed for high values.</p>
 <div class="cell">
 <details>
 <summary>Code</summary>
@@ -250,7 +252,12 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <span id="cb1-16"><a href="#cb1-16" aria-hidden="true" tabindex="-1"></a>                        <span class="at">labels =</span> <span class="fu">c</span>(<span class="st">"J"</span>, <span class="st">"F"</span>, <span class="st">"M"</span>, <span class="st">"A"</span>, <span class="st">"M"</span>, <span class="st">"J"</span>, <span class="st">"J"</span>, <span class="st">"A"</span>, <span class="st">"S"</span>, <span class="st">"O"</span>, <span class="st">"N"</span>, <span class="st">"D"</span>))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </details>
 <div class="cell-output-display">
-<p><img src="02_evaluations_files/figure-html/hist_tas-1.png" class="img-fluid" width="672"></p>
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="02_evaluations_files/figure-html/hist_tas-1.png" class="img-fluid figure-img" width="672"></p>
+<figcaption class="figure-caption">Histograms of mean monthlys temperature at surface (tas, °C) for all projections of CMIP6 and CORDEX before and after downscaling compared to CHELSA 2. Bar colours indicate the month.</figcaption>
+</figure>
+</div>
 </div>
 </div>
 <div class="cell">
@@ -275,12 +282,18 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <span id="cb2-17"><a href="#cb2-17" aria-hidden="true" tabindex="-1"></a>                        <span class="at">labels =</span> <span class="fu">c</span>(<span class="st">"J"</span>, <span class="st">"F"</span>, <span class="st">"M"</span>, <span class="st">"A"</span>, <span class="st">"M"</span>, <span class="st">"J"</span>, <span class="st">"J"</span>, <span class="st">"A"</span>, <span class="st">"S"</span>, <span class="st">"O"</span>, <span class="st">"N"</span>, <span class="st">"D"</span>))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </details>
 <div class="cell-output-display">
-<p><img src="02_evaluations_files/figure-html/hist_pr-1.png" class="img-fluid" width="672"></p>
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="02_evaluations_files/figure-html/hist_pr-1.png" class="img-fluid figure-img" width="672"></p>
+<figcaption class="figure-caption">Histograms of total monthlys precipitaiton (pr, mm) for all projections of CMIP6 and CORDEX before and after downscaling compared to CHELSA 2. Bar colours indicate the month.</figcaption>
+</figure>
+</div>
 </div>
 </div>
 </section>
 <section id="metrics" class="level2">
 <h2 class="anchored" data-anchor-id="metrics">Metrics</h2>
+<p>Evaluations metrics revealed that raw CORDEX projections were globally outperforming raw CMIP6 projections for all variables with higher correlations with observations (CC of 0.64 and 0.56 for CORDEX temperature and precipitation against 0.37 and 0.45 for CMIP6) and lower error (RMSE of 1.26 °C and 65 mm for CORDEX temperature and precipitation against 1.62 °C and 64 mm for CMIP6). However after downscaling, downscaled CMIP6 projections were equal or slightly outperforming downscaled CORDEX projections for all variables with higher correlations with observations (CC of 0.996 and 0.980 for CMIP6 temperature and precipitation against 0.995 and 0.941 for CORDEX) and lower error (RMSE of 0.40 °C and 20 mm for CMIP6 temperature and precipitation against 0.54 °C and 27 mm for CORDEX). We observed no significant differences between experiments are 2.6 and 8.5 forcing are not very different on the evaluation period (before 2020). We observed small differences among months but with the same global pattern.</p>
 <div class="cell">
 <details>
 <summary>Code</summary>
@@ -310,7 +323,12 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <span id="cb3-24"><a href="#cb3-24" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ylab</span>(<span class="st">"Correlation Coefficient (CC)"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </details>
 <div class="cell-output-display">
-<p><img src="02_evaluations_files/figure-html/eval_area-1.png" class="img-fluid" width="672"></p>
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="02_evaluations_files/figure-html/eval_area-1.png" class="img-fluid figure-img" width="672"></p>
+<figcaption class="figure-caption">Evaluations of raw and downscaled CORDEX and CMIP6 projections compared to CHELSA 2 between 2006 and 2019 for every variable and every country. Each point represents one value for one month and one projection including several project, downscaling, institutes, global models, regional models and experiments.</figcaption>
+</figure>
+</div>
 </div>
 </div>
 <div class="cell">
@@ -319,64 +337,213 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <div class="sourceCode cell-code" id="cb4"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a>vroom<span class="sc">::</span><span class="fu">vroom</span>(<span class="st">"results/evaluation/evaluations.tsv"</span>) <span class="sc">%&gt;%</span> </span>
 <span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(variable <span class="sc">%in%</span> <span class="fu">c</span>(<span class="st">"tas"</span>, <span class="st">"pr"</span>)) <span class="sc">%&gt;%</span> </span>
 <span id="cb4-3"><a href="#cb4-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">variable =</span> <span class="fu">recode</span>(variable, </span>
-<span id="cb4-4"><a href="#cb4-4" aria-hidden="true" tabindex="-1"></a>                           <span class="st">"pr"</span> <span class="ot">=</span> <span class="st">"Precipitation</span><span class="sc">\n</span><span class="st">(mm)"</span>,</span>
-<span id="cb4-5"><a href="#cb4-5" aria-hidden="true" tabindex="-1"></a>                           <span class="st">"tas"</span> <span class="ot">=</span> <span class="st">"Mean</span><span class="sc">\n</span><span class="st">temperature</span><span class="sc">\n</span><span class="st">(°C)"</span>,</span>
-<span id="cb4-6"><a href="#cb4-6" aria-hidden="true" tabindex="-1"></a>                           <span class="st">"tasmax"</span> <span class="ot">=</span> <span class="st">"Maximum</span><span class="sc">\n</span><span class="st">temperature</span><span class="sc">\n</span><span class="st">(°C)"</span>,</span>
-<span id="cb4-7"><a href="#cb4-7" aria-hidden="true" tabindex="-1"></a>                           <span class="st">"tasmin"</span> <span class="ot">=</span> <span class="st">"Minimum</span><span class="sc">\n</span><span class="st">temperature</span><span class="sc">\n</span><span class="st">(°C)"</span>)) <span class="sc">%&gt;%</span> </span>
-<span id="cb4-8"><a href="#cb4-8" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">experiment =</span> <span class="fu">recode</span>(experiment, </span>
-<span id="cb4-9"><a href="#cb4-9" aria-hidden="true" tabindex="-1"></a>                           <span class="st">"rcp26"</span> <span class="ot">=</span> <span class="st">"2.6"</span>,</span>
-<span id="cb4-10"><a href="#cb4-10" aria-hidden="true" tabindex="-1"></a>                           <span class="st">"ssp126"</span> <span class="ot">=</span> <span class="st">"2.6"</span>,</span>
-<span id="cb4-11"><a href="#cb4-11" aria-hidden="true" tabindex="-1"></a>                           <span class="st">"rcp85"</span> <span class="ot">=</span> <span class="st">"8.5"</span>,</span>
-<span id="cb4-12"><a href="#cb4-12" aria-hidden="true" tabindex="-1"></a>                           <span class="st">"ssp585"</span> <span class="ot">=</span> <span class="st">"8.5"</span>)) <span class="sc">%&gt;%</span> </span>
-<span id="cb4-13"><a href="#cb4-13" aria-hidden="true" tabindex="-1"></a>  <span class="fu">pivot_wider</span>(<span class="at">names_from =</span> metric, <span class="at">values_from =</span> value) <span class="sc">%&gt;%</span> </span>
-<span id="cb4-14"><a href="#cb4-14" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(RMSE <span class="sc">&lt;</span> <span class="dv">10</span><span class="sc">^</span><span class="dv">3</span>) <span class="sc">%&gt;%</span> </span>
-<span id="cb4-15"><a href="#cb4-15" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ggplot</span>(<span class="fu">aes</span>(RMSE, <span class="dv">1</span><span class="sc">-</span>CC, </span>
-<span id="cb4-16"><a href="#cb4-16" aria-hidden="true" tabindex="-1"></a>             <span class="at">col =</span> <span class="fu">paste</span>(origin, type)</span>
-<span id="cb4-17"><a href="#cb4-17" aria-hidden="true" tabindex="-1"></a>             )) <span class="sc">+</span></span>
-<span id="cb4-18"><a href="#cb4-18" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_point</span>(<span class="at">alpha =</span> <span class="fl">0.1</span>) <span class="sc">+</span></span>
-<span id="cb4-19"><a href="#cb4-19" aria-hidden="true" tabindex="-1"></a>  <span class="fu">stat_density_2d</span>(<span class="at">geom =</span> <span class="st">"polygon"</span>,</span>
-<span id="cb4-20"><a href="#cb4-20" aria-hidden="true" tabindex="-1"></a>                  <span class="fu">aes</span>(<span class="at">alpha =</span> ..level.., <span class="at">fill =</span> <span class="fu">paste</span>(origin, type)),</span>
-<span id="cb4-21"><a href="#cb4-21" aria-hidden="true" tabindex="-1"></a>                  <span class="at">bins =</span> <span class="dv">100</span>) <span class="sc">+</span></span>
-<span id="cb4-22"><a href="#cb4-22" aria-hidden="true" tabindex="-1"></a>  <span class="fu">facet_grid</span>(experiment <span class="sc">~</span> variable, <span class="at">scales =</span> <span class="st">"free_x"</span>) <span class="sc">+</span></span>
-<span id="cb4-23"><a href="#cb4-23" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme_bw</span>() <span class="sc">+</span></span>
-<span id="cb4-24"><a href="#cb4-24" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme</span>(<span class="at">legend.title =</span> <span class="fu">element_blank</span>(), </span>
-<span id="cb4-25"><a href="#cb4-25" aria-hidden="true" tabindex="-1"></a>        <span class="at">legend.position =</span> <span class="st">"bottom"</span>) <span class="sc">+</span></span>
-<span id="cb4-26"><a href="#cb4-26" aria-hidden="true" tabindex="-1"></a>  <span class="fu">scale_y_log10</span>(<span class="at">labels =</span> <span class="cf">function</span>(x){<span class="dv">1</span><span class="sc">-</span>x}) <span class="sc">+</span></span>
-<span id="cb4-27"><a href="#cb4-27" aria-hidden="true" tabindex="-1"></a>  <span class="fu">scale_x_log10</span>() <span class="sc">+</span></span>
-<span id="cb4-28"><a href="#cb4-28" aria-hidden="true" tabindex="-1"></a>  <span class="fu">scale_alpha</span>(<span class="at">guide =</span> <span class="st">"none"</span>) <span class="sc">+</span></span>
-<span id="cb4-29"><a href="#cb4-29" aria-hidden="true" tabindex="-1"></a>  <span class="fu">xlab</span>(<span class="st">"Root Mean Square Error of Prediction (RMSEP)"</span>) <span class="sc">+</span></span>
-<span id="cb4-30"><a href="#cb4-30" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ylab</span>(<span class="st">"Correlation Coefficient (CC)"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb4-4"><a href="#cb4-4" aria-hidden="true" tabindex="-1"></a>                           <span class="st">"pr"</span> <span class="ot">=</span> <span class="st">"precipitation"</span>,</span>
+<span id="cb4-5"><a href="#cb4-5" aria-hidden="true" tabindex="-1"></a>                           <span class="st">"tas"</span> <span class="ot">=</span> <span class="st">"temperature"</span>)) <span class="sc">%&gt;%</span> </span>
+<span id="cb4-6"><a href="#cb4-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">group_by</span>(area, origin, type, variable, metric) <span class="sc">%&gt;%</span> </span>
+<span id="cb4-7"><a href="#cb4-7" aria-hidden="true" tabindex="-1"></a>  <span class="fu">summarise</span>(<span class="at">value =</span> <span class="fu">round</span>(<span class="fu">median</span>(value, <span class="at">na.rm =</span> T), <span class="dv">3</span>)) <span class="sc">%&gt;%</span> </span>
+<span id="cb4-8"><a href="#cb4-8" aria-hidden="true" tabindex="-1"></a>  <span class="fu">pivot_wider</span>(<span class="at">names_from =</span> metric, <span class="at">values_from =</span> value) <span class="sc">%&gt;%</span> </span>
+<span id="cb4-9"><a href="#cb4-9" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">value =</span> <span class="fu">paste0</span>(RMSE, <span class="st">" ("</span>, CC, <span class="st">")"</span>)) <span class="sc">%&gt;%</span> </span>
+<span id="cb4-10"><a href="#cb4-10" aria-hidden="true" tabindex="-1"></a>  <span class="fu">select</span>(<span class="sc">-</span>CC, <span class="sc">-</span>RMSE, <span class="sc">-</span>SDE, <span class="sc">-</span>bias) <span class="sc">%&gt;%</span> </span>
+<span id="cb4-11"><a href="#cb4-11" aria-hidden="true" tabindex="-1"></a>  <span class="fu">pivot_wider</span>(<span class="at">names_from =</span> type, <span class="at">values_from =</span> value) <span class="sc">%&gt;%</span> </span>
+<span id="cb4-12"><a href="#cb4-12" aria-hidden="true" tabindex="-1"></a>  knitr<span class="sc">::</span><span class="fu">kable</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </details>
 <div class="cell-output-display">
-<p><img src="02_evaluations_files/figure-html/eval_exp-1.png" class="img-fluid" width="672"></p>
+<table class="table table-sm table-striped small">
+<thead>
+<tr class="header">
+<th style="text-align: left;">area</th>
+<th style="text-align: left;">origin</th>
+<th style="text-align: left;">variable</th>
+<th style="text-align: left;">downscaled</th>
+<th style="text-align: left;">raw</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: left;">Côte-d’Ivoire</td>
+<td style="text-align: left;">CMIP6</td>
+<td style="text-align: left;">precipitation</td>
+<td style="text-align: left;">14.123 (0.98)</td>
+<td style="text-align: left;">44.454 (0.73)</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">Côte-d’Ivoire</td>
+<td style="text-align: left;">CMIP6</td>
+<td style="text-align: left;">temperature</td>
+<td style="text-align: left;">0.443 (0.988)</td>
+<td style="text-align: left;">1.293 (0.48)</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">Côte-d’Ivoire</td>
+<td style="text-align: left;">CORDEX</td>
+<td style="text-align: left;">precipitation</td>
+<td style="text-align: left;">19 (0.958)</td>
+<td style="text-align: left;">52.678 (0.672)</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">Côte-d’Ivoire</td>
+<td style="text-align: left;">CORDEX</td>
+<td style="text-align: left;">temperature</td>
+<td style="text-align: left;">0.604 (0.993)</td>
+<td style="text-align: left;">1.028 (0.758)</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">French-Guiana</td>
+<td style="text-align: left;">CMIP6</td>
+<td style="text-align: left;">precipitation</td>
+<td style="text-align: left;">24.505 (0.966)</td>
+<td style="text-align: left;">96.483 (0.532)</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">French-Guiana</td>
+<td style="text-align: left;">CMIP6</td>
+<td style="text-align: left;">temperature</td>
+<td style="text-align: left;">0.406 (0.99)</td>
+<td style="text-align: left;">1.249 (0.269)</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">French-Guiana</td>
+<td style="text-align: left;">CORDEX</td>
+<td style="text-align: left;">precipitation</td>
+<td style="text-align: left;">35.134 (0.875)</td>
+<td style="text-align: left;">137.501 (0.518)</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">French-Guiana</td>
+<td style="text-align: left;">CORDEX</td>
+<td style="text-align: left;">temperature</td>
+<td style="text-align: left;">0.652 (0.95)</td>
+<td style="text-align: left;">0.938 (0.465)</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">New-Caledonia</td>
+<td style="text-align: left;">CMIP6</td>
+<td style="text-align: left;">precipitation</td>
+<td style="text-align: left;">24.29 (0.984)</td>
+<td style="text-align: left;">65.901 (0.212)</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">New-Caledonia</td>
+<td style="text-align: left;">CMIP6</td>
+<td style="text-align: left;">temperature</td>
+<td style="text-align: left;">0.323 (1)</td>
+<td style="text-align: left;">2.242 (0.372)</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">New-Caledonia</td>
+<td style="text-align: left;">CORDEX</td>
+<td style="text-align: left;">precipitation</td>
+<td style="text-align: left;">29.283 (0.955)</td>
+<td style="text-align: left;">56.897 (0.548)</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">New-Caledonia</td>
+<td style="text-align: left;">CORDEX</td>
+<td style="text-align: left;">temperature</td>
+<td style="text-align: left;">0.466 (1)</td>
+<td style="text-align: left;">1.798 (0.664)</td>
+</tr>
+</tbody>
+</table>
 </div>
 </div>
 <div class="cell">
 <details>
 <summary>Code</summary>
 <div class="sourceCode cell-code" id="cb5"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a>vroom<span class="sc">::</span><span class="fu">vroom</span>(<span class="st">"results/evaluation/evaluations.tsv"</span>) <span class="sc">%&gt;%</span> </span>
-<span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(variable <span class="sc">%in%</span> <span class="fu">c</span>(<span class="st">"pr"</span>)) <span class="sc">%&gt;%</span> </span>
-<span id="cb5-3"><a href="#cb5-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">pivot_wider</span>(<span class="at">names_from =</span> metric, <span class="at">values_from =</span> value) <span class="sc">%&gt;%</span> </span>
-<span id="cb5-4"><a href="#cb5-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(RMSE <span class="sc">&lt;</span> <span class="dv">10</span><span class="sc">^</span><span class="dv">3</span>) <span class="sc">%&gt;%</span> </span>
-<span id="cb5-5"><a href="#cb5-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ggplot</span>(<span class="fu">aes</span>(RMSE, <span class="dv">1</span><span class="sc">-</span>CC, </span>
-<span id="cb5-6"><a href="#cb5-6" aria-hidden="true" tabindex="-1"></a>             <span class="at">col =</span> <span class="fu">paste</span>(origin, type)</span>
-<span id="cb5-7"><a href="#cb5-7" aria-hidden="true" tabindex="-1"></a>             )) <span class="sc">+</span></span>
-<span id="cb5-8"><a href="#cb5-8" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_point</span>(<span class="at">alpha =</span> <span class="fl">0.1</span>) <span class="sc">+</span></span>
-<span id="cb5-9"><a href="#cb5-9" aria-hidden="true" tabindex="-1"></a>  <span class="fu">stat_density_2d</span>(<span class="at">geom =</span> <span class="st">"polygon"</span>,</span>
-<span id="cb5-10"><a href="#cb5-10" aria-hidden="true" tabindex="-1"></a>                  <span class="fu">aes</span>(<span class="at">alpha =</span> ..level.., <span class="at">fill =</span> <span class="fu">paste</span>(origin, type)),</span>
-<span id="cb5-11"><a href="#cb5-11" aria-hidden="true" tabindex="-1"></a>                  <span class="at">bins =</span> <span class="dv">100</span>) <span class="sc">+</span></span>
-<span id="cb5-12"><a href="#cb5-12" aria-hidden="true" tabindex="-1"></a>  <span class="fu">facet_wrap</span>(<span class="sc">~</span> month) <span class="sc">+</span></span>
-<span id="cb5-13"><a href="#cb5-13" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme_bw</span>() <span class="sc">+</span></span>
-<span id="cb5-14"><a href="#cb5-14" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme</span>(<span class="at">legend.title =</span> <span class="fu">element_blank</span>(), </span>
-<span id="cb5-15"><a href="#cb5-15" aria-hidden="true" tabindex="-1"></a>        <span class="at">legend.position =</span> <span class="st">"bottom"</span>) <span class="sc">+</span></span>
-<span id="cb5-16"><a href="#cb5-16" aria-hidden="true" tabindex="-1"></a>  <span class="fu">scale_y_log10</span>(<span class="at">labels =</span> <span class="cf">function</span>(x){<span class="dv">1</span><span class="sc">-</span>x}) <span class="sc">+</span></span>
-<span id="cb5-17"><a href="#cb5-17" aria-hidden="true" tabindex="-1"></a>  <span class="fu">scale_x_log10</span>() <span class="sc">+</span></span>
-<span id="cb5-18"><a href="#cb5-18" aria-hidden="true" tabindex="-1"></a>  <span class="fu">scale_alpha</span>(<span class="at">guide =</span> <span class="st">"none"</span>) <span class="sc">+</span></span>
-<span id="cb5-19"><a href="#cb5-19" aria-hidden="true" tabindex="-1"></a>  <span class="fu">xlab</span>(<span class="st">"Root Mean Square Error of Prediction (RMSEP)"</span>) <span class="sc">+</span></span>
-<span id="cb5-20"><a href="#cb5-20" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ylab</span>(<span class="st">"Correlation Coefficient (CC)"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(metric <span class="sc">==</span> <span class="st">"bias"</span>) <span class="sc">%&gt;%</span> </span>
+<span id="cb5-3"><a href="#cb5-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">variable =</span> <span class="fu">recode</span>(variable, </span>
+<span id="cb5-4"><a href="#cb5-4" aria-hidden="true" tabindex="-1"></a>                           <span class="st">"pr"</span> <span class="ot">=</span> <span class="st">"Precipitation</span><span class="sc">\n</span><span class="st">(mm)"</span>,</span>
+<span id="cb5-5"><a href="#cb5-5" aria-hidden="true" tabindex="-1"></a>                           <span class="st">"tas"</span> <span class="ot">=</span> <span class="st">"Mean</span><span class="sc">\n</span><span class="st">temperature</span><span class="sc">\n</span><span class="st">(°C)"</span>,</span>
+<span id="cb5-6"><a href="#cb5-6" aria-hidden="true" tabindex="-1"></a>                           <span class="st">"tasmax"</span> <span class="ot">=</span> <span class="st">"Maximum</span><span class="sc">\n</span><span class="st">temperature</span><span class="sc">\n</span><span class="st">(°C)"</span>,</span>
+<span id="cb5-7"><a href="#cb5-7" aria-hidden="true" tabindex="-1"></a>                           <span class="st">"tasmin"</span> <span class="ot">=</span> <span class="st">"Minimum</span><span class="sc">\n</span><span class="st">temperature</span><span class="sc">\n</span><span class="st">(°C)"</span>)) <span class="sc">%&gt;%</span> </span>
+<span id="cb5-8"><a href="#cb5-8" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(<span class="fu">abs</span>(value) <span class="sc">&lt;</span> <span class="dv">10</span><span class="sc">^</span><span class="dv">3</span>) <span class="sc">%&gt;%</span> </span>
+<span id="cb5-9"><a href="#cb5-9" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ggplot</span>(<span class="fu">aes</span>(<span class="fu">paste</span>(origin, type), value, <span class="at">fill =</span> area)) <span class="sc">+</span></span>
+<span id="cb5-10"><a href="#cb5-10" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_boxplot</span>() <span class="sc">+</span></span>
+<span id="cb5-11"><a href="#cb5-11" aria-hidden="true" tabindex="-1"></a>  <span class="fu">facet_wrap</span>(<span class="sc">~</span> variable, <span class="at">scales =</span> <span class="st">"free_x"</span>) <span class="sc">+</span></span>
+<span id="cb5-12"><a href="#cb5-12" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme_bw</span>() <span class="sc">+</span></span>
+<span id="cb5-13"><a href="#cb5-13" aria-hidden="true" tabindex="-1"></a>  <span class="fu">coord_flip</span>() <span class="sc">+</span></span>
+<span id="cb5-14"><a href="#cb5-14" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme</span>(<span class="at">legend.position =</span> <span class="st">"bottom"</span>, <span class="at">axis.title =</span> <span class="fu">element_blank</span>()) <span class="sc">+</span></span>
+<span id="cb5-15"><a href="#cb5-15" aria-hidden="true" tabindex="-1"></a>  <span class="fu">scale_fill_discrete</span>(<span class="st">""</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </details>
 <div class="cell-output-display">
-<p><img src="02_evaluations_files/figure-html/eval_month-1.png" class="img-fluid" width="672"></p>
+<p><img src="02_evaluations_files/figure-html/bias_box-1.png" class="img-fluid" width="672"></p>
+</div>
+</div>
+<div class="cell">
+<details>
+<summary>Code</summary>
+<div class="sourceCode cell-code" id="cb6"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a>vroom<span class="sc">::</span><span class="fu">vroom</span>(<span class="st">"results/evaluation/evaluations.tsv"</span>) <span class="sc">%&gt;%</span> </span>
+<span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(variable <span class="sc">%in%</span> <span class="fu">c</span>(<span class="st">"tas"</span>, <span class="st">"pr"</span>)) <span class="sc">%&gt;%</span> </span>
+<span id="cb6-3"><a href="#cb6-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">variable =</span> <span class="fu">recode</span>(variable, </span>
+<span id="cb6-4"><a href="#cb6-4" aria-hidden="true" tabindex="-1"></a>                           <span class="st">"pr"</span> <span class="ot">=</span> <span class="st">"Precipitation</span><span class="sc">\n</span><span class="st">(mm)"</span>,</span>
+<span id="cb6-5"><a href="#cb6-5" aria-hidden="true" tabindex="-1"></a>                           <span class="st">"tas"</span> <span class="ot">=</span> <span class="st">"Mean</span><span class="sc">\n</span><span class="st">temperature</span><span class="sc">\n</span><span class="st">(°C)"</span>,</span>
+<span id="cb6-6"><a href="#cb6-6" aria-hidden="true" tabindex="-1"></a>                           <span class="st">"tasmax"</span> <span class="ot">=</span> <span class="st">"Maximum</span><span class="sc">\n</span><span class="st">temperature</span><span class="sc">\n</span><span class="st">(°C)"</span>,</span>
+<span id="cb6-7"><a href="#cb6-7" aria-hidden="true" tabindex="-1"></a>                           <span class="st">"tasmin"</span> <span class="ot">=</span> <span class="st">"Minimum</span><span class="sc">\n</span><span class="st">temperature</span><span class="sc">\n</span><span class="st">(°C)"</span>)) <span class="sc">%&gt;%</span> </span>
+<span id="cb6-8"><a href="#cb6-8" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">experiment =</span> <span class="fu">recode</span>(experiment, </span>
+<span id="cb6-9"><a href="#cb6-9" aria-hidden="true" tabindex="-1"></a>                           <span class="st">"rcp26"</span> <span class="ot">=</span> <span class="st">"2.6"</span>,</span>
+<span id="cb6-10"><a href="#cb6-10" aria-hidden="true" tabindex="-1"></a>                           <span class="st">"ssp126"</span> <span class="ot">=</span> <span class="st">"2.6"</span>,</span>
+<span id="cb6-11"><a href="#cb6-11" aria-hidden="true" tabindex="-1"></a>                           <span class="st">"rcp85"</span> <span class="ot">=</span> <span class="st">"8.5"</span>,</span>
+<span id="cb6-12"><a href="#cb6-12" aria-hidden="true" tabindex="-1"></a>                           <span class="st">"ssp585"</span> <span class="ot">=</span> <span class="st">"8.5"</span>)) <span class="sc">%&gt;%</span> </span>
+<span id="cb6-13"><a href="#cb6-13" aria-hidden="true" tabindex="-1"></a>  <span class="fu">pivot_wider</span>(<span class="at">names_from =</span> metric, <span class="at">values_from =</span> value) <span class="sc">%&gt;%</span> </span>
+<span id="cb6-14"><a href="#cb6-14" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(RMSE <span class="sc">&lt;</span> <span class="dv">10</span><span class="sc">^</span><span class="dv">3</span>) <span class="sc">%&gt;%</span> </span>
+<span id="cb6-15"><a href="#cb6-15" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ggplot</span>(<span class="fu">aes</span>(RMSE, <span class="dv">1</span><span class="sc">-</span>CC, </span>
+<span id="cb6-16"><a href="#cb6-16" aria-hidden="true" tabindex="-1"></a>             <span class="at">col =</span> <span class="fu">paste</span>(origin, type)</span>
+<span id="cb6-17"><a href="#cb6-17" aria-hidden="true" tabindex="-1"></a>             )) <span class="sc">+</span></span>
+<span id="cb6-18"><a href="#cb6-18" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_point</span>(<span class="at">alpha =</span> <span class="fl">0.1</span>) <span class="sc">+</span></span>
+<span id="cb6-19"><a href="#cb6-19" aria-hidden="true" tabindex="-1"></a>  <span class="fu">stat_density_2d</span>(<span class="at">geom =</span> <span class="st">"polygon"</span>,</span>
+<span id="cb6-20"><a href="#cb6-20" aria-hidden="true" tabindex="-1"></a>                  <span class="fu">aes</span>(<span class="at">alpha =</span> ..level.., <span class="at">fill =</span> <span class="fu">paste</span>(origin, type)),</span>
+<span id="cb6-21"><a href="#cb6-21" aria-hidden="true" tabindex="-1"></a>                  <span class="at">bins =</span> <span class="dv">100</span>) <span class="sc">+</span></span>
+<span id="cb6-22"><a href="#cb6-22" aria-hidden="true" tabindex="-1"></a>  <span class="fu">facet_grid</span>(experiment <span class="sc">~</span> variable, <span class="at">scales =</span> <span class="st">"free_x"</span>) <span class="sc">+</span></span>
+<span id="cb6-23"><a href="#cb6-23" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme_bw</span>() <span class="sc">+</span></span>
+<span id="cb6-24"><a href="#cb6-24" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme</span>(<span class="at">legend.title =</span> <span class="fu">element_blank</span>(), </span>
+<span id="cb6-25"><a href="#cb6-25" aria-hidden="true" tabindex="-1"></a>        <span class="at">legend.position =</span> <span class="st">"bottom"</span>) <span class="sc">+</span></span>
+<span id="cb6-26"><a href="#cb6-26" aria-hidden="true" tabindex="-1"></a>  <span class="fu">scale_y_log10</span>(<span class="at">labels =</span> <span class="cf">function</span>(x){<span class="dv">1</span><span class="sc">-</span>x}) <span class="sc">+</span></span>
+<span id="cb6-27"><a href="#cb6-27" aria-hidden="true" tabindex="-1"></a>  <span class="fu">scale_x_log10</span>() <span class="sc">+</span></span>
+<span id="cb6-28"><a href="#cb6-28" aria-hidden="true" tabindex="-1"></a>  <span class="fu">scale_alpha</span>(<span class="at">guide =</span> <span class="st">"none"</span>) <span class="sc">+</span></span>
+<span id="cb6-29"><a href="#cb6-29" aria-hidden="true" tabindex="-1"></a>  <span class="fu">xlab</span>(<span class="st">"Root Mean Square Error of Prediction (RMSEP)"</span>) <span class="sc">+</span></span>
+<span id="cb6-30"><a href="#cb6-30" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ylab</span>(<span class="st">"Correlation Coefficient (CC)"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+<div class="cell-output-display">
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="02_evaluations_files/figure-html/eval_exp-1.png" class="img-fluid figure-img" width="672"></p>
+<figcaption class="figure-caption">Evaluations of raw and downscaled CORDEX and CMIP6 projections compared to CHELSA 2 between 2006 and 2019 for temperature and precipitation for the four experiments gathered in two forcing. Each point represents one value for one month, one country and one projection including several project, downscaling, institutes, global models, and regional models.</figcaption>
+</figure>
+</div>
+</div>
+</div>
+<div class="cell">
+<details>
+<summary>Code</summary>
+<div class="sourceCode cell-code" id="cb7"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a>vroom<span class="sc">::</span><span class="fu">vroom</span>(<span class="st">"results/evaluation/evaluations.tsv"</span>) <span class="sc">%&gt;%</span> </span>
+<span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(variable <span class="sc">%in%</span> <span class="fu">c</span>(<span class="st">"pr"</span>)) <span class="sc">%&gt;%</span> </span>
+<span id="cb7-3"><a href="#cb7-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">pivot_wider</span>(<span class="at">names_from =</span> metric, <span class="at">values_from =</span> value) <span class="sc">%&gt;%</span> </span>
+<span id="cb7-4"><a href="#cb7-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(RMSE <span class="sc">&lt;</span> <span class="dv">10</span><span class="sc">^</span><span class="dv">3</span>) <span class="sc">%&gt;%</span> </span>
+<span id="cb7-5"><a href="#cb7-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ggplot</span>(<span class="fu">aes</span>(RMSE, <span class="dv">1</span><span class="sc">-</span>CC, </span>
+<span id="cb7-6"><a href="#cb7-6" aria-hidden="true" tabindex="-1"></a>             <span class="at">col =</span> <span class="fu">paste</span>(origin, type)</span>
+<span id="cb7-7"><a href="#cb7-7" aria-hidden="true" tabindex="-1"></a>             )) <span class="sc">+</span></span>
+<span id="cb7-8"><a href="#cb7-8" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_point</span>(<span class="at">alpha =</span> <span class="fl">0.1</span>) <span class="sc">+</span></span>
+<span id="cb7-9"><a href="#cb7-9" aria-hidden="true" tabindex="-1"></a>  <span class="fu">stat_density_2d</span>(<span class="at">geom =</span> <span class="st">"polygon"</span>,</span>
+<span id="cb7-10"><a href="#cb7-10" aria-hidden="true" tabindex="-1"></a>                  <span class="fu">aes</span>(<span class="at">alpha =</span> ..level.., <span class="at">fill =</span> <span class="fu">paste</span>(origin, type)),</span>
+<span id="cb7-11"><a href="#cb7-11" aria-hidden="true" tabindex="-1"></a>                  <span class="at">bins =</span> <span class="dv">100</span>) <span class="sc">+</span></span>
+<span id="cb7-12"><a href="#cb7-12" aria-hidden="true" tabindex="-1"></a>  <span class="fu">facet_wrap</span>(<span class="sc">~</span> month) <span class="sc">+</span></span>
+<span id="cb7-13"><a href="#cb7-13" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme_bw</span>() <span class="sc">+</span></span>
+<span id="cb7-14"><a href="#cb7-14" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme</span>(<span class="at">legend.title =</span> <span class="fu">element_blank</span>(), </span>
+<span id="cb7-15"><a href="#cb7-15" aria-hidden="true" tabindex="-1"></a>        <span class="at">legend.position =</span> <span class="st">"bottom"</span>) <span class="sc">+</span></span>
+<span id="cb7-16"><a href="#cb7-16" aria-hidden="true" tabindex="-1"></a>  <span class="fu">scale_y_log10</span>(<span class="at">labels =</span> <span class="cf">function</span>(x){<span class="dv">1</span><span class="sc">-</span>x}) <span class="sc">+</span></span>
+<span id="cb7-17"><a href="#cb7-17" aria-hidden="true" tabindex="-1"></a>  <span class="fu">scale_x_log10</span>() <span class="sc">+</span></span>
+<span id="cb7-18"><a href="#cb7-18" aria-hidden="true" tabindex="-1"></a>  <span class="fu">scale_alpha</span>(<span class="at">guide =</span> <span class="st">"none"</span>) <span class="sc">+</span></span>
+<span id="cb7-19"><a href="#cb7-19" aria-hidden="true" tabindex="-1"></a>  <span class="fu">xlab</span>(<span class="st">"Root Mean Square Error of Prediction (RMSEP)"</span>) <span class="sc">+</span></span>
+<span id="cb7-20"><a href="#cb7-20" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ylab</span>(<span class="st">"Correlation Coefficient (CC)"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+<div class="cell-output-display">
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="02_evaluations_files/figure-html/eval_month-1.png" class="img-fluid figure-img" width="672"></p>
+<figcaption class="figure-caption">Evaluations of raw and downscaled CORDEX and CMIP6 projections compared to CHELSA 2 between 2006 and 2019 for temperature and for every month. Each point represents one value for one country and one projection including several project, downscaling, institutes, global models, regional models and experiments.</figcaption>
+</figure>
+</div>
 </div>
 </div>
 
