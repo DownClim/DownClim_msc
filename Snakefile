@@ -14,7 +14,7 @@ proj_dom["id"] = proj_dom.area + "_" + proj_dom.project + "_" \
                  + "_" + proj_dom.model + "_" +  proj_dom.experiment + \
                  "_" +  proj_dom.ensemble + "_" + proj_dom.rcm + \
                  "_" + proj_dom.downscaling
-
+projects = proj.project.unique()
 
 # rules #
 rule all:
@@ -30,6 +30,10 @@ rule all:
       # evaluations
       "results/evaluation/histograms.tsv",
       "results/evaluation/evaluations.tsv",
+      expand("results/evaluation/bias/{area}_{origin}_{base_eval}.nc",
+              area=config["area"],
+              origin=projects,
+              base_eval=config["base_eval"]),
       # tmf
       expand("results/tmf/nc/{proj}_{baseline}_{aggregation}_{period_proj}_{period_base}_{ds_method}.nc",
              proj=proj_dom.id,
@@ -54,6 +58,8 @@ include: "rules/hist_proj.py"
 include: "rules/merge_hist.py"
 include: "rules/eval_proj.py"
 include: "rules/merge_eval.py"
+include: "rules/map_bias.py"
+include: "rules/merge_bias.py"
 
 ## post ##
 include: "rules/get_tmf.py"

@@ -1,0 +1,165 @@
+```{r setup}
+#| include: false
+library(tidyverse)
+library(terra)
+```
+
+# Bias {.unnumbered}
+
+## Precipitation
+
+### CI
+
+```{r}
+#| message: false
+cmip6 <- rast("results/evaluation/bias/Côte-d'Ivoire_CMIP6_chirps.nc")[[1:12]] %>% 
+  clamp(-500, 500) %>% 
+  median()
+ggplot() +
+  tidyterra::geom_spatraster(data = cmip6) +
+  theme_bw() +
+  ggtitle("CMIP6 vs CHIRPS", "Median across month") +
+  scale_fill_viridis_c(na.value = NA)
+```
+
+```{r}
+#| message: false
+cordex <- rast("results/evaluation/bias/Côte-d'Ivoire_CORDEX_chirps.nc")[[1:12]] %>% median()
+ggplot() +
+  tidyterra::geom_spatraster(data = cordex) +
+  theme_bw() +
+  ggtitle("CORDEX vs CHIRPS", "Median across month") +
+  scale_fill_viridis_c(na.value = NA)
+```
+
+### FG
+
+```{r}
+#| message: false
+cmip6 <- rast("results/evaluation/bias/French-Guiana_CMIP6_chirps.nc")[[1:12]] %>% 
+  clamp(-500, 500) %>% 
+  median()
+ggplot() +
+  tidyterra::geom_spatraster(data = cmip6) +
+  theme_bw() +
+  ggtitle("CMIP6 vs CHIRPS", "Median across month") +
+  scale_fill_viridis_c(na.value = NA)
+```
+
+```{r}
+#| message: false
+cordex <- rast("results/evaluation/bias/French-Guiana_CORDEX_chirps.nc")[[1:12]] %>% 
+  clamp(-500, 500) %>% 
+  median()
+ggplot() +
+  tidyterra::geom_spatraster(data = cordex) +
+  theme_bw() +
+  ggtitle("CORDEX vs CHIRPS", "Median across month") +
+  scale_fill_viridis_c(na.value = NA)
+```
+
+### NC
+
+```{r}
+#| message: false
+cmip6 <- rast("results/evaluation/bias/New-Caledonia_CMIP6_chirps.nc")[[1:12]] %>% 
+  clamp(-500, 500) %>% 
+  median()
+ggplot() +
+  tidyterra::geom_spatraster(data = cmip6) +
+  theme_bw() +
+  ggtitle("CMIP6 vs CHIRPS", "Median across month") +
+  scale_fill_viridis_c(na.value = NA)
+```
+
+```{r}
+#| message: false
+cordex <- rast("results/evaluation/bias/New-Caledonia_CORDEX_chirps.nc")[[1:12]] %>% 
+  clamp(-500, 500) %>% 
+  median()
+ggplot() +
+  tidyterra::geom_spatraster(data = cordex) +
+  theme_bw() +
+  ggtitle("CORDEX vs CHIRPS", "Median across month") +
+  scale_fill_viridis_c(na.value = NA)
+```
+
+## Temperature
+
+### CI
+
+```{r}
+#| message: false
+cmip6 <- rast("results/evaluation/bias/Côte-d'Ivoire_CMIP6_gshtd.nc")[[1:12]] %>% 
+  clamp(-5, 5) %>% 
+  median()
+ggplot() +
+  tidyterra::geom_spatraster(data = cmip6) +
+  theme_bw() +
+  ggtitle("CMIP6 vs GSHTD", "Median across month") +
+  scale_fill_viridis_c(na.value = NA)
+```
+
+```{r}
+#| message: false
+cordex <- rast("results/evaluation/bias/Côte-d'Ivoire_CORDEX_gshtd.nc")[[1:12]] %>% 
+  clamp(-5, 5) %>% 
+  median()
+ggplot() +
+  tidyterra::geom_spatraster(data = cordex) +
+  theme_bw() +
+  ggtitle("CORDEX vs GSHTD", "Median across month") +
+  scale_fill_viridis_c(na.value = NA)
+```
+
+### FG
+
+```{r}
+#| message: false
+cmip6 <- rast("results/evaluation/bias/French-Guiana_CMIP6_gshtd.nc")[[1:12]] %>% 
+  clamp(-5, 5) %>% 
+  median()
+ggplot() +
+  tidyterra::geom_spatraster(data = cmip6) +
+  theme_bw() +
+  ggtitle("CMIP6 vs GSHTD", "Median across month") +
+  scale_fill_viridis_c(na.value = NA)
+```
+
+```{r}
+#| message: false
+cordex <- rast("results/evaluation/bias/French-Guiana_CORDEX_gshtd.nc")[[1:12]] %>% 
+  clamp(-5, 5) %>% 
+  median()
+ggplot() +
+  tidyterra::geom_spatraster(data = cordex) +
+  theme_bw() +
+  ggtitle("CORDEX vs GSHTD", "Median across month") +
+  scale_fill_viridis_c(na.value = NA)
+```
+
+### NC
+
+```{r}
+#| message: false
+cmip6 <- rast("results/evaluation/bias/New-Caledonia_CMIP6_gshtd.nc")[[1:12]] %>% 
+  clamp(-5, 5) %>% 
+  median()
+ggplot() +
+  tidyterra::geom_spatraster(data = cmip6) +
+  theme_bw() +
+  ggtitle("CMIP6 vs GSHTD", "Median across month") +
+  scale_fill_viridis_c(na.value = NA)
+```
+
+```{r}
+#| message: false
+cordex <- rast("results/evaluation/bias/New-Caledonia_CORDEX_gshtd.nc")[[1:12]] %>% 
+  clamp(-5, 5) %>% 
+  median()
+ggplot() +
+  tidyterra::geom_spatraster(data = cordex) +
+  theme_bw() +
+  ggtitle("CORDEX vs GSHTD", "Median across month") +
+  scale_fill_viridis_c(na.value = NA)
+```
