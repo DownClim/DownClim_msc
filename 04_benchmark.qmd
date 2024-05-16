@@ -23,6 +23,8 @@ bc <- bc %>%
                        "eval Vanuatu" = "eval",      
                        "get area" = "area",    
                        "get chelsa2" = "CHELSA",
+                       "get chirps" = "CHIRPS",
+                       "get gshtd" = "GSHTD",
                        "get cmip6" = "CMIP6",   
                        "get cordex" = "CORDEX", 
                        "hist base" = "hist",

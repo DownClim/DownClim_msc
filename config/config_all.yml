@@ -24,4 +24,4 @@ aggregation: "monthly-means"
 ds_method: "bc"
 
 # Evaluation
-base_eval: "chelsa2"
+base_eval: ["chirps", "gshtd", "chelsa2"]

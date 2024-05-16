@@ -30,4 +30,7 @@ dependencies:
   - intake
   - intake-esm
   - s3fs
-  
+  - earthengine-api
+  - xee
+  - pip: 
+    - pyet

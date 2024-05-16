@@ -23,44 +23,47 @@ period_proj = snakemake.params.period_proj
 period_eval = snakemake.params.period_eval
 ds_method = snakemake.params.ds_method
 base_eval = snakemake.params.base_eval
-variables = snakemake.params.variables
 
 # test
-# ds_file = "results/downscaled/New-Caledonia_CORDEX_AUS-22_GERICS_NCC-NorESM1-M_rcp85_r1i1p1_REMO2015_v1_chelsa2_monthly-means_2006-2019_1980-2005_bc.nc"
-# base_file = "results/baselines/New-Caledonia_chelsa2_monthly-means_1980-2005.nc"
+# ds_file = "results/downscaled/New-Caledonia_CMIP6_world_MIROC_MIROC6_ssp585_r1i1p1f1_none_none_chelsa2_monthly-means_2006-2019_1980-2005_bc.nc"
+# base_file = "results/baselines/New-Caledonia_gshtd_monthly-means_1980-2005.nc"
 # area_file = "results/areas/New-Caledonia.shp"
 # area="New-Caledonia"
-# origin="CORDEX"
-# domain="AUS-22"
-# institute="GERICS"
-# model="NCC-NorESM1-M"
-# experiment="rcp85" 
-# ensemble="r1i1p1"
-# rcm="REMO2015"
-# downscaling="v1"
+# origin="CMIP6"
+# domain="world"
+# institute="MIROC"
+# model="MIROC6"
+# experiment="ssp585" 
+# ensemble="r1i1p1f1"
+# rcm="none"
+# downscaling="none"
 # baseline="chelsa2"
 # aggregation="monthly-means"
 # period_proj="2006-2019"
 # period_eval="1980-2005"
 # ds_method="bc"
-# base_eval="chelsa2"
+# base_eval="gshtd"
 
 # libs
 import pandas as pd     
 import numpy as np   
 import xarray as xr
+import xesmf as xe
 import geopandas as gp
 
 # funs
 def get_eval(pred_ds, base_ds, type_in):
     months = list(range(1,13))
     a = []
+    variables = list(base_ds.keys())
     for v in variables:
         for m in months:
             pred_0 = pred_ds.sel(month=m)[v].values.ravel()
             pred = pred_0[~np.isnan(pred_0)]
-            obs = base_ds.sel(month=m)[v].values.ravel()
-            obs = obs[~np.isnan(pred_0)]
+            obs_0 = base_ds.sel(month=m)[v].values.ravel()
+            obs_0 = obs_0[~np.isnan(pred_0)]
+            pred = pred[~np.isnan(obs_0)]
+            obs = obs_0[~np.isnan(obs_0)]
             d = {
                 'metric': ['CC', 'RMSE', "SDE", "bias"],
                 'value': [np.corrcoef(pred, obs)[1,0], np.sqrt(np.mean(pow(pred - obs, 2))), np.std(pred - obs), np.mean(pred - obs)]
@@ -96,5 +99,10 @@ proj_file = "results/projections/" + area + "_" + origin + "_" + domain + "_" + 
 area_shp = gp.read_file(area_file)
 ds = xr.open_dataset(ds_file).rio.clip(area_shp.geometry.values, area_shp.crs)
 proj = xr.open_dataset(proj_file).rio.clip(area_shp.geometry.values, area_shp.crs)
-base = xr.open_dataset(base_file).rio.clip(area_shp.geometry.values, area_shp.crs)
+if(base_eval == baseline):
+    base = xr.open_dataset(base_file).rio.clip(area_shp.geometry.values, area_shp.crs)
+if(base_eval != baseline):
+    base = xr.open_dataset(base_file, decode_coords='all')
+    regridder = xe.Regridder(base, ds, "bilinear")
+    base = regridder(base, keep_attrs=True)
 pd.concat([get_eval(ds, base, "downscaled"), get_eval(proj, base, "raw")]).to_csv(out_file, sep="\t", index=False)

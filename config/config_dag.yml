@@ -25,8 +25,4 @@ aggregation: "monthly-means"
 ds_method: "bc"
 
 # Evaluation
-base_eval: "chelsa2"
-log10_eval_pts: 4
-
-# Ensemble
-ens_method: "sma"
+base_eval: ["chirps"]

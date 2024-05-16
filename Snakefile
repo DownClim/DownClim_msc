@@ -37,11 +37,13 @@ rule all:
              aggregation=config["aggregation"],
              period_base=config["hist_years"],
              period_proj=config["proj_years"],
-             ds_method=config["ds_method"]),
+             ds_method=config["ds_method"])
 
 ## downscaling ##
 include: "rules/get_area.py"
 include: "rules/get_chelsa2.py"
+include: "rules/get_chirps.py"
+include: "rules/get_gshtd.py"
 include: "rules/get_cordex.py"
 include: "rules/get_cmip6.py"
 include: "rules/downscale_bc.py"
