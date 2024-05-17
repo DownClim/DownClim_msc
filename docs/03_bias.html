@@ -257,7 +257,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a>  tidyterra<span class="sc">::</span><span class="fu">geom_spatraster</span>(<span class="at">data =</span> cmip6) <span class="sc">+</span></span>
 <span id="cb1-6"><a href="#cb1-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme_bw</span>() <span class="sc">+</span></span>
 <span id="cb1-7"><a href="#cb1-7" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ggtitle</span>(<span class="st">"CMIP6 vs CHIRPS"</span>, <span class="st">"Median across month"</span>) <span class="sc">+</span></span>
-<span id="cb1-8"><a href="#cb1-8" aria-hidden="true" tabindex="-1"></a>  <span class="fu">scale_fill_viridis_c</span>(<span class="at">na.value =</span> <span class="cn">NA</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb1-8"><a href="#cb1-8" aria-hidden="true" tabindex="-1"></a>  <span class="fu">scale_fill_gradient2</span>(<span class="st">""</span>, <span class="at">low =</span> <span class="st">"#543005"</span>, <span class="at">mid =</span> <span class="st">"white"</span>, <span class="at">high =</span> <span class="st">"#003c30"</span>, <span class="at">midpoint =</span> <span class="dv">0</span>, <span class="at">na.value =</span> <span class="st">"lightgrey"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </details>
 <div class="cell-output-display">
 <p><img src="03_bias_files/figure-html/unnamed-chunk-1-1.png" class="img-fluid" width="672"></p>
@@ -266,12 +266,14 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <div class="cell">
 <details>
 <summary>Code</summary>
-<div class="sourceCode cell-code" id="cb2"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a>cordex <span class="ot">&lt;-</span> <span class="fu">rast</span>(<span class="st">"results/evaluation/bias/Côte-d'Ivoire_CORDEX_chirps.nc"</span>)[[<span class="dv">1</span><span class="sc">:</span><span class="dv">12</span>]] <span class="sc">%&gt;%</span> <span class="fu">median</span>()</span>
-<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>() <span class="sc">+</span></span>
-<span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a>  tidyterra<span class="sc">::</span><span class="fu">geom_spatraster</span>(<span class="at">data =</span> cordex) <span class="sc">+</span></span>
-<span id="cb2-4"><a href="#cb2-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme_bw</span>() <span class="sc">+</span></span>
-<span id="cb2-5"><a href="#cb2-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ggtitle</span>(<span class="st">"CORDEX vs CHIRPS"</span>, <span class="st">"Median across month"</span>) <span class="sc">+</span></span>
-<span id="cb2-6"><a href="#cb2-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">scale_fill_viridis_c</span>(<span class="at">na.value =</span> <span class="cn">NA</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb2"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a>cordex <span class="ot">&lt;-</span> <span class="fu">rast</span>(<span class="st">"results/evaluation/bias/Côte-d'Ivoire_CORDEX_chirps.nc"</span>)[[<span class="dv">1</span><span class="sc">:</span><span class="dv">12</span>]] <span class="sc">%&gt;%</span> </span>
+<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">clamp</span>(<span class="sc">-</span><span class="dv">500</span>, <span class="dv">500</span>) <span class="sc">%&gt;%</span> </span>
+<span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">median</span>()</span>
+<span id="cb2-4"><a href="#cb2-4" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>() <span class="sc">+</span></span>
+<span id="cb2-5"><a href="#cb2-5" aria-hidden="true" tabindex="-1"></a>  tidyterra<span class="sc">::</span><span class="fu">geom_spatraster</span>(<span class="at">data =</span> cordex) <span class="sc">+</span></span>
+<span id="cb2-6"><a href="#cb2-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme_bw</span>() <span class="sc">+</span></span>
+<span id="cb2-7"><a href="#cb2-7" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ggtitle</span>(<span class="st">"CORDEX vs CHIRPS"</span>, <span class="st">"Median across month"</span>) <span class="sc">+</span></span>
+<span id="cb2-8"><a href="#cb2-8" aria-hidden="true" tabindex="-1"></a>  <span class="fu">scale_fill_gradient2</span>(<span class="st">""</span>, <span class="at">low =</span> <span class="st">"#543005"</span>, <span class="at">mid =</span> <span class="st">"white"</span>, <span class="at">high =</span> <span class="st">"#003c30"</span>, <span class="at">midpoint =</span> <span class="dv">0</span>, <span class="at">na.value =</span> <span class="st">"lightgrey"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </details>
 <div class="cell-output-display">
 <p><img src="03_bias_files/figure-html/unnamed-chunk-2-1.png" class="img-fluid" width="672"></p>
@@ -290,7 +292,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <span id="cb3-5"><a href="#cb3-5" aria-hidden="true" tabindex="-1"></a>  tidyterra<span class="sc">::</span><span class="fu">geom_spatraster</span>(<span class="at">data =</span> cmip6) <span class="sc">+</span></span>
 <span id="cb3-6"><a href="#cb3-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme_bw</span>() <span class="sc">+</span></span>
 <span id="cb3-7"><a href="#cb3-7" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ggtitle</span>(<span class="st">"CMIP6 vs CHIRPS"</span>, <span class="st">"Median across month"</span>) <span class="sc">+</span></span>
-<span id="cb3-8"><a href="#cb3-8" aria-hidden="true" tabindex="-1"></a>  <span class="fu">scale_fill_viridis_c</span>(<span class="at">na.value =</span> <span class="cn">NA</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb3-8"><a href="#cb3-8" aria-hidden="true" tabindex="-1"></a>  <span class="fu">scale_fill_gradient2</span>(<span class="st">""</span>, <span class="at">low =</span> <span class="st">"#543005"</span>, <span class="at">mid =</span> <span class="st">"white"</span>, <span class="at">high =</span> <span class="st">"#003c30"</span>, <span class="at">midpoint =</span> <span class="dv">0</span>, <span class="at">na.value =</span> <span class="st">"lightgrey"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </details>
 <div class="cell-output-display">
 <p><img src="03_bias_files/figure-html/unnamed-chunk-3-1.png" class="img-fluid" width="672"></p>
@@ -306,7 +308,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <span id="cb4-5"><a href="#cb4-5" aria-hidden="true" tabindex="-1"></a>  tidyterra<span class="sc">::</span><span class="fu">geom_spatraster</span>(<span class="at">data =</span> cordex) <span class="sc">+</span></span>
 <span id="cb4-6"><a href="#cb4-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme_bw</span>() <span class="sc">+</span></span>
 <span id="cb4-7"><a href="#cb4-7" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ggtitle</span>(<span class="st">"CORDEX vs CHIRPS"</span>, <span class="st">"Median across month"</span>) <span class="sc">+</span></span>
-<span id="cb4-8"><a href="#cb4-8" aria-hidden="true" tabindex="-1"></a>  <span class="fu">scale_fill_viridis_c</span>(<span class="at">na.value =</span> <span class="cn">NA</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb4-8"><a href="#cb4-8" aria-hidden="true" tabindex="-1"></a>  <span class="fu">scale_fill_gradient2</span>(<span class="st">""</span>, <span class="at">low =</span> <span class="st">"#543005"</span>, <span class="at">mid =</span> <span class="st">"white"</span>, <span class="at">high =</span> <span class="st">"#003c30"</span>, <span class="at">midpoint =</span> <span class="dv">0</span>, <span class="at">na.value =</span> <span class="st">"lightgrey"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </details>
 <div class="cell-output-display">
 <p><img src="03_bias_files/figure-html/unnamed-chunk-4-1.png" class="img-fluid" width="672"></p>
@@ -320,12 +322,13 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <summary>Code</summary>
 <div class="sourceCode cell-code" id="cb5"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a>cmip6 <span class="ot">&lt;-</span> <span class="fu">rast</span>(<span class="st">"results/evaluation/bias/New-Caledonia_CMIP6_chirps.nc"</span>)[[<span class="dv">1</span><span class="sc">:</span><span class="dv">12</span>]] <span class="sc">%&gt;%</span> </span>
 <span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">clamp</span>(<span class="sc">-</span><span class="dv">500</span>, <span class="dv">500</span>) <span class="sc">%&gt;%</span> </span>
-<span id="cb5-3"><a href="#cb5-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">median</span>()</span>
-<span id="cb5-4"><a href="#cb5-4" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>() <span class="sc">+</span></span>
-<span id="cb5-5"><a href="#cb5-5" aria-hidden="true" tabindex="-1"></a>  tidyterra<span class="sc">::</span><span class="fu">geom_spatraster</span>(<span class="at">data =</span> cmip6) <span class="sc">+</span></span>
-<span id="cb5-6"><a href="#cb5-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme_bw</span>() <span class="sc">+</span></span>
-<span id="cb5-7"><a href="#cb5-7" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ggtitle</span>(<span class="st">"CMIP6 vs CHIRPS"</span>, <span class="st">"Median across month"</span>) <span class="sc">+</span></span>
-<span id="cb5-8"><a href="#cb5-8" aria-hidden="true" tabindex="-1"></a>  <span class="fu">scale_fill_viridis_c</span>(<span class="at">na.value =</span> <span class="cn">NA</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb5-3"><a href="#cb5-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">median</span>() <span class="sc">%&gt;%</span> </span>
+<span id="cb5-4"><a href="#cb5-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">crop</span>(<span class="fu">c</span>(<span class="dv">163</span>, <span class="fl">168.5</span>, <span class="sc">-</span><span class="dv">23</span>, <span class="sc">-</span><span class="dv">19</span>))</span>
+<span id="cb5-5"><a href="#cb5-5" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>() <span class="sc">+</span></span>
+<span id="cb5-6"><a href="#cb5-6" aria-hidden="true" tabindex="-1"></a>  tidyterra<span class="sc">::</span><span class="fu">geom_spatraster</span>(<span class="at">data =</span> cmip6) <span class="sc">+</span></span>
+<span id="cb5-7"><a href="#cb5-7" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme_bw</span>() <span class="sc">+</span></span>
+<span id="cb5-8"><a href="#cb5-8" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ggtitle</span>(<span class="st">"CMIP6 vs CHIRPS"</span>, <span class="st">"Median across month"</span>) <span class="sc">+</span></span>
+<span id="cb5-9"><a href="#cb5-9" aria-hidden="true" tabindex="-1"></a>  <span class="fu">scale_fill_gradient2</span>(<span class="st">""</span>, <span class="at">low =</span> <span class="st">"#543005"</span>, <span class="at">mid =</span> <span class="st">"white"</span>, <span class="at">high =</span> <span class="st">"#003c30"</span>, <span class="at">midpoint =</span> <span class="dv">0</span>, <span class="at">na.value =</span> <span class="st">"lightgrey"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </details>
 <div class="cell-output-display">
 <p><img src="03_bias_files/figure-html/unnamed-chunk-5-1.png" class="img-fluid" width="672"></p>
@@ -336,12 +339,13 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <summary>Code</summary>
 <div class="sourceCode cell-code" id="cb6"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a>cordex <span class="ot">&lt;-</span> <span class="fu">rast</span>(<span class="st">"results/evaluation/bias/New-Caledonia_CORDEX_chirps.nc"</span>)[[<span class="dv">1</span><span class="sc">:</span><span class="dv">12</span>]] <span class="sc">%&gt;%</span> </span>
 <span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">clamp</span>(<span class="sc">-</span><span class="dv">500</span>, <span class="dv">500</span>) <span class="sc">%&gt;%</span> </span>
-<span id="cb6-3"><a href="#cb6-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">median</span>()</span>
-<span id="cb6-4"><a href="#cb6-4" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>() <span class="sc">+</span></span>
-<span id="cb6-5"><a href="#cb6-5" aria-hidden="true" tabindex="-1"></a>  tidyterra<span class="sc">::</span><span class="fu">geom_spatraster</span>(<span class="at">data =</span> cordex) <span class="sc">+</span></span>
-<span id="cb6-6"><a href="#cb6-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme_bw</span>() <span class="sc">+</span></span>
-<span id="cb6-7"><a href="#cb6-7" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ggtitle</span>(<span class="st">"CORDEX vs CHIRPS"</span>, <span class="st">"Median across month"</span>) <span class="sc">+</span></span>
-<span id="cb6-8"><a href="#cb6-8" aria-hidden="true" tabindex="-1"></a>  <span class="fu">scale_fill_viridis_c</span>(<span class="at">na.value =</span> <span class="cn">NA</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb6-3"><a href="#cb6-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">median</span>() <span class="sc">%&gt;%</span> </span>
+<span id="cb6-4"><a href="#cb6-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">crop</span>(<span class="fu">c</span>(<span class="dv">163</span>, <span class="fl">168.5</span>, <span class="sc">-</span><span class="dv">23</span>, <span class="sc">-</span><span class="dv">19</span>))</span>
+<span id="cb6-5"><a href="#cb6-5" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>() <span class="sc">+</span></span>
+<span id="cb6-6"><a href="#cb6-6" aria-hidden="true" tabindex="-1"></a>  tidyterra<span class="sc">::</span><span class="fu">geom_spatraster</span>(<span class="at">data =</span> cordex) <span class="sc">+</span></span>
+<span id="cb6-7"><a href="#cb6-7" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme_bw</span>() <span class="sc">+</span></span>
+<span id="cb6-8"><a href="#cb6-8" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ggtitle</span>(<span class="st">"CORDEX vs CHIRPS"</span>, <span class="st">"Median across month"</span>) <span class="sc">+</span></span>
+<span id="cb6-9"><a href="#cb6-9" aria-hidden="true" tabindex="-1"></a>  <span class="fu">scale_fill_gradient2</span>(<span class="st">""</span>, <span class="at">low =</span> <span class="st">"#543005"</span>, <span class="at">mid =</span> <span class="st">"white"</span>, <span class="at">high =</span> <span class="st">"#003c30"</span>, <span class="at">midpoint =</span> <span class="dv">0</span>, <span class="at">na.value =</span> <span class="st">"lightgrey"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </details>
 <div class="cell-output-display">
 <p><img src="03_bias_files/figure-html/unnamed-chunk-6-1.png" class="img-fluid" width="672"></p>
@@ -363,7 +367,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <span id="cb7-5"><a href="#cb7-5" aria-hidden="true" tabindex="-1"></a>  tidyterra<span class="sc">::</span><span class="fu">geom_spatraster</span>(<span class="at">data =</span> cmip6) <span class="sc">+</span></span>
 <span id="cb7-6"><a href="#cb7-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme_bw</span>() <span class="sc">+</span></span>
 <span id="cb7-7"><a href="#cb7-7" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ggtitle</span>(<span class="st">"CMIP6 vs GSHTD"</span>, <span class="st">"Median across month"</span>) <span class="sc">+</span></span>
-<span id="cb7-8"><a href="#cb7-8" aria-hidden="true" tabindex="-1"></a>  <span class="fu">scale_fill_viridis_c</span>(<span class="at">na.value =</span> <span class="cn">NA</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb7-8"><a href="#cb7-8" aria-hidden="true" tabindex="-1"></a>  <span class="fu">scale_fill_gradient2</span>(<span class="st">""</span>, <span class="at">low =</span> <span class="st">"#053061"</span>, <span class="at">mid =</span> <span class="st">"white"</span>, <span class="at">high =</span> <span class="st">"#67001f"</span>, <span class="at">midpoint =</span> <span class="dv">0</span>, <span class="at">na.value =</span> <span class="st">"lightgrey"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </details>
 <div class="cell-output-display">
 <p><img src="03_bias_files/figure-html/unnamed-chunk-7-1.png" class="img-fluid" width="672"></p>
@@ -379,7 +383,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <span id="cb8-5"><a href="#cb8-5" aria-hidden="true" tabindex="-1"></a>  tidyterra<span class="sc">::</span><span class="fu">geom_spatraster</span>(<span class="at">data =</span> cordex) <span class="sc">+</span></span>
 <span id="cb8-6"><a href="#cb8-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme_bw</span>() <span class="sc">+</span></span>
 <span id="cb8-7"><a href="#cb8-7" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ggtitle</span>(<span class="st">"CORDEX vs GSHTD"</span>, <span class="st">"Median across month"</span>) <span class="sc">+</span></span>
-<span id="cb8-8"><a href="#cb8-8" aria-hidden="true" tabindex="-1"></a>  <span class="fu">scale_fill_viridis_c</span>(<span class="at">na.value =</span> <span class="cn">NA</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb8-8"><a href="#cb8-8" aria-hidden="true" tabindex="-1"></a>  <span class="fu">scale_fill_gradient2</span>(<span class="st">""</span>, <span class="at">low =</span> <span class="st">"#053061"</span>, <span class="at">mid =</span> <span class="st">"white"</span>, <span class="at">high =</span> <span class="st">"#67001f"</span>, <span class="at">midpoint =</span> <span class="dv">0</span>, <span class="at">na.value =</span> <span class="st">"lightgrey"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </details>
 <div class="cell-output-display">
 <p><img src="03_bias_files/figure-html/unnamed-chunk-8-1.png" class="img-fluid" width="672"></p>
@@ -398,7 +402,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <span id="cb9-5"><a href="#cb9-5" aria-hidden="true" tabindex="-1"></a>  tidyterra<span class="sc">::</span><span class="fu">geom_spatraster</span>(<span class="at">data =</span> cmip6) <span class="sc">+</span></span>
 <span id="cb9-6"><a href="#cb9-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme_bw</span>() <span class="sc">+</span></span>
 <span id="cb9-7"><a href="#cb9-7" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ggtitle</span>(<span class="st">"CMIP6 vs GSHTD"</span>, <span class="st">"Median across month"</span>) <span class="sc">+</span></span>
-<span id="cb9-8"><a href="#cb9-8" aria-hidden="true" tabindex="-1"></a>  <span class="fu">scale_fill_viridis_c</span>(<span class="at">na.value =</span> <span class="cn">NA</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb9-8"><a href="#cb9-8" aria-hidden="true" tabindex="-1"></a>  <span class="fu">scale_fill_gradient2</span>(<span class="st">""</span>, <span class="at">low =</span> <span class="st">"#053061"</span>, <span class="at">mid =</span> <span class="st">"white"</span>, <span class="at">high =</span> <span class="st">"#67001f"</span>, <span class="at">midpoint =</span> <span class="dv">0</span>, <span class="at">na.value =</span> <span class="st">"lightgrey"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </details>
 <div class="cell-output-display">
 <p><img src="03_bias_files/figure-html/unnamed-chunk-9-1.png" class="img-fluid" width="672"></p>
@@ -414,7 +418,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <span id="cb10-5"><a href="#cb10-5" aria-hidden="true" tabindex="-1"></a>  tidyterra<span class="sc">::</span><span class="fu">geom_spatraster</span>(<span class="at">data =</span> cordex) <span class="sc">+</span></span>
 <span id="cb10-6"><a href="#cb10-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme_bw</span>() <span class="sc">+</span></span>
 <span id="cb10-7"><a href="#cb10-7" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ggtitle</span>(<span class="st">"CORDEX vs GSHTD"</span>, <span class="st">"Median across month"</span>) <span class="sc">+</span></span>
-<span id="cb10-8"><a href="#cb10-8" aria-hidden="true" tabindex="-1"></a>  <span class="fu">scale_fill_viridis_c</span>(<span class="at">na.value =</span> <span class="cn">NA</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb10-8"><a href="#cb10-8" aria-hidden="true" tabindex="-1"></a>  <span class="fu">scale_fill_gradient2</span>(<span class="st">""</span>, <span class="at">low =</span> <span class="st">"#053061"</span>, <span class="at">mid =</span> <span class="st">"white"</span>, <span class="at">high =</span> <span class="st">"#67001f"</span>, <span class="at">midpoint =</span> <span class="dv">0</span>, <span class="at">na.value =</span> <span class="st">"lightgrey"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </details>
 <div class="cell-output-display">
 <p><img src="03_bias_files/figure-html/unnamed-chunk-10-1.png" class="img-fluid" width="672"></p>
@@ -428,12 +432,13 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <summary>Code</summary>
 <div class="sourceCode cell-code" id="cb11"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a>cmip6 <span class="ot">&lt;-</span> <span class="fu">rast</span>(<span class="st">"results/evaluation/bias/New-Caledonia_CMIP6_gshtd.nc"</span>)[[<span class="dv">1</span><span class="sc">:</span><span class="dv">12</span>]] <span class="sc">%&gt;%</span> </span>
 <span id="cb11-2"><a href="#cb11-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">clamp</span>(<span class="sc">-</span><span class="dv">5</span>, <span class="dv">5</span>) <span class="sc">%&gt;%</span> </span>
-<span id="cb11-3"><a href="#cb11-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">median</span>()</span>
-<span id="cb11-4"><a href="#cb11-4" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>() <span class="sc">+</span></span>
-<span id="cb11-5"><a href="#cb11-5" aria-hidden="true" tabindex="-1"></a>  tidyterra<span class="sc">::</span><span class="fu">geom_spatraster</span>(<span class="at">data =</span> cmip6) <span class="sc">+</span></span>
-<span id="cb11-6"><a href="#cb11-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme_bw</span>() <span class="sc">+</span></span>
-<span id="cb11-7"><a href="#cb11-7" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ggtitle</span>(<span class="st">"CMIP6 vs GSHTD"</span>, <span class="st">"Median across month"</span>) <span class="sc">+</span></span>
-<span id="cb11-8"><a href="#cb11-8" aria-hidden="true" tabindex="-1"></a>  <span class="fu">scale_fill_viridis_c</span>(<span class="at">na.value =</span> <span class="cn">NA</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb11-3"><a href="#cb11-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">median</span>() <span class="sc">%&gt;%</span> </span>
+<span id="cb11-4"><a href="#cb11-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">crop</span>(<span class="fu">c</span>(<span class="dv">163</span>, <span class="fl">168.5</span>, <span class="sc">-</span><span class="dv">23</span>, <span class="sc">-</span><span class="dv">19</span>))</span>
+<span id="cb11-5"><a href="#cb11-5" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>() <span class="sc">+</span></span>
+<span id="cb11-6"><a href="#cb11-6" aria-hidden="true" tabindex="-1"></a>  tidyterra<span class="sc">::</span><span class="fu">geom_spatraster</span>(<span class="at">data =</span> cmip6) <span class="sc">+</span></span>
+<span id="cb11-7"><a href="#cb11-7" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme_bw</span>() <span class="sc">+</span></span>
+<span id="cb11-8"><a href="#cb11-8" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ggtitle</span>(<span class="st">"CMIP6 vs GSHTD"</span>, <span class="st">"Median across month"</span>) <span class="sc">+</span></span>
+<span id="cb11-9"><a href="#cb11-9" aria-hidden="true" tabindex="-1"></a>  <span class="fu">scale_fill_gradient2</span>(<span class="st">""</span>, <span class="at">low =</span> <span class="st">"#053061"</span>, <span class="at">mid =</span> <span class="st">"white"</span>, <span class="at">high =</span> <span class="st">"#67001f"</span>, <span class="at">midpoint =</span> <span class="dv">0</span>, <span class="at">na.value =</span> <span class="st">"lightgrey"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </details>
 <div class="cell-output-display">
 <p><img src="03_bias_files/figure-html/unnamed-chunk-11-1.png" class="img-fluid" width="672"></p>
@@ -444,12 +449,13 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <summary>Code</summary>
 <div class="sourceCode cell-code" id="cb12"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a>cordex <span class="ot">&lt;-</span> <span class="fu">rast</span>(<span class="st">"results/evaluation/bias/New-Caledonia_CORDEX_gshtd.nc"</span>)[[<span class="dv">1</span><span class="sc">:</span><span class="dv">12</span>]] <span class="sc">%&gt;%</span> </span>
 <span id="cb12-2"><a href="#cb12-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">clamp</span>(<span class="sc">-</span><span class="dv">5</span>, <span class="dv">5</span>) <span class="sc">%&gt;%</span> </span>
-<span id="cb12-3"><a href="#cb12-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">median</span>()</span>
-<span id="cb12-4"><a href="#cb12-4" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>() <span class="sc">+</span></span>
-<span id="cb12-5"><a href="#cb12-5" aria-hidden="true" tabindex="-1"></a>  tidyterra<span class="sc">::</span><span class="fu">geom_spatraster</span>(<span class="at">data =</span> cordex) <span class="sc">+</span></span>
-<span id="cb12-6"><a href="#cb12-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme_bw</span>() <span class="sc">+</span></span>
-<span id="cb12-7"><a href="#cb12-7" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ggtitle</span>(<span class="st">"CORDEX vs GSHTD"</span>, <span class="st">"Median across month"</span>) <span class="sc">+</span></span>
-<span id="cb12-8"><a href="#cb12-8" aria-hidden="true" tabindex="-1"></a>  <span class="fu">scale_fill_viridis_c</span>(<span class="at">na.value =</span> <span class="cn">NA</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb12-3"><a href="#cb12-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">median</span>() <span class="sc">%&gt;%</span> </span>
+<span id="cb12-4"><a href="#cb12-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">crop</span>(<span class="fu">c</span>(<span class="dv">163</span>, <span class="fl">168.5</span>, <span class="sc">-</span><span class="dv">23</span>, <span class="sc">-</span><span class="dv">19</span>))</span>
+<span id="cb12-5"><a href="#cb12-5" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>() <span class="sc">+</span></span>
+<span id="cb12-6"><a href="#cb12-6" aria-hidden="true" tabindex="-1"></a>  tidyterra<span class="sc">::</span><span class="fu">geom_spatraster</span>(<span class="at">data =</span> cordex) <span class="sc">+</span></span>
+<span id="cb12-7"><a href="#cb12-7" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme_bw</span>() <span class="sc">+</span></span>
+<span id="cb12-8"><a href="#cb12-8" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ggtitle</span>(<span class="st">"CORDEX vs GSHTD"</span>, <span class="st">"Median across month"</span>) <span class="sc">+</span></span>
+<span id="cb12-9"><a href="#cb12-9" aria-hidden="true" tabindex="-1"></a>  <span class="fu">scale_fill_gradient2</span>(<span class="st">""</span>, <span class="at">low =</span> <span class="st">"#053061"</span>, <span class="at">mid =</span> <span class="st">"white"</span>, <span class="at">high =</span> <span class="st">"#67001f"</span>, <span class="at">midpoint =</span> <span class="dv">0</span>, <span class="at">na.value =</span> <span class="st">"lightgrey"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </details>
 <div class="cell-output-display">
 <p><img src="03_bias_files/figure-html/unnamed-chunk-12-1.png" class="img-fluid" width="672"></p>

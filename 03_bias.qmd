@@ -19,17 +19,19 @@ ggplot() +
   tidyterra::geom_spatraster(data = cmip6) +
   theme_bw() +
   ggtitle("CMIP6 vs CHIRPS", "Median across month") +
-  scale_fill_viridis_c(na.value = NA)
+  scale_fill_gradient2("", low = "#543005", mid = "white", high = "#003c30", midpoint = 0, na.value = "lightgrey")
 ```
 
 ```{r}
 #| message: false
-cordex <- rast("results/evaluation/bias/Côte-d'Ivoire_CORDEX_chirps.nc")[[1:12]] %>% median()
+cordex <- rast("results/evaluation/bias/Côte-d'Ivoire_CORDEX_chirps.nc")[[1:12]] %>% 
+  clamp(-500, 500) %>% 
+  median()
 ggplot() +
   tidyterra::geom_spatraster(data = cordex) +
   theme_bw() +
   ggtitle("CORDEX vs CHIRPS", "Median across month") +
-  scale_fill_viridis_c(na.value = NA)
+  scale_fill_gradient2("", low = "#543005", mid = "white", high = "#003c30", midpoint = 0, na.value = "lightgrey")
 ```
 
 ### FG
@@ -43,7 +45,7 @@ ggplot() +
   tidyterra::geom_spatraster(data = cmip6) +
   theme_bw() +
   ggtitle("CMIP6 vs CHIRPS", "Median across month") +
-  scale_fill_viridis_c(na.value = NA)
+  scale_fill_gradient2("", low = "#543005", mid = "white", high = "#003c30", midpoint = 0, na.value = "lightgrey")
 ```
 
 ```{r}
@@ -55,7 +57,7 @@ ggplot() +
   tidyterra::geom_spatraster(data = cordex) +
   theme_bw() +
   ggtitle("CORDEX vs CHIRPS", "Median across month") +
-  scale_fill_viridis_c(na.value = NA)
+  scale_fill_gradient2("", low = "#543005", mid = "white", high = "#003c30", midpoint = 0, na.value = "lightgrey")
 ```
 
 ### NC
@@ -64,24 +66,26 @@ ggplot() +
 #| message: false
 cmip6 <- rast("results/evaluation/bias/New-Caledonia_CMIP6_chirps.nc")[[1:12]] %>% 
   clamp(-500, 500) %>% 
-  median()
+  median() %>% 
+  crop(c(163, 168.5, -23, -19))
 ggplot() +
   tidyterra::geom_spatraster(data = cmip6) +
   theme_bw() +
   ggtitle("CMIP6 vs CHIRPS", "Median across month") +
-  scale_fill_viridis_c(na.value = NA)
+  scale_fill_gradient2("", low = "#543005", mid = "white", high = "#003c30", midpoint = 0, na.value = "lightgrey")
 ```
 
 ```{r}
 #| message: false
 cordex <- rast("results/evaluation/bias/New-Caledonia_CORDEX_chirps.nc")[[1:12]] %>% 
   clamp(-500, 500) %>% 
-  median()
+  median() %>% 
+  crop(c(163, 168.5, -23, -19))
 ggplot() +
   tidyterra::geom_spatraster(data = cordex) +
   theme_bw() +
   ggtitle("CORDEX vs CHIRPS", "Median across month") +
-  scale_fill_viridis_c(na.value = NA)
+  scale_fill_gradient2("", low = "#543005", mid = "white", high = "#003c30", midpoint = 0, na.value = "lightgrey")
 ```
 
 ## Temperature
@@ -97,7 +101,7 @@ ggplot() +
   tidyterra::geom_spatraster(data = cmip6) +
   theme_bw() +
   ggtitle("CMIP6 vs GSHTD", "Median across month") +
-  scale_fill_viridis_c(na.value = NA)
+  scale_fill_gradient2("", low = "#053061", mid = "white", high = "#67001f", midpoint = 0, na.value = "lightgrey")
 ```
 
 ```{r}
@@ -109,7 +113,7 @@ ggplot() +
   tidyterra::geom_spatraster(data = cordex) +
   theme_bw() +
   ggtitle("CORDEX vs GSHTD", "Median across month") +
-  scale_fill_viridis_c(na.value = NA)
+  scale_fill_gradient2("", low = "#053061", mid = "white", high = "#67001f", midpoint = 0, na.value = "lightgrey")
 ```
 
 ### FG
@@ -123,7 +127,7 @@ ggplot() +
   tidyterra::geom_spatraster(data = cmip6) +
   theme_bw() +
   ggtitle("CMIP6 vs GSHTD", "Median across month") +
-  scale_fill_viridis_c(na.value = NA)
+  scale_fill_gradient2("", low = "#053061", mid = "white", high = "#67001f", midpoint = 0, na.value = "lightgrey")
 ```
 
 ```{r}
@@ -135,7 +139,7 @@ ggplot() +
   tidyterra::geom_spatraster(data = cordex) +
   theme_bw() +
   ggtitle("CORDEX vs GSHTD", "Median across month") +
-  scale_fill_viridis_c(na.value = NA)
+  scale_fill_gradient2("", low = "#053061", mid = "white", high = "#67001f", midpoint = 0, na.value = "lightgrey")
 ```
 
 ### NC
@@ -144,22 +148,24 @@ ggplot() +
 #| message: false
 cmip6 <- rast("results/evaluation/bias/New-Caledonia_CMIP6_gshtd.nc")[[1:12]] %>% 
   clamp(-5, 5) %>% 
-  median()
+  median() %>% 
+  crop(c(163, 168.5, -23, -19))
 ggplot() +
   tidyterra::geom_spatraster(data = cmip6) +
   theme_bw() +
   ggtitle("CMIP6 vs GSHTD", "Median across month") +
-  scale_fill_viridis_c(na.value = NA)
+  scale_fill_gradient2("", low = "#053061", mid = "white", high = "#67001f", midpoint = 0, na.value = "lightgrey")
 ```
 
 ```{r}
 #| message: false
 cordex <- rast("results/evaluation/bias/New-Caledonia_CORDEX_gshtd.nc")[[1:12]] %>% 
   clamp(-5, 5) %>% 
-  median()
+  median() %>% 
+  crop(c(163, 168.5, -23, -19))
 ggplot() +
   tidyterra::geom_spatraster(data = cordex) +
   theme_bw() +
   ggtitle("CORDEX vs GSHTD", "Median across month") +
-  scale_fill_viridis_c(na.value = NA)
+  scale_fill_gradient2("", low = "#053061", mid = "white", high = "#67001f", midpoint = 0, na.value = "lightgrey")
 ```
