@@ -14,7 +14,9 @@ $$
 
 Surface downward shortwave radiation was derived from CHELSA 2 historical climatologies and assumed constant.
 
-```{r prep}
+## Forests
+
+```{r preptmf}
 #| eval: false
 index <- data.frame(
   file = list.files("results/tmf/nc/", full.names = F),
@@ -39,20 +41,23 @@ for(r in 1:nrow(files))
                                 files$project[r], "_",
                                 files$experiment[r], ".tif"),
               overwrite = T)
+# issue with 
+# New-Caledonia_CORDEX_AUS-22_CLMcom-HZG_MPI-M-MPI-ESM-LR_rcp26_r1i1p1_CCLM5-0-15_v1_chelsa2_monthly-means_2071-2100_2006-2019_1980-2005_bc.nc:tmf
+# New-Caledonia_CORDEX_AUS-22_CLMcom-HZG_MPI-M-MPI-ESM-LR_rcp85_r1i1p1_CCLM5-0-15_v1_chelsa2_monthly-means_2071-2100_2006-2019_1980-2005_bc.nc:tmf
 ```
 
-Surprisingly, CORDEX projections systematically predicted reduced TMF climatic distribution for both experiment 2.6 and 8.5 compared to CMIP6, with more forest near the coast and in the west following the east to west rainfall gradient. However, in both CORDEX and CMIP6 and both experiments at least one projection was always predicting TMF in every cell. The difference between the two experiments was also a reduced TMF distribution under higher temperature of 8.5, with more forest near the coast and in the west following the east to west rainfall gradient.
+<!-- Surprisingly, CORDEX projections systematically predicted reduced TMF climatic distribution for both experiment 2.6 and 8.5 compared to CMIP6, with more forest near the coast and in the west following the east to west rainfall gradient. However, in both CORDEX and CMIP6 and both experiments at least one projection was always predicting TMF in every cell. The difference between the two experiments was also a reduced TMF distribution under higher temperature of 8.5, with more forest near the coast and in the west following the east to west rainfall gradient. -->
 
-```{r fg}
+```{r tmffg}
 #| message: false
 #| warning: false
 #| fig-cap: "Tropical moist forest ditribution predicted in French Guiana by the end of the century for CMIP6 and CORDEX model with experiment 2.6 and 8.5"
 fg <- rast(list.files("outputs/tmf/", pattern = "Guiana", full.names = T))
 names(fg) <- c("CMIP6_2.6", "CMIP6_8.5", "CORDEX_2.6", "CORDEX_8.5")
-as.data.frame(fg, xy = T) %>% 
-  mutate_at(c("CMIP6_2.6", "CMIP6_8.5", "CORDEX_2.6", "CORDEX_8.5"), ~./max(abs(.))) %>% 
+as.data.frame(fg, xy = T, na.rm = F) %>% 
+  mutate_at(c("CMIP6_2.6", "CMIP6_8.5", "CORDEX_2.6", "CORDEX_8.5"), 
+            ~./max(abs(.), na.rm = T)) %>% 
   gather(projection, tmf, -x, -y) %>% 
-  filter(tmf != 0) %>% 
   separate(projection, c("project", "experiment"), "_") %>% 
   mutate(project = factor(project, levels = c("CMIP6", "CORDEX", "CMIP6-CORDEX"))) %>% 
   ggplot(aes(x, y, fill = tmf)) +
@@ -62,23 +67,25 @@ as.data.frame(fg, xy = T) %>%
   theme_bw() +
   theme(axis.title = element_blank(), 
         axis.ticks = element_blank(),
-        axis.text = element_blank()) +
+        axis.text = element_blank(), 
+        panel.border = element_blank(), panel.grid = element_blank(),
+        panel.background = element_rect(fill = "black")) +
   scale_fill_gradient2("", low = "#e40400", mid = "white", high = "#48712d", 
-                       midpoint = 0, na.value = "lightgrey")
+                       midpoint = 0, na.value = "black", limits = c(-1, 1))
 ```
 
-CORDEX simulations predicted less TMF in the central and south west of Ivory Coast but more near the coast , especially in scenario 2.6. **I need to explore the drivers, determining variables tas, pet, pr to be added. I also need to explore the weird CORDEX patterns in the North.**
+<!-- CORDEX simulations predicted less TMF in the central and south west of Ivory Coast but more near the coast , especially in scenario 2.6. **I need to explore the drivers, determining variables tas, pet, pr to be added. I also need to explore the weird CORDEX patterns in the North.** -->
 
-```{r ci}
+```{r tmfci}
 #| message: false
 #| warning: false
 #| fig-cap: "Tropical moist forest ditribution predicted in Ivory Coast by the end of the century for CMIP6 and CORDEX model with experiment 2.6 and 8.5"
 ci <- rast(list.files("outputs/tmf/", pattern = "Ivoire", full.names = T))
 names(ci) <- c("CMIP6_2.6", "CMIP6_8.5", "CORDEX_2.6", "CORDEX_8.5")
-as.data.frame(ci, xy = T) %>% 
-  mutate_at(c("CMIP6_2.6", "CMIP6_8.5", "CORDEX_2.6", "CORDEX_8.5"), ~./max(abs(.))) %>% 
+as.data.frame(ci, xy = T, na.rm = F) %>% 
+  mutate_at(c("CMIP6_2.6", "CMIP6_8.5", "CORDEX_2.6", "CORDEX_8.5"), 
+            ~./max(abs(.), na.rm = T)) %>% 
   gather(projection, tmf, -x, -y) %>% 
-  filter(tmf != 0) %>% 
   separate(projection, c("project", "experiment"), "_") %>% 
   mutate(project = factor(project, levels = c("CMIP6", "CORDEX", "CMIP6-CORDEX"))) %>% 
   ggplot(aes(x, y, fill = tmf)) +
@@ -88,38 +95,45 @@ as.data.frame(ci, xy = T) %>%
   theme_bw() +
   theme(axis.title = element_blank(), 
         axis.ticks = element_blank(),
-        axis.text = element_blank()) +
+        axis.text = element_blank(), 
+        panel.border = element_blank(), panel.grid = element_blank(),
+        panel.background = element_rect(fill = "black")) +
   scale_fill_gradient2("", low = "#e40400", mid = "white", high = "#48712d", 
-                       midpoint = 0, na.value = "lightgrey")
+                       midpoint = 0, na.value = "black", limits = c(-1, 1))
 ```
 
-CORDEX and CMIP6 major projected distributions of TMF were in agreement in New Caledonia. Only less models projected TMF in the south east of the Grande Terre in CORDEX while more models projected TMF on the west coast in CORDEX, especially in the central west coast in experiment 8.5.
+<!-- CORDEX and CMIP6 major projected distributions of TMF were in agreement in New Caledonia. Only less models projected TMF in the south east of the Grande Terre in CORDEX while more models projected TMF on the west coast in CORDEX, especially in the central west coast in experiment 8.5. -->
 
-```{r nc}
+```{r tmfnc}
 #| message: false
 #| warning: false
 #| fig-cap: "Tropical moist forest ditribution predicted in New Caledonia by the end of the century for CMIP6 and CORDEX model with experiment 2.6 and 8.5"
 nc <- rast(list.files("outputs/tmf/", pattern = "Caledonia", full.names = T))
-# names(nc) <- c("CMIP6_2.6", "CMIP6_8.5", "CORDEX_2.6", "CORDEX_8.5")
-names(nc) <- c("CMIP6_2.6", "CMIP6_8.5")
-as.data.frame(nc, xy = T) %>% 
-  # mutate_at(c("CMIP6_2.6", "CMIP6_8.5", "CORDEX_2.6", "CORDEX_8.5"), ~./max(.)) %>% 
-  mutate_at(c("CMIP6_2.6", "CMIP6_8.5"), ~./max(abs(.))) %>% 
-  # mutate("CMIP6-CORDEX_2.6" = CMIP6_2.6 - CORDEX_2.6) %>% 
-  # mutate("CMIP6-CORDEX_8.5" = CMIP6_8.5 - CORDEX_8.5) %>% 
+names(nc) <- c("CMIP6_2.6", "CMIP6_8.5", "CORDEX_2.6", "CORDEX_8.5")
+as.data.frame(nc, xy = T, na.rm = F) %>% 
+  mutate_at(c("CMIP6_2.6", "CMIP6_8.5", "CORDEX_2.6", "CORDEX_8.5"), 
+            ~./max(abs(.), na.rm = T)) %>% 
   gather(projection, tmf, -x, -y) %>% 
-  filter(tmf != 0) %>% 
-  # filter(x > 163, x < 168.5) %>% 
   separate(projection, c("project", "experiment"), "_") %>% 
   mutate(project = factor(project, levels = c("CMIP6", "CORDEX", "CMIP6-CORDEX"))) %>% 
-  ggplot(aes(x, y, fill = tmf)) +
+  ggplot(aes(x, -y, fill = tmf)) +
   geom_raster() +
   coord_equal() +
   facet_grid(experiment ~ project) +
   theme_bw() +
   theme(axis.title = element_blank(), 
         axis.ticks = element_blank(),
-        axis.text = element_blank()) +
+        axis.text = element_blank(), 
+        panel.border = element_blank(), panel.grid = element_blank(),
+        panel.background = element_rect(fill = "black")) +
   scale_fill_gradient2("", low = "#e40400", mid = "white", high = "#48712d", 
-                       midpoint = 0, na.value = "lightgrey")
+                       midpoint = 0, na.value = "black", limits = c(-1, 1))
 ```
+
+## Temperature
+
+## Precipitation
+
+## Potential evaportanspiration
+
+## Water balance

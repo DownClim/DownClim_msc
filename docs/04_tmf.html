@@ -206,7 +206,17 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <div id="quarto-sidebar-glass" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar,#quarto-sidebar-glass"></div>
 <!-- margin-sidebar -->
     <div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
-        
+        <nav id="TOC" role="doc-toc" class="toc-active">
+    <h2 id="toc-title">Table of contents</h2>
+   
+  <ul>
+  <li><a href="#forests" id="toc-forests" class="nav-link active" data-scroll-target="#forests">Forests</a></li>
+  <li><a href="#temperature" id="toc-temperature" class="nav-link" data-scroll-target="#temperature">Temperature</a></li>
+  <li><a href="#precipitation" id="toc-precipitation" class="nav-link" data-scroll-target="#precipitation">Precipitation</a></li>
+  <li><a href="#potential-evaportanspiration" id="toc-potential-evaportanspiration" class="nav-link" data-scroll-target="#potential-evaportanspiration">Potential evaportanspiration</a></li>
+  <li><a href="#water-balance" id="toc-water-balance" class="nav-link" data-scroll-target="#water-balance">Water balance</a></li>
+  </ul>
+</nav>
     </div>
 <!-- main -->
 <main class="content" id="quarto-document-content">
@@ -233,6 +243,8 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 pet = 0.0023 \times rsds \times (tas + 17.8) \times (tasmax - tasmin)^{0.5}
 \]</span></p>
 <p>Surface downward shortwave radiation was derived from CHELSA 2 historical climatologies and assumed constant.</p>
+<section id="forests" class="level2">
+<h2 class="anchored" data-anchor-id="forests">Forests</h2>
 <div class="cell">
 <details>
 <summary>Code</summary>
@@ -258,19 +270,22 @@ pet = 0.0023 \times rsds \times (tas + 17.8) \times (tasmax - tasmin)^{0.5}
 <span id="cb1-20"><a href="#cb1-20" aria-hidden="true" tabindex="-1"></a>                                files<span class="sc">$</span>country[r], <span class="st">"_"</span>,</span>
 <span id="cb1-21"><a href="#cb1-21" aria-hidden="true" tabindex="-1"></a>                                files<span class="sc">$</span>project[r], <span class="st">"_"</span>,</span>
 <span id="cb1-22"><a href="#cb1-22" aria-hidden="true" tabindex="-1"></a>                                files<span class="sc">$</span>experiment[r], <span class="st">".tif"</span>),</span>
-<span id="cb1-23"><a href="#cb1-23" aria-hidden="true" tabindex="-1"></a>              <span class="at">overwrite =</span> T)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb1-23"><a href="#cb1-23" aria-hidden="true" tabindex="-1"></a>              <span class="at">overwrite =</span> T)</span>
+<span id="cb1-24"><a href="#cb1-24" aria-hidden="true" tabindex="-1"></a><span class="co"># issue with </span></span>
+<span id="cb1-25"><a href="#cb1-25" aria-hidden="true" tabindex="-1"></a><span class="co"># New-Caledonia_CORDEX_AUS-22_CLMcom-HZG_MPI-M-MPI-ESM-LR_rcp26_r1i1p1_CCLM5-0-15_v1_chelsa2_monthly-means_2071-2100_2006-2019_1980-2005_bc.nc:tmf</span></span>
+<span id="cb1-26"><a href="#cb1-26" aria-hidden="true" tabindex="-1"></a><span class="co"># New-Caledonia_CORDEX_AUS-22_CLMcom-HZG_MPI-M-MPI-ESM-LR_rcp85_r1i1p1_CCLM5-0-15_v1_chelsa2_monthly-means_2071-2100_2006-2019_1980-2005_bc.nc:tmf</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </details>
 </div>
-<p>Surprisingly, CORDEX projections systematically predicted reduced TMF climatic distribution for both experiment 2.6 and 8.5 compared to CMIP6, with more forest near the coast and in the west following the east to west rainfall gradient. However, in both CORDEX and CMIP6 and both experiments at least one projection was always predicting TMF in every cell. The difference between the two experiments was also a reduced TMF distribution under higher temperature of 8.5, with more forest near the coast and in the west following the east to west rainfall gradient.</p>
+<!-- Surprisingly, CORDEX projections systematically predicted reduced TMF climatic distribution for both experiment 2.6 and 8.5 compared to CMIP6, with more forest near the coast and in the west following the east to west rainfall gradient. However, in both CORDEX and CMIP6 and both experiments at least one projection was always predicting TMF in every cell. The difference between the two experiments was also a reduced TMF distribution under higher temperature of 8.5, with more forest near the coast and in the west following the east to west rainfall gradient. -->
 <div class="cell">
 <details>
 <summary>Code</summary>
 <div class="sourceCode cell-code" id="cb2"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a>fg <span class="ot">&lt;-</span> <span class="fu">rast</span>(<span class="fu">list.files</span>(<span class="st">"outputs/tmf/"</span>, <span class="at">pattern =</span> <span class="st">"Guiana"</span>, <span class="at">full.names =</span> T))</span>
 <span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a><span class="fu">names</span>(fg) <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="st">"CMIP6_2.6"</span>, <span class="st">"CMIP6_8.5"</span>, <span class="st">"CORDEX_2.6"</span>, <span class="st">"CORDEX_8.5"</span>)</span>
-<span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a><span class="fu">as.data.frame</span>(fg, <span class="at">xy =</span> T) <span class="sc">%&gt;%</span> </span>
-<span id="cb2-4"><a href="#cb2-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate_at</span>(<span class="fu">c</span>(<span class="st">"CMIP6_2.6"</span>, <span class="st">"CMIP6_8.5"</span>, <span class="st">"CORDEX_2.6"</span>, <span class="st">"CORDEX_8.5"</span>), <span class="sc">~</span>.<span class="sc">/</span><span class="fu">max</span>(<span class="fu">abs</span>(.))) <span class="sc">%&gt;%</span> </span>
-<span id="cb2-5"><a href="#cb2-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">gather</span>(projection, tmf, <span class="sc">-</span>x, <span class="sc">-</span>y) <span class="sc">%&gt;%</span> </span>
-<span id="cb2-6"><a href="#cb2-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(tmf <span class="sc">!=</span> <span class="dv">0</span>) <span class="sc">%&gt;%</span> </span>
+<span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a><span class="fu">as.data.frame</span>(fg, <span class="at">xy =</span> T, <span class="at">na.rm =</span> F) <span class="sc">%&gt;%</span> </span>
+<span id="cb2-4"><a href="#cb2-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate_at</span>(<span class="fu">c</span>(<span class="st">"CMIP6_2.6"</span>, <span class="st">"CMIP6_8.5"</span>, <span class="st">"CORDEX_2.6"</span>, <span class="st">"CORDEX_8.5"</span>), </span>
+<span id="cb2-5"><a href="#cb2-5" aria-hidden="true" tabindex="-1"></a>            <span class="sc">~</span>.<span class="sc">/</span><span class="fu">max</span>(<span class="fu">abs</span>(.), <span class="at">na.rm =</span> T)) <span class="sc">%&gt;%</span> </span>
+<span id="cb2-6"><a href="#cb2-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">gather</span>(projection, tmf, <span class="sc">-</span>x, <span class="sc">-</span>y) <span class="sc">%&gt;%</span> </span>
 <span id="cb2-7"><a href="#cb2-7" aria-hidden="true" tabindex="-1"></a>  <span class="fu">separate</span>(projection, <span class="fu">c</span>(<span class="st">"project"</span>, <span class="st">"experiment"</span>), <span class="st">"_"</span>) <span class="sc">%&gt;%</span> </span>
 <span id="cb2-8"><a href="#cb2-8" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">project =</span> <span class="fu">factor</span>(project, <span class="at">levels =</span> <span class="fu">c</span>(<span class="st">"CMIP6"</span>, <span class="st">"CORDEX"</span>, <span class="st">"CMIP6-CORDEX"</span>))) <span class="sc">%&gt;%</span> </span>
 <span id="cb2-9"><a href="#cb2-9" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ggplot</span>(<span class="fu">aes</span>(x, y, <span class="at">fill =</span> tmf)) <span class="sc">+</span></span>
@@ -280,29 +295,31 @@ pet = 0.0023 \times rsds \times (tas + 17.8) \times (tasmax - tasmin)^{0.5}
 <span id="cb2-13"><a href="#cb2-13" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme_bw</span>() <span class="sc">+</span></span>
 <span id="cb2-14"><a href="#cb2-14" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme</span>(<span class="at">axis.title =</span> <span class="fu">element_blank</span>(), </span>
 <span id="cb2-15"><a href="#cb2-15" aria-hidden="true" tabindex="-1"></a>        <span class="at">axis.ticks =</span> <span class="fu">element_blank</span>(),</span>
-<span id="cb2-16"><a href="#cb2-16" aria-hidden="true" tabindex="-1"></a>        <span class="at">axis.text =</span> <span class="fu">element_blank</span>()) <span class="sc">+</span></span>
-<span id="cb2-17"><a href="#cb2-17" aria-hidden="true" tabindex="-1"></a>  <span class="fu">scale_fill_gradient2</span>(<span class="st">""</span>, <span class="at">low =</span> <span class="st">"#e40400"</span>, <span class="at">mid =</span> <span class="st">"white"</span>, <span class="at">high =</span> <span class="st">"#48712d"</span>, </span>
-<span id="cb2-18"><a href="#cb2-18" aria-hidden="true" tabindex="-1"></a>                       <span class="at">midpoint =</span> <span class="dv">0</span>, <span class="at">na.value =</span> <span class="st">"lightgrey"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb2-16"><a href="#cb2-16" aria-hidden="true" tabindex="-1"></a>        <span class="at">axis.text =</span> <span class="fu">element_blank</span>(), </span>
+<span id="cb2-17"><a href="#cb2-17" aria-hidden="true" tabindex="-1"></a>        <span class="at">panel.border =</span> <span class="fu">element_blank</span>(), <span class="at">panel.grid =</span> <span class="fu">element_blank</span>(),</span>
+<span id="cb2-18"><a href="#cb2-18" aria-hidden="true" tabindex="-1"></a>        <span class="at">panel.background =</span> <span class="fu">element_rect</span>(<span class="at">fill =</span> <span class="st">"black"</span>)) <span class="sc">+</span></span>
+<span id="cb2-19"><a href="#cb2-19" aria-hidden="true" tabindex="-1"></a>  <span class="fu">scale_fill_gradient2</span>(<span class="st">""</span>, <span class="at">low =</span> <span class="st">"#e40400"</span>, <span class="at">mid =</span> <span class="st">"white"</span>, <span class="at">high =</span> <span class="st">"#48712d"</span>, </span>
+<span id="cb2-20"><a href="#cb2-20" aria-hidden="true" tabindex="-1"></a>                       <span class="at">midpoint =</span> <span class="dv">0</span>, <span class="at">na.value =</span> <span class="st">"black"</span>, <span class="at">limits =</span> <span class="fu">c</span>(<span class="sc">-</span><span class="dv">1</span>, <span class="dv">1</span>))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </details>
 <div class="cell-output-display">
 <div class="quarto-figure quarto-figure-center">
 <figure class="figure">
-<p><img src="04_tmf_files/figure-html/fg-1.png" class="img-fluid figure-img" width="672"></p>
+<p><img src="04_tmf_files/figure-html/tmffg-1.png" class="img-fluid figure-img" width="672"></p>
 <figcaption class="figure-caption">Tropical moist forest ditribution predicted in French Guiana by the end of the century for CMIP6 and CORDEX model with experiment 2.6 and 8.5</figcaption>
 </figure>
 </div>
 </div>
 </div>
-<p>CORDEX simulations predicted less TMF in the central and south west of Ivory Coast but more near the coast , especially in scenario 2.6. <strong>I need to explore the drivers, determining variables tas, pet, pr to be added. I also need to explore the weird CORDEX patterns in the North.</strong></p>
+<!-- CORDEX simulations predicted less TMF in the central and south west of Ivory Coast but more near the coast , especially in scenario 2.6. **I need to explore the drivers, determining variables tas, pet, pr to be added. I also need to explore the weird CORDEX patterns in the North.** -->
 <div class="cell">
 <details>
 <summary>Code</summary>
 <div class="sourceCode cell-code" id="cb3"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a>ci <span class="ot">&lt;-</span> <span class="fu">rast</span>(<span class="fu">list.files</span>(<span class="st">"outputs/tmf/"</span>, <span class="at">pattern =</span> <span class="st">"Ivoire"</span>, <span class="at">full.names =</span> T))</span>
 <span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a><span class="fu">names</span>(ci) <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="st">"CMIP6_2.6"</span>, <span class="st">"CMIP6_8.5"</span>, <span class="st">"CORDEX_2.6"</span>, <span class="st">"CORDEX_8.5"</span>)</span>
-<span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a><span class="fu">as.data.frame</span>(ci, <span class="at">xy =</span> T) <span class="sc">%&gt;%</span> </span>
-<span id="cb3-4"><a href="#cb3-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate_at</span>(<span class="fu">c</span>(<span class="st">"CMIP6_2.6"</span>, <span class="st">"CMIP6_8.5"</span>, <span class="st">"CORDEX_2.6"</span>, <span class="st">"CORDEX_8.5"</span>), <span class="sc">~</span>.<span class="sc">/</span><span class="fu">max</span>(<span class="fu">abs</span>(.))) <span class="sc">%&gt;%</span> </span>
-<span id="cb3-5"><a href="#cb3-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">gather</span>(projection, tmf, <span class="sc">-</span>x, <span class="sc">-</span>y) <span class="sc">%&gt;%</span> </span>
-<span id="cb3-6"><a href="#cb3-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(tmf <span class="sc">!=</span> <span class="dv">0</span>) <span class="sc">%&gt;%</span> </span>
+<span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a><span class="fu">as.data.frame</span>(ci, <span class="at">xy =</span> T, <span class="at">na.rm =</span> F) <span class="sc">%&gt;%</span> </span>
+<span id="cb3-4"><a href="#cb3-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate_at</span>(<span class="fu">c</span>(<span class="st">"CMIP6_2.6"</span>, <span class="st">"CMIP6_8.5"</span>, <span class="st">"CORDEX_2.6"</span>, <span class="st">"CORDEX_8.5"</span>), </span>
+<span id="cb3-5"><a href="#cb3-5" aria-hidden="true" tabindex="-1"></a>            <span class="sc">~</span>.<span class="sc">/</span><span class="fu">max</span>(<span class="fu">abs</span>(.), <span class="at">na.rm =</span> T)) <span class="sc">%&gt;%</span> </span>
+<span id="cb3-6"><a href="#cb3-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">gather</span>(projection, tmf, <span class="sc">-</span>x, <span class="sc">-</span>y) <span class="sc">%&gt;%</span> </span>
 <span id="cb3-7"><a href="#cb3-7" aria-hidden="true" tabindex="-1"></a>  <span class="fu">separate</span>(projection, <span class="fu">c</span>(<span class="st">"project"</span>, <span class="st">"experiment"</span>), <span class="st">"_"</span>) <span class="sc">%&gt;%</span> </span>
 <span id="cb3-8"><a href="#cb3-8" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">project =</span> <span class="fu">factor</span>(project, <span class="at">levels =</span> <span class="fu">c</span>(<span class="st">"CMIP6"</span>, <span class="st">"CORDEX"</span>, <span class="st">"CMIP6-CORDEX"</span>))) <span class="sc">%&gt;%</span> </span>
 <span id="cb3-9"><a href="#cb3-9" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ggplot</span>(<span class="fu">aes</span>(x, y, <span class="at">fill =</span> tmf)) <span class="sc">+</span></span>
@@ -312,58 +329,70 @@ pet = 0.0023 \times rsds \times (tas + 17.8) \times (tasmax - tasmin)^{0.5}
 <span id="cb3-13"><a href="#cb3-13" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme_bw</span>() <span class="sc">+</span></span>
 <span id="cb3-14"><a href="#cb3-14" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme</span>(<span class="at">axis.title =</span> <span class="fu">element_blank</span>(), </span>
 <span id="cb3-15"><a href="#cb3-15" aria-hidden="true" tabindex="-1"></a>        <span class="at">axis.ticks =</span> <span class="fu">element_blank</span>(),</span>
-<span id="cb3-16"><a href="#cb3-16" aria-hidden="true" tabindex="-1"></a>        <span class="at">axis.text =</span> <span class="fu">element_blank</span>()) <span class="sc">+</span></span>
-<span id="cb3-17"><a href="#cb3-17" aria-hidden="true" tabindex="-1"></a>  <span class="fu">scale_fill_gradient2</span>(<span class="st">""</span>, <span class="at">low =</span> <span class="st">"#e40400"</span>, <span class="at">mid =</span> <span class="st">"white"</span>, <span class="at">high =</span> <span class="st">"#48712d"</span>, </span>
-<span id="cb3-18"><a href="#cb3-18" aria-hidden="true" tabindex="-1"></a>                       <span class="at">midpoint =</span> <span class="dv">0</span>, <span class="at">na.value =</span> <span class="st">"lightgrey"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb3-16"><a href="#cb3-16" aria-hidden="true" tabindex="-1"></a>        <span class="at">axis.text =</span> <span class="fu">element_blank</span>(), </span>
+<span id="cb3-17"><a href="#cb3-17" aria-hidden="true" tabindex="-1"></a>        <span class="at">panel.border =</span> <span class="fu">element_blank</span>(), <span class="at">panel.grid =</span> <span class="fu">element_blank</span>(),</span>
+<span id="cb3-18"><a href="#cb3-18" aria-hidden="true" tabindex="-1"></a>        <span class="at">panel.background =</span> <span class="fu">element_rect</span>(<span class="at">fill =</span> <span class="st">"black"</span>)) <span class="sc">+</span></span>
+<span id="cb3-19"><a href="#cb3-19" aria-hidden="true" tabindex="-1"></a>  <span class="fu">scale_fill_gradient2</span>(<span class="st">""</span>, <span class="at">low =</span> <span class="st">"#e40400"</span>, <span class="at">mid =</span> <span class="st">"white"</span>, <span class="at">high =</span> <span class="st">"#48712d"</span>, </span>
+<span id="cb3-20"><a href="#cb3-20" aria-hidden="true" tabindex="-1"></a>                       <span class="at">midpoint =</span> <span class="dv">0</span>, <span class="at">na.value =</span> <span class="st">"black"</span>, <span class="at">limits =</span> <span class="fu">c</span>(<span class="sc">-</span><span class="dv">1</span>, <span class="dv">1</span>))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </details>
 <div class="cell-output-display">
 <div class="quarto-figure quarto-figure-center">
 <figure class="figure">
-<p><img src="04_tmf_files/figure-html/ci-1.png" class="img-fluid figure-img" width="672"></p>
+<p><img src="04_tmf_files/figure-html/tmfci-1.png" class="img-fluid figure-img" width="672"></p>
 <figcaption class="figure-caption">Tropical moist forest ditribution predicted in Ivory Coast by the end of the century for CMIP6 and CORDEX model with experiment 2.6 and 8.5</figcaption>
 </figure>
 </div>
 </div>
 </div>
-<p>CORDEX and CMIP6 major projected distributions of TMF were in agreement in New Caledonia. Only less models projected TMF in the south east of the Grande Terre in CORDEX while more models projected TMF on the west coast in CORDEX, especially in the central west coast in experiment 8.5.</p>
+<!-- CORDEX and CMIP6 major projected distributions of TMF were in agreement in New Caledonia. Only less models projected TMF in the south east of the Grande Terre in CORDEX while more models projected TMF on the west coast in CORDEX, especially in the central west coast in experiment 8.5. -->
 <div class="cell">
 <details>
 <summary>Code</summary>
 <div class="sourceCode cell-code" id="cb4"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a>nc <span class="ot">&lt;-</span> <span class="fu">rast</span>(<span class="fu">list.files</span>(<span class="st">"outputs/tmf/"</span>, <span class="at">pattern =</span> <span class="st">"Caledonia"</span>, <span class="at">full.names =</span> T))</span>
-<span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a><span class="co"># names(nc) &lt;- c("CMIP6_2.6", "CMIP6_8.5", "CORDEX_2.6", "CORDEX_8.5")</span></span>
-<span id="cb4-3"><a href="#cb4-3" aria-hidden="true" tabindex="-1"></a><span class="fu">names</span>(nc) <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="st">"CMIP6_2.6"</span>, <span class="st">"CMIP6_8.5"</span>)</span>
-<span id="cb4-4"><a href="#cb4-4" aria-hidden="true" tabindex="-1"></a><span class="fu">as.data.frame</span>(nc, <span class="at">xy =</span> T) <span class="sc">%&gt;%</span> </span>
-<span id="cb4-5"><a href="#cb4-5" aria-hidden="true" tabindex="-1"></a>  <span class="co"># mutate_at(c("CMIP6_2.6", "CMIP6_8.5", "CORDEX_2.6", "CORDEX_8.5"), ~./max(.)) %&gt;% </span></span>
-<span id="cb4-6"><a href="#cb4-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate_at</span>(<span class="fu">c</span>(<span class="st">"CMIP6_2.6"</span>, <span class="st">"CMIP6_8.5"</span>), <span class="sc">~</span>.<span class="sc">/</span><span class="fu">max</span>(<span class="fu">abs</span>(.))) <span class="sc">%&gt;%</span> </span>
-<span id="cb4-7"><a href="#cb4-7" aria-hidden="true" tabindex="-1"></a>  <span class="co"># mutate("CMIP6-CORDEX_2.6" = CMIP6_2.6 - CORDEX_2.6) %&gt;% </span></span>
-<span id="cb4-8"><a href="#cb4-8" aria-hidden="true" tabindex="-1"></a>  <span class="co"># mutate("CMIP6-CORDEX_8.5" = CMIP6_8.5 - CORDEX_8.5) %&gt;% </span></span>
-<span id="cb4-9"><a href="#cb4-9" aria-hidden="true" tabindex="-1"></a>  <span class="fu">gather</span>(projection, tmf, <span class="sc">-</span>x, <span class="sc">-</span>y) <span class="sc">%&gt;%</span> </span>
-<span id="cb4-10"><a href="#cb4-10" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(tmf <span class="sc">!=</span> <span class="dv">0</span>) <span class="sc">%&gt;%</span> </span>
-<span id="cb4-11"><a href="#cb4-11" aria-hidden="true" tabindex="-1"></a>  <span class="co"># filter(x &gt; 163, x &lt; 168.5) %&gt;% </span></span>
-<span id="cb4-12"><a href="#cb4-12" aria-hidden="true" tabindex="-1"></a>  <span class="fu">separate</span>(projection, <span class="fu">c</span>(<span class="st">"project"</span>, <span class="st">"experiment"</span>), <span class="st">"_"</span>) <span class="sc">%&gt;%</span> </span>
-<span id="cb4-13"><a href="#cb4-13" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">project =</span> <span class="fu">factor</span>(project, <span class="at">levels =</span> <span class="fu">c</span>(<span class="st">"CMIP6"</span>, <span class="st">"CORDEX"</span>, <span class="st">"CMIP6-CORDEX"</span>))) <span class="sc">%&gt;%</span> </span>
-<span id="cb4-14"><a href="#cb4-14" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ggplot</span>(<span class="fu">aes</span>(x, y, <span class="at">fill =</span> tmf)) <span class="sc">+</span></span>
-<span id="cb4-15"><a href="#cb4-15" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_raster</span>() <span class="sc">+</span></span>
-<span id="cb4-16"><a href="#cb4-16" aria-hidden="true" tabindex="-1"></a>  <span class="fu">coord_equal</span>() <span class="sc">+</span></span>
-<span id="cb4-17"><a href="#cb4-17" aria-hidden="true" tabindex="-1"></a>  <span class="fu">facet_grid</span>(experiment <span class="sc">~</span> project) <span class="sc">+</span></span>
-<span id="cb4-18"><a href="#cb4-18" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme_bw</span>() <span class="sc">+</span></span>
-<span id="cb4-19"><a href="#cb4-19" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme</span>(<span class="at">axis.title =</span> <span class="fu">element_blank</span>(), </span>
-<span id="cb4-20"><a href="#cb4-20" aria-hidden="true" tabindex="-1"></a>        <span class="at">axis.ticks =</span> <span class="fu">element_blank</span>(),</span>
-<span id="cb4-21"><a href="#cb4-21" aria-hidden="true" tabindex="-1"></a>        <span class="at">axis.text =</span> <span class="fu">element_blank</span>()) <span class="sc">+</span></span>
-<span id="cb4-22"><a href="#cb4-22" aria-hidden="true" tabindex="-1"></a>  <span class="fu">scale_fill_gradient2</span>(<span class="st">""</span>, <span class="at">low =</span> <span class="st">"#e40400"</span>, <span class="at">mid =</span> <span class="st">"white"</span>, <span class="at">high =</span> <span class="st">"#48712d"</span>, </span>
-<span id="cb4-23"><a href="#cb4-23" aria-hidden="true" tabindex="-1"></a>                       <span class="at">midpoint =</span> <span class="dv">0</span>, <span class="at">na.value =</span> <span class="st">"lightgrey"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a><span class="fu">names</span>(nc) <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="st">"CMIP6_2.6"</span>, <span class="st">"CMIP6_8.5"</span>, <span class="st">"CORDEX_2.6"</span>, <span class="st">"CORDEX_8.5"</span>)</span>
+<span id="cb4-3"><a href="#cb4-3" aria-hidden="true" tabindex="-1"></a><span class="fu">as.data.frame</span>(nc, <span class="at">xy =</span> T, <span class="at">na.rm =</span> F) <span class="sc">%&gt;%</span> </span>
+<span id="cb4-4"><a href="#cb4-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate_at</span>(<span class="fu">c</span>(<span class="st">"CMIP6_2.6"</span>, <span class="st">"CMIP6_8.5"</span>, <span class="st">"CORDEX_2.6"</span>, <span class="st">"CORDEX_8.5"</span>), </span>
+<span id="cb4-5"><a href="#cb4-5" aria-hidden="true" tabindex="-1"></a>            <span class="sc">~</span>.<span class="sc">/</span><span class="fu">max</span>(<span class="fu">abs</span>(.), <span class="at">na.rm =</span> T)) <span class="sc">%&gt;%</span> </span>
+<span id="cb4-6"><a href="#cb4-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">gather</span>(projection, tmf, <span class="sc">-</span>x, <span class="sc">-</span>y) <span class="sc">%&gt;%</span> </span>
+<span id="cb4-7"><a href="#cb4-7" aria-hidden="true" tabindex="-1"></a>  <span class="fu">separate</span>(projection, <span class="fu">c</span>(<span class="st">"project"</span>, <span class="st">"experiment"</span>), <span class="st">"_"</span>) <span class="sc">%&gt;%</span> </span>
+<span id="cb4-8"><a href="#cb4-8" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">project =</span> <span class="fu">factor</span>(project, <span class="at">levels =</span> <span class="fu">c</span>(<span class="st">"CMIP6"</span>, <span class="st">"CORDEX"</span>, <span class="st">"CMIP6-CORDEX"</span>))) <span class="sc">%&gt;%</span> </span>
+<span id="cb4-9"><a href="#cb4-9" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ggplot</span>(<span class="fu">aes</span>(x, <span class="sc">-</span>y, <span class="at">fill =</span> tmf)) <span class="sc">+</span></span>
+<span id="cb4-10"><a href="#cb4-10" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_raster</span>() <span class="sc">+</span></span>
+<span id="cb4-11"><a href="#cb4-11" aria-hidden="true" tabindex="-1"></a>  <span class="fu">coord_equal</span>() <span class="sc">+</span></span>
+<span id="cb4-12"><a href="#cb4-12" aria-hidden="true" tabindex="-1"></a>  <span class="fu">facet_grid</span>(experiment <span class="sc">~</span> project) <span class="sc">+</span></span>
+<span id="cb4-13"><a href="#cb4-13" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme_bw</span>() <span class="sc">+</span></span>
+<span id="cb4-14"><a href="#cb4-14" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme</span>(<span class="at">axis.title =</span> <span class="fu">element_blank</span>(), </span>
+<span id="cb4-15"><a href="#cb4-15" aria-hidden="true" tabindex="-1"></a>        <span class="at">axis.ticks =</span> <span class="fu">element_blank</span>(),</span>
+<span id="cb4-16"><a href="#cb4-16" aria-hidden="true" tabindex="-1"></a>        <span class="at">axis.text =</span> <span class="fu">element_blank</span>(), </span>
+<span id="cb4-17"><a href="#cb4-17" aria-hidden="true" tabindex="-1"></a>        <span class="at">panel.border =</span> <span class="fu">element_blank</span>(), <span class="at">panel.grid =</span> <span class="fu">element_blank</span>(),</span>
+<span id="cb4-18"><a href="#cb4-18" aria-hidden="true" tabindex="-1"></a>        <span class="at">panel.background =</span> <span class="fu">element_rect</span>(<span class="at">fill =</span> <span class="st">"black"</span>)) <span class="sc">+</span></span>
+<span id="cb4-19"><a href="#cb4-19" aria-hidden="true" tabindex="-1"></a>  <span class="fu">scale_fill_gradient2</span>(<span class="st">""</span>, <span class="at">low =</span> <span class="st">"#e40400"</span>, <span class="at">mid =</span> <span class="st">"white"</span>, <span class="at">high =</span> <span class="st">"#48712d"</span>, </span>
+<span id="cb4-20"><a href="#cb4-20" aria-hidden="true" tabindex="-1"></a>                       <span class="at">midpoint =</span> <span class="dv">0</span>, <span class="at">na.value =</span> <span class="st">"black"</span>, <span class="at">limits =</span> <span class="fu">c</span>(<span class="sc">-</span><span class="dv">1</span>, <span class="dv">1</span>))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </details>
 <div class="cell-output-display">
 <div class="quarto-figure quarto-figure-center">
 <figure class="figure">
-<p><img src="04_tmf_files/figure-html/nc-1.png" class="img-fluid figure-img" width="672"></p>
+<p><img src="04_tmf_files/figure-html/tmfnc-1.png" class="img-fluid figure-img" width="672"></p>
 <figcaption class="figure-caption">Tropical moist forest ditribution predicted in New Caledonia by the end of the century for CMIP6 and CORDEX model with experiment 2.6 and 8.5</figcaption>
 </figure>
 </div>
 </div>
 </div>
+</section>
+<section id="temperature" class="level2">
+<h2 class="anchored" data-anchor-id="temperature">Temperature</h2>
+</section>
+<section id="precipitation" class="level2">
+<h2 class="anchored" data-anchor-id="precipitation">Precipitation</h2>
+</section>
+<section id="potential-evaportanspiration" class="level2">
+<h2 class="anchored" data-anchor-id="potential-evaportanspiration">Potential evaportanspiration</h2>
+</section>
+<section id="water-balance" class="level2">
+<h2 class="anchored" data-anchor-id="water-balance">Water balance</h2>
 
 
+</section>
 
 </main> <!-- /main -->
 <script id="quarto-html-after-body" type="application/javascript">

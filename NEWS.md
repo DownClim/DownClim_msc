@@ -1,3 +1,4 @@
+-   DownClim 0.1.0.9044: tmf, black maps, and bias diff, tmf attributes to map
 -   DownClim 0.1.0.9043: fixed null values in anomalies, updated eval & bias, tmf to update
 -   DownClim 0.1.0.9042: better bias map
 -   DownClim 0.1.0.9041: bias map computation and analyses
