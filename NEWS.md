@@ -1,3 +1,4 @@
+-   DownClim 0.1.0.9043: fixed null values in anomalies, updated eval & bias, tmf to update
 -   DownClim 0.1.0.9042: better bias map
 -   DownClim 0.1.0.9041: bias map computation and analyses
 -   DownClim 0.1.0.9040: new evaluations with chirps and gshtd with corresponding getters

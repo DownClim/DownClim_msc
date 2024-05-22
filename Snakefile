@@ -35,12 +35,13 @@ rule all:
               origin=projects,
               base_eval=config["base_eval"]),
       # tmf
-      expand("results/tmf/nc/{proj}_{baseline}_{aggregation}_{period_proj}_{period_base}_{ds_method}.nc",
+      expand("results/tmf/nc/{proj}_{baseline}_{aggregation}_{period_future}_{period_present}_{period_base}_{ds_method}.nc",
              proj=proj_dom.id,
              baseline=config["baseline"],
              aggregation=config["aggregation"],
              period_base=config["hist_years"],
-             period_proj=config["proj_years"],
+             period_present=config["eval_years"],
+             period_future=config["proj_years"],
              ds_method=config["ds_method"])
 
 ## downscaling ##

@@ -3,7 +3,7 @@ rule hist_base:
         "results/baselines/{area}_{base}_{aggregation}_{period_eval}.nc",
         "results/areas/{area}.shp"
     output:
-        "results/evaluation/hist/base/{area}_{base}_{aggregation}_{period_eval}.tsv"
+        temp("results/evaluation/hist/base/{area}_{base}_{aggregation}_{period_eval}.tsv")
     log:
         "results/logs/hist_base_{area}_{base}_{aggregation}_{period_eval}.log"
     benchmark:

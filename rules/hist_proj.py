@@ -3,7 +3,7 @@ rule hist_proj:
         "results/downscaled/{area}_{project}_{domain}_{institute}_{model}_{experiment}_{ensemble}_{rcm}_{downscaling}_{base}_{aggregation}_{period_proj}_{period_eval}_{ds_method}.nc",
         "results/areas/{area}.shp"
     output:
-        "results/evaluation/hist/proj/{area}_{project}_{domain}_{institute}_{model}_{experiment}_{ensemble}_{rcm}_{downscaling}_{base}_{aggregation}_{period_proj}_{period_eval}_{ds_method}.tsv"
+        temp("results/evaluation/hist/proj/{area}_{project}_{domain}_{institute}_{model}_{experiment}_{ensemble}_{rcm}_{downscaling}_{base}_{aggregation}_{period_proj}_{period_eval}_{ds_method}.tsv")
     log:
         "results/logs/hist_proj_{area}_{project}_{domain}_{institute}_{model}_{experiment}_{ensemble}_{rcm}_{downscaling}_{base}_{aggregation}_{period_proj}_{period_eval}_{ds_method}.log"
     benchmark:

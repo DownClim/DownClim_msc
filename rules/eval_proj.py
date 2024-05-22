@@ -4,7 +4,7 @@ rule eval_proj:
         "results/baselines/{area}_{base_eval}_{aggregation}_{period_eval}.nc",
         "results/areas/{area}.shp"
     output:
-        "results/evaluation/metrics/{area}_{project}_{domain}_{institute}_{model}_{experiment}_{ensemble}_{rcm}_{downscaling}_{base}_{aggregation}_{period_proj}_{period_eval}_{ds_method}_{base_eval}.tsv"
+        temp("results/evaluation/metrics/{area}_{project}_{domain}_{institute}_{model}_{experiment}_{ensemble}_{rcm}_{downscaling}_{base}_{aggregation}_{period_proj}_{period_eval}_{ds_method}_{base_eval}.tsv")
     log:
         "results/logs/eval_{area}_{project}_{domain}_{institute}_{model}_{experiment}_{ensemble}_{rcm}_{downscaling}_{base}_{aggregation}_{period_proj}_{period_eval}_{ds_method}_{base_eval}.log"
     benchmark:
