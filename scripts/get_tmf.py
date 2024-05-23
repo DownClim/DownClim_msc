@@ -45,7 +45,10 @@ area_shp = gp.read_file(area_file)
 rsds = xr.open_dataset(rsds_file).rio.clip(area_shp.geometry.values, area_shp.crs)
 present = xr.open_dataset(present_file).rio.clip(area_shp.geometry.values, area_shp.crs)
 future = xr.open_dataset(future_file).rio.clip(area_shp.geometry.values, area_shp.crs)
-anomalies = prep_tmf(future, rsds) - prep_tmf(present, rsds)
+present = prep_tmf(present, rsds)
+future = prep_tmf(future, rsds)
+anomalies = future
+anomalies['tmf'] = (future - present).tmf
 anomalies.to_netcdf(out_file)
 
 # view

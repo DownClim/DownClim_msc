@@ -241,21 +241,24 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <span id="cb1-9"><a href="#cb1-9" aria-hidden="true" tabindex="-1"></a>                       <span class="st">"eval C"</span> <span class="ot">=</span> <span class="st">"eval"</span>,      </span>
 <span id="cb1-10"><a href="#cb1-10" aria-hidden="true" tabindex="-1"></a>                       <span class="st">"eval French"</span> <span class="ot">=</span> <span class="st">"eval"</span>,        </span>
 <span id="cb1-11"><a href="#cb1-11" aria-hidden="true" tabindex="-1"></a>                       <span class="st">"eval New"</span> <span class="ot">=</span> <span class="st">"eval"</span>,      </span>
-<span id="cb1-12"><a href="#cb1-12" aria-hidden="true" tabindex="-1"></a>                       <span class="st">"eval Vanuatu"</span> <span class="ot">=</span> <span class="st">"eval"</span>,      </span>
-<span id="cb1-13"><a href="#cb1-13" aria-hidden="true" tabindex="-1"></a>                       <span class="st">"get area"</span> <span class="ot">=</span> <span class="st">"area"</span>,    </span>
-<span id="cb1-14"><a href="#cb1-14" aria-hidden="true" tabindex="-1"></a>                       <span class="st">"get chelsa2"</span> <span class="ot">=</span> <span class="st">"CHELSA"</span>,</span>
-<span id="cb1-15"><a href="#cb1-15" aria-hidden="true" tabindex="-1"></a>                       <span class="st">"get chirps"</span> <span class="ot">=</span> <span class="st">"CHIRPS"</span>,</span>
-<span id="cb1-16"><a href="#cb1-16" aria-hidden="true" tabindex="-1"></a>                       <span class="st">"get gshtd"</span> <span class="ot">=</span> <span class="st">"GSHTD"</span>,</span>
-<span id="cb1-17"><a href="#cb1-17" aria-hidden="true" tabindex="-1"></a>                       <span class="st">"get cmip6"</span> <span class="ot">=</span> <span class="st">"CMIP6"</span>,   </span>
-<span id="cb1-18"><a href="#cb1-18" aria-hidden="true" tabindex="-1"></a>                       <span class="st">"get cordex"</span> <span class="ot">=</span> <span class="st">"CORDEX"</span>, </span>
-<span id="cb1-19"><a href="#cb1-19" aria-hidden="true" tabindex="-1"></a>                       <span class="st">"hist base"</span> <span class="ot">=</span> <span class="st">"hist"</span>,</span>
-<span id="cb1-20"><a href="#cb1-20" aria-hidden="true" tabindex="-1"></a>                       <span class="st">"hist ds"</span> <span class="ot">=</span> <span class="st">"hist"</span>,</span>
-<span id="cb1-21"><a href="#cb1-21" aria-hidden="true" tabindex="-1"></a>                       <span class="st">"merge eval"</span> <span class="ot">=</span> <span class="st">"merge"</span>,</span>
-<span id="cb1-22"><a href="#cb1-22" aria-hidden="true" tabindex="-1"></a>                       <span class="st">"merge hist"</span> <span class="ot">=</span> <span class="st">"merge"</span>,</span>
-<span id="cb1-23"><a href="#cb1-23" aria-hidden="true" tabindex="-1"></a>                       <span class="st">"tmf C"</span> <span class="ot">=</span> <span class="st">"tmf"</span>,</span>
-<span id="cb1-24"><a href="#cb1-24" aria-hidden="true" tabindex="-1"></a>                       <span class="st">"tmf French"</span> <span class="ot">=</span> <span class="st">"tmf"</span>,</span>
-<span id="cb1-25"><a href="#cb1-25" aria-hidden="true" tabindex="-1"></a>                       <span class="st">"tmf New"</span> <span class="ot">=</span> <span class="st">"tmf"</span>))</span>
-<span id="cb1-26"><a href="#cb1-26" aria-hidden="true" tabindex="-1"></a><span class="fu">write_tsv</span>(bc, <span class="at">file =</span> <span class="st">"outputs/bencmark.tsv"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb1-12"><a href="#cb1-12" aria-hidden="true" tabindex="-1"></a>                       <span class="st">"eval Vanuatu"</span> <span class="ot">=</span> <span class="st">"eval"</span>,  </span>
+<span id="cb1-13"><a href="#cb1-13" aria-hidden="true" tabindex="-1"></a>                       <span class="st">"bias C"</span> <span class="ot">=</span> <span class="st">"bias"</span>,      </span>
+<span id="cb1-14"><a href="#cb1-14" aria-hidden="true" tabindex="-1"></a>                       <span class="st">"bias French"</span> <span class="ot">=</span> <span class="st">"bias"</span>,        </span>
+<span id="cb1-15"><a href="#cb1-15" aria-hidden="true" tabindex="-1"></a>                       <span class="st">"bias New"</span> <span class="ot">=</span> <span class="st">"bias"</span>,      </span>
+<span id="cb1-16"><a href="#cb1-16" aria-hidden="true" tabindex="-1"></a>                       <span class="st">"get area"</span> <span class="ot">=</span> <span class="st">"area"</span>,    </span>
+<span id="cb1-17"><a href="#cb1-17" aria-hidden="true" tabindex="-1"></a>                       <span class="st">"get chelsa2"</span> <span class="ot">=</span> <span class="st">"CHELSA"</span>,</span>
+<span id="cb1-18"><a href="#cb1-18" aria-hidden="true" tabindex="-1"></a>                       <span class="st">"get chirps"</span> <span class="ot">=</span> <span class="st">"CHIRPS"</span>,</span>
+<span id="cb1-19"><a href="#cb1-19" aria-hidden="true" tabindex="-1"></a>                       <span class="st">"get gshtd"</span> <span class="ot">=</span> <span class="st">"GSHTD"</span>,</span>
+<span id="cb1-20"><a href="#cb1-20" aria-hidden="true" tabindex="-1"></a>                       <span class="st">"get cmip6"</span> <span class="ot">=</span> <span class="st">"CMIP6"</span>,   </span>
+<span id="cb1-21"><a href="#cb1-21" aria-hidden="true" tabindex="-1"></a>                       <span class="st">"get cordex"</span> <span class="ot">=</span> <span class="st">"CORDEX"</span>, </span>
+<span id="cb1-22"><a href="#cb1-22" aria-hidden="true" tabindex="-1"></a>                       <span class="st">"hist base"</span> <span class="ot">=</span> <span class="st">"hist"</span>,</span>
+<span id="cb1-23"><a href="#cb1-23" aria-hidden="true" tabindex="-1"></a>                       <span class="st">"hist ds"</span> <span class="ot">=</span> <span class="st">"hist"</span>,</span>
+<span id="cb1-24"><a href="#cb1-24" aria-hidden="true" tabindex="-1"></a>                       <span class="st">"merge eval"</span> <span class="ot">=</span> <span class="st">"merge"</span>,</span>
+<span id="cb1-25"><a href="#cb1-25" aria-hidden="true" tabindex="-1"></a>                       <span class="st">"merge hist"</span> <span class="ot">=</span> <span class="st">"merge"</span>,</span>
+<span id="cb1-26"><a href="#cb1-26" aria-hidden="true" tabindex="-1"></a>                       <span class="st">"tmf C"</span> <span class="ot">=</span> <span class="st">"tmf"</span>,</span>
+<span id="cb1-27"><a href="#cb1-27" aria-hidden="true" tabindex="-1"></a>                       <span class="st">"tmf French"</span> <span class="ot">=</span> <span class="st">"tmf"</span>,</span>
+<span id="cb1-28"><a href="#cb1-28" aria-hidden="true" tabindex="-1"></a>                       <span class="st">"tmf New"</span> <span class="ot">=</span> <span class="st">"tmf"</span>))</span>
+<span id="cb1-29"><a href="#cb1-29" aria-hidden="true" tabindex="-1"></a><span class="fu">write_tsv</span>(bc, <span class="at">file =</span> <span class="st">"outputs/bencmark.tsv"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </details>
 </div>
 <div class="cell">
