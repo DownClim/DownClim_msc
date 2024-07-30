@@ -130,6 +130,58 @@ as.data.frame(nc, xy = T, na.rm = F) %>%
                        midpoint = 0, na.value = "black", limits = c(-1, 1))
 ```
 
+```{r fig3}
+#| message: false
+#| warning: false
+#| fig-cap: "Caption."
+fg <- rast(list.files("outputs/tmf/", pattern = "Guiana", full.names = T))
+names(fg) <- c("CMIP6_2.6", "CMIP6_8.5", "CORDEX_2.6", "CORDEX_8.5")
+fg_tab <- as.data.frame(fg, xy = T, na.rm = F) %>% 
+  mutate_at(c("CMIP6_2.6", "CMIP6_8.5", "CORDEX_2.6", "CORDEX_8.5"), 
+            ~./max(abs(.), na.rm = T)) %>% 
+  gather(projection, tmf, -x, -y) %>% 
+  separate(projection, c("project", "experiment"), "_") %>% 
+  filter(experiment == "2.6") %>% 
+  mutate(country = "French Guiana")
+ci <- rast(list.files("outputs/tmf/", pattern = "Ivoire", full.names = T))
+names(ci) <- c("CMIP6_2.6", "CMIP6_8.5", "CORDEX_2.6", "CORDEX_8.5")
+ci_tab <- as.data.frame(ci, xy = T, na.rm = F) %>% 
+  mutate_at(c("CMIP6_2.6", "CMIP6_8.5", "CORDEX_2.6", "CORDEX_8.5"), 
+            ~./max(abs(.), na.rm = T)) %>% 
+  gather(projection, tmf, -x, -y) %>% 
+  separate(projection, c("project", "experiment"), "_") %>% 
+  filter(experiment == "2.6") %>% 
+  mutate(country = "Côte d'Ivoire")
+nc <- rast(list.files("outputs/tmf/", pattern = "Caledonia", full.names = T))
+names(nc) <- c("CMIP6_2.6", "CMIP6_8.5", "CORDEX_2.6", "CORDEX_8.5")
+nc_tab <- as.data.frame(nc, xy = T, na.rm = F) %>% 
+  mutate_at(c("CMIP6_2.6", "CMIP6_8.5", "CORDEX_2.6", "CORDEX_8.5"), 
+            ~./max(abs(.), na.rm = T)) %>% 
+  gather(projection, tmf, -x, -y) %>% 
+  separate(projection, c("project", "experiment"), "_") %>% 
+  filter(experiment == "2.6") %>% 
+  mutate(country = "New Caledonia") %>% 
+  mutate(y = -y)
+g <- bind_rows(fg_tab, ci_tab, nc_tab) %>% 
+  ggplot(aes(x, y, fill = tmf)) +
+  geom_raster() +
+  facet_wrap(~ project ~ country, scales="free") + 
+  theme_bw() +
+  scale_fill_gradient2("", low = "#e40400", mid = "white", high = "#48712d", 
+                       midpoint = 0, na.value = "black", limits = c(-1, 1)) +
+  theme(legend.position = "bottom",
+        axis.title = element_blank(), 
+        axis.ticks = element_blank(),
+        axis.text = element_blank(), 
+        panel.border = element_blank(), 
+        panel.grid = element_blank(),
+        panel.background = element_rect(fill = "black"),
+        panel.spacing = unit(0,'lines'),
+        aspect.ratio = 1)
+ggsave("figures/f03.png", g, dpi = 300, width = 8, height = 7, bg = "white")
+g
+```
+
 ## Temperature
 
 ```{r preptas}

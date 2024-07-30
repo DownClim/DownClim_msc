@@ -377,75 +377,102 @@ pet = 0.0023 \times rsds \times (tas + 17.8) \times (tasmax - tasmin)^{0.5}
 </div>
 </div>
 </div>
+<div class="cell">
+<details>
+<summary>Code</summary>
+<div class="sourceCode cell-code" id="cb5"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a>fg <span class="ot">&lt;-</span> <span class="fu">rast</span>(<span class="fu">list.files</span>(<span class="st">"outputs/tmf/"</span>, <span class="at">pattern =</span> <span class="st">"Guiana"</span>, <span class="at">full.names =</span> T))</span>
+<span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a><span class="fu">names</span>(fg) <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="st">"CMIP6_2.6"</span>, <span class="st">"CMIP6_8.5"</span>, <span class="st">"CORDEX_2.6"</span>, <span class="st">"CORDEX_8.5"</span>)</span>
+<span id="cb5-3"><a href="#cb5-3" aria-hidden="true" tabindex="-1"></a>fg_tab <span class="ot">&lt;-</span> <span class="fu">as.data.frame</span>(fg, <span class="at">xy =</span> T, <span class="at">na.rm =</span> F) <span class="sc">%&gt;%</span> </span>
+<span id="cb5-4"><a href="#cb5-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate_at</span>(<span class="fu">c</span>(<span class="st">"CMIP6_2.6"</span>, <span class="st">"CMIP6_8.5"</span>, <span class="st">"CORDEX_2.6"</span>, <span class="st">"CORDEX_8.5"</span>), </span>
+<span id="cb5-5"><a href="#cb5-5" aria-hidden="true" tabindex="-1"></a>            <span class="sc">~</span>.<span class="sc">/</span><span class="fu">max</span>(<span class="fu">abs</span>(.), <span class="at">na.rm =</span> T)) <span class="sc">%&gt;%</span> </span>
+<span id="cb5-6"><a href="#cb5-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">gather</span>(projection, tmf, <span class="sc">-</span>x, <span class="sc">-</span>y) <span class="sc">%&gt;%</span> </span>
+<span id="cb5-7"><a href="#cb5-7" aria-hidden="true" tabindex="-1"></a>  <span class="fu">separate</span>(projection, <span class="fu">c</span>(<span class="st">"project"</span>, <span class="st">"experiment"</span>), <span class="st">"_"</span>) <span class="sc">%&gt;%</span> </span>
+<span id="cb5-8"><a href="#cb5-8" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(experiment <span class="sc">==</span> <span class="st">"2.6"</span>) <span class="sc">%&gt;%</span> </span>
+<span id="cb5-9"><a href="#cb5-9" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">country =</span> <span class="st">"French Guiana"</span>)</span>
+<span id="cb5-10"><a href="#cb5-10" aria-hidden="true" tabindex="-1"></a>ci <span class="ot">&lt;-</span> <span class="fu">rast</span>(<span class="fu">list.files</span>(<span class="st">"outputs/tmf/"</span>, <span class="at">pattern =</span> <span class="st">"Ivoire"</span>, <span class="at">full.names =</span> T))</span>
+<span id="cb5-11"><a href="#cb5-11" aria-hidden="true" tabindex="-1"></a><span class="fu">names</span>(ci) <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="st">"CMIP6_2.6"</span>, <span class="st">"CMIP6_8.5"</span>, <span class="st">"CORDEX_2.6"</span>, <span class="st">"CORDEX_8.5"</span>)</span>
+<span id="cb5-12"><a href="#cb5-12" aria-hidden="true" tabindex="-1"></a>ci_tab <span class="ot">&lt;-</span> <span class="fu">as.data.frame</span>(ci, <span class="at">xy =</span> T, <span class="at">na.rm =</span> F) <span class="sc">%&gt;%</span> </span>
+<span id="cb5-13"><a href="#cb5-13" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate_at</span>(<span class="fu">c</span>(<span class="st">"CMIP6_2.6"</span>, <span class="st">"CMIP6_8.5"</span>, <span class="st">"CORDEX_2.6"</span>, <span class="st">"CORDEX_8.5"</span>), </span>
+<span id="cb5-14"><a href="#cb5-14" aria-hidden="true" tabindex="-1"></a>            <span class="sc">~</span>.<span class="sc">/</span><span class="fu">max</span>(<span class="fu">abs</span>(.), <span class="at">na.rm =</span> T)) <span class="sc">%&gt;%</span> </span>
+<span id="cb5-15"><a href="#cb5-15" aria-hidden="true" tabindex="-1"></a>  <span class="fu">gather</span>(projection, tmf, <span class="sc">-</span>x, <span class="sc">-</span>y) <span class="sc">%&gt;%</span> </span>
+<span id="cb5-16"><a href="#cb5-16" aria-hidden="true" tabindex="-1"></a>  <span class="fu">separate</span>(projection, <span class="fu">c</span>(<span class="st">"project"</span>, <span class="st">"experiment"</span>), <span class="st">"_"</span>) <span class="sc">%&gt;%</span> </span>
+<span id="cb5-17"><a href="#cb5-17" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(experiment <span class="sc">==</span> <span class="st">"2.6"</span>) <span class="sc">%&gt;%</span> </span>
+<span id="cb5-18"><a href="#cb5-18" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">country =</span> <span class="st">"Côte d'Ivoire"</span>)</span>
+<span id="cb5-19"><a href="#cb5-19" aria-hidden="true" tabindex="-1"></a>nc <span class="ot">&lt;-</span> <span class="fu">rast</span>(<span class="fu">list.files</span>(<span class="st">"outputs/tmf/"</span>, <span class="at">pattern =</span> <span class="st">"Caledonia"</span>, <span class="at">full.names =</span> T))</span>
+<span id="cb5-20"><a href="#cb5-20" aria-hidden="true" tabindex="-1"></a><span class="fu">names</span>(nc) <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="st">"CMIP6_2.6"</span>, <span class="st">"CMIP6_8.5"</span>, <span class="st">"CORDEX_2.6"</span>, <span class="st">"CORDEX_8.5"</span>)</span>
+<span id="cb5-21"><a href="#cb5-21" aria-hidden="true" tabindex="-1"></a>nc_tab <span class="ot">&lt;-</span> <span class="fu">as.data.frame</span>(nc, <span class="at">xy =</span> T, <span class="at">na.rm =</span> F) <span class="sc">%&gt;%</span> </span>
+<span id="cb5-22"><a href="#cb5-22" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate_at</span>(<span class="fu">c</span>(<span class="st">"CMIP6_2.6"</span>, <span class="st">"CMIP6_8.5"</span>, <span class="st">"CORDEX_2.6"</span>, <span class="st">"CORDEX_8.5"</span>), </span>
+<span id="cb5-23"><a href="#cb5-23" aria-hidden="true" tabindex="-1"></a>            <span class="sc">~</span>.<span class="sc">/</span><span class="fu">max</span>(<span class="fu">abs</span>(.), <span class="at">na.rm =</span> T)) <span class="sc">%&gt;%</span> </span>
+<span id="cb5-24"><a href="#cb5-24" aria-hidden="true" tabindex="-1"></a>  <span class="fu">gather</span>(projection, tmf, <span class="sc">-</span>x, <span class="sc">-</span>y) <span class="sc">%&gt;%</span> </span>
+<span id="cb5-25"><a href="#cb5-25" aria-hidden="true" tabindex="-1"></a>  <span class="fu">separate</span>(projection, <span class="fu">c</span>(<span class="st">"project"</span>, <span class="st">"experiment"</span>), <span class="st">"_"</span>) <span class="sc">%&gt;%</span> </span>
+<span id="cb5-26"><a href="#cb5-26" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(experiment <span class="sc">==</span> <span class="st">"2.6"</span>) <span class="sc">%&gt;%</span> </span>
+<span id="cb5-27"><a href="#cb5-27" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">country =</span> <span class="st">"New Caledonia"</span>) <span class="sc">%&gt;%</span> </span>
+<span id="cb5-28"><a href="#cb5-28" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">y =</span> <span class="sc">-</span>y)</span>
+<span id="cb5-29"><a href="#cb5-29" aria-hidden="true" tabindex="-1"></a>g <span class="ot">&lt;-</span> <span class="fu">bind_rows</span>(fg_tab, ci_tab, nc_tab) <span class="sc">%&gt;%</span> </span>
+<span id="cb5-30"><a href="#cb5-30" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ggplot</span>(<span class="fu">aes</span>(x, y, <span class="at">fill =</span> tmf)) <span class="sc">+</span></span>
+<span id="cb5-31"><a href="#cb5-31" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_raster</span>() <span class="sc">+</span></span>
+<span id="cb5-32"><a href="#cb5-32" aria-hidden="true" tabindex="-1"></a>  <span class="fu">facet_wrap</span>(<span class="sc">~</span> project <span class="sc">~</span> country, <span class="at">scales=</span><span class="st">"free"</span>) <span class="sc">+</span> </span>
+<span id="cb5-33"><a href="#cb5-33" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme_bw</span>() <span class="sc">+</span></span>
+<span id="cb5-34"><a href="#cb5-34" aria-hidden="true" tabindex="-1"></a>  <span class="fu">scale_fill_gradient2</span>(<span class="st">""</span>, <span class="at">low =</span> <span class="st">"#e40400"</span>, <span class="at">mid =</span> <span class="st">"white"</span>, <span class="at">high =</span> <span class="st">"#48712d"</span>, </span>
+<span id="cb5-35"><a href="#cb5-35" aria-hidden="true" tabindex="-1"></a>                       <span class="at">midpoint =</span> <span class="dv">0</span>, <span class="at">na.value =</span> <span class="st">"black"</span>, <span class="at">limits =</span> <span class="fu">c</span>(<span class="sc">-</span><span class="dv">1</span>, <span class="dv">1</span>)) <span class="sc">+</span></span>
+<span id="cb5-36"><a href="#cb5-36" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme</span>(<span class="at">legend.position =</span> <span class="st">"bottom"</span>,</span>
+<span id="cb5-37"><a href="#cb5-37" aria-hidden="true" tabindex="-1"></a>        <span class="at">axis.title =</span> <span class="fu">element_blank</span>(), </span>
+<span id="cb5-38"><a href="#cb5-38" aria-hidden="true" tabindex="-1"></a>        <span class="at">axis.ticks =</span> <span class="fu">element_blank</span>(),</span>
+<span id="cb5-39"><a href="#cb5-39" aria-hidden="true" tabindex="-1"></a>        <span class="at">axis.text =</span> <span class="fu">element_blank</span>(), </span>
+<span id="cb5-40"><a href="#cb5-40" aria-hidden="true" tabindex="-1"></a>        <span class="at">panel.border =</span> <span class="fu">element_blank</span>(), </span>
+<span id="cb5-41"><a href="#cb5-41" aria-hidden="true" tabindex="-1"></a>        <span class="at">panel.grid =</span> <span class="fu">element_blank</span>(),</span>
+<span id="cb5-42"><a href="#cb5-42" aria-hidden="true" tabindex="-1"></a>        <span class="at">panel.background =</span> <span class="fu">element_rect</span>(<span class="at">fill =</span> <span class="st">"black"</span>),</span>
+<span id="cb5-43"><a href="#cb5-43" aria-hidden="true" tabindex="-1"></a>        <span class="at">panel.spacing =</span> <span class="fu">unit</span>(<span class="dv">0</span>,<span class="st">'lines'</span>),</span>
+<span id="cb5-44"><a href="#cb5-44" aria-hidden="true" tabindex="-1"></a>        <span class="at">aspect.ratio =</span> <span class="dv">1</span>)</span>
+<span id="cb5-45"><a href="#cb5-45" aria-hidden="true" tabindex="-1"></a><span class="fu">ggsave</span>(<span class="st">"figures/f03.png"</span>, g, <span class="at">dpi =</span> <span class="dv">300</span>, <span class="at">width =</span> <span class="dv">8</span>, <span class="at">height =</span> <span class="dv">7</span>, <span class="at">bg =</span> <span class="st">"white"</span>)</span>
+<span id="cb5-46"><a href="#cb5-46" aria-hidden="true" tabindex="-1"></a>g</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+<div class="cell-output-display">
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="04_tmf_files/figure-html/fig3-1.png" class="img-fluid figure-img" width="672"></p>
+<figcaption class="figure-caption">Caption.</figcaption>
+</figure>
+</div>
+</div>
+</div>
 </section>
 <section id="temperature" class="level2">
 <h2 class="anchored" data-anchor-id="temperature">Temperature</h2>
 <div class="cell">
 <details>
 <summary>Code</summary>
-<div class="sourceCode cell-code" id="cb5"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a>index <span class="ot">&lt;-</span> <span class="fu">data.frame</span>(</span>
-<span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a>  <span class="at">file =</span> <span class="fu">list.files</span>(<span class="st">"results/tmf/nc/"</span>, <span class="at">full.names =</span> F),</span>
-<span id="cb5-3"><a href="#cb5-3" aria-hidden="true" tabindex="-1"></a>  <span class="at">path =</span> <span class="fu">list.files</span>(<span class="st">"results/tmf/nc/"</span>, <span class="at">full.names =</span> T)</span>
-<span id="cb5-4"><a href="#cb5-4" aria-hidden="true" tabindex="-1"></a>) <span class="sc">%&gt;%</span> </span>
-<span id="cb5-5"><a href="#cb5-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">separate</span>(file, <span class="fu">c</span>(<span class="st">"country"</span>, <span class="st">"project"</span>, <span class="st">"domain"</span>, <span class="st">"institute"</span>, <span class="st">"model"</span>, <span class="st">"experiment"</span>,</span>
-<span id="cb5-6"><a href="#cb5-6" aria-hidden="true" tabindex="-1"></a>                   <span class="st">"ensemble"</span>, <span class="st">"rcm"</span>, <span class="st">"downscaling"</span>, <span class="st">"base"</span>, <span class="st">"aggregation"</span>,</span>
-<span id="cb5-7"><a href="#cb5-7" aria-hidden="true" tabindex="-1"></a>                   <span class="st">"period_future"</span>, <span class="st">"period_present"</span>, <span class="st">"period_hist"</span>), <span class="at">sep =</span> <span class="st">"_"</span>, <span class="at">remove =</span> F)</span>
-<span id="cb5-8"><a href="#cb5-8" aria-hidden="true" tabindex="-1"></a>files <span class="ot">&lt;-</span> index <span class="sc">%&gt;%</span> </span>
-<span id="cb5-9"><a href="#cb5-9" aria-hidden="true" tabindex="-1"></a>  <span class="fu">select</span>(country, project, experiment) <span class="sc">%&gt;%</span> </span>
-<span id="cb5-10"><a href="#cb5-10" aria-hidden="true" tabindex="-1"></a>  <span class="fu">unique</span>()</span>
-<span id="cb5-11"><a href="#cb5-11" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span>(r <span class="cf">in</span> <span class="dv">1</span><span class="sc">:</span><span class="fu">nrow</span>(files))</span>
-<span id="cb5-12"><a href="#cb5-12" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(index, </span>
-<span id="cb5-13"><a href="#cb5-13" aria-hidden="true" tabindex="-1"></a>              country <span class="sc">==</span> files<span class="sc">$</span>country[r], </span>
-<span id="cb5-14"><a href="#cb5-14" aria-hidden="true" tabindex="-1"></a>              project <span class="sc">==</span> files<span class="sc">$</span>project[r], </span>
-<span id="cb5-15"><a href="#cb5-15" aria-hidden="true" tabindex="-1"></a>              experiment <span class="sc">==</span> files<span class="sc">$</span>experiment[r])<span class="sc">$</span>path <span class="sc">%&gt;%</span> </span>
-<span id="cb5-16"><a href="#cb5-16" aria-hidden="true" tabindex="-1"></a>  <span class="fu">lapply</span>(rast, <span class="at">lyrs =</span> <span class="st">"tas"</span>) <span class="sc">%&gt;%</span> </span>
-<span id="cb5-17"><a href="#cb5-17" aria-hidden="true" tabindex="-1"></a>  <span class="fu">rast</span>() <span class="sc">%&gt;%</span> </span>
-<span id="cb5-18"><a href="#cb5-18" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mean</span>() <span class="sc">%&gt;%</span> </span>
-<span id="cb5-19"><a href="#cb5-19" aria-hidden="true" tabindex="-1"></a>  <span class="fu">writeRaster</span>(<span class="at">filename =</span> <span class="fu">paste0</span>(<span class="st">"outputs/tas/"</span>,</span>
-<span id="cb5-20"><a href="#cb5-20" aria-hidden="true" tabindex="-1"></a>                                files<span class="sc">$</span>country[r], <span class="st">"_"</span>,</span>
-<span id="cb5-21"><a href="#cb5-21" aria-hidden="true" tabindex="-1"></a>                                files<span class="sc">$</span>project[r], <span class="st">"_"</span>,</span>
-<span id="cb5-22"><a href="#cb5-22" aria-hidden="true" tabindex="-1"></a>                                files<span class="sc">$</span>experiment[r], <span class="st">".tif"</span>),</span>
-<span id="cb5-23"><a href="#cb5-23" aria-hidden="true" tabindex="-1"></a>              <span class="at">overwrite =</span> T)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb6"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a>index <span class="ot">&lt;-</span> <span class="fu">data.frame</span>(</span>
+<span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a>  <span class="at">file =</span> <span class="fu">list.files</span>(<span class="st">"results/tmf/nc/"</span>, <span class="at">full.names =</span> F),</span>
+<span id="cb6-3"><a href="#cb6-3" aria-hidden="true" tabindex="-1"></a>  <span class="at">path =</span> <span class="fu">list.files</span>(<span class="st">"results/tmf/nc/"</span>, <span class="at">full.names =</span> T)</span>
+<span id="cb6-4"><a href="#cb6-4" aria-hidden="true" tabindex="-1"></a>) <span class="sc">%&gt;%</span> </span>
+<span id="cb6-5"><a href="#cb6-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">separate</span>(file, <span class="fu">c</span>(<span class="st">"country"</span>, <span class="st">"project"</span>, <span class="st">"domain"</span>, <span class="st">"institute"</span>, <span class="st">"model"</span>, <span class="st">"experiment"</span>,</span>
+<span id="cb6-6"><a href="#cb6-6" aria-hidden="true" tabindex="-1"></a>                   <span class="st">"ensemble"</span>, <span class="st">"rcm"</span>, <span class="st">"downscaling"</span>, <span class="st">"base"</span>, <span class="st">"aggregation"</span>,</span>
+<span id="cb6-7"><a href="#cb6-7" aria-hidden="true" tabindex="-1"></a>                   <span class="st">"period_future"</span>, <span class="st">"period_present"</span>, <span class="st">"period_hist"</span>), <span class="at">sep =</span> <span class="st">"_"</span>, <span class="at">remove =</span> F)</span>
+<span id="cb6-8"><a href="#cb6-8" aria-hidden="true" tabindex="-1"></a>files <span class="ot">&lt;-</span> index <span class="sc">%&gt;%</span> </span>
+<span id="cb6-9"><a href="#cb6-9" aria-hidden="true" tabindex="-1"></a>  <span class="fu">select</span>(country, project, experiment) <span class="sc">%&gt;%</span> </span>
+<span id="cb6-10"><a href="#cb6-10" aria-hidden="true" tabindex="-1"></a>  <span class="fu">unique</span>()</span>
+<span id="cb6-11"><a href="#cb6-11" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span>(r <span class="cf">in</span> <span class="dv">1</span><span class="sc">:</span><span class="fu">nrow</span>(files))</span>
+<span id="cb6-12"><a href="#cb6-12" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(index, </span>
+<span id="cb6-13"><a href="#cb6-13" aria-hidden="true" tabindex="-1"></a>              country <span class="sc">==</span> files<span class="sc">$</span>country[r], </span>
+<span id="cb6-14"><a href="#cb6-14" aria-hidden="true" tabindex="-1"></a>              project <span class="sc">==</span> files<span class="sc">$</span>project[r], </span>
+<span id="cb6-15"><a href="#cb6-15" aria-hidden="true" tabindex="-1"></a>              experiment <span class="sc">==</span> files<span class="sc">$</span>experiment[r])<span class="sc">$</span>path <span class="sc">%&gt;%</span> </span>
+<span id="cb6-16"><a href="#cb6-16" aria-hidden="true" tabindex="-1"></a>  <span class="fu">lapply</span>(rast, <span class="at">lyrs =</span> <span class="st">"tas"</span>) <span class="sc">%&gt;%</span> </span>
+<span id="cb6-17"><a href="#cb6-17" aria-hidden="true" tabindex="-1"></a>  <span class="fu">rast</span>() <span class="sc">%&gt;%</span> </span>
+<span id="cb6-18"><a href="#cb6-18" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mean</span>() <span class="sc">%&gt;%</span> </span>
+<span id="cb6-19"><a href="#cb6-19" aria-hidden="true" tabindex="-1"></a>  <span class="fu">writeRaster</span>(<span class="at">filename =</span> <span class="fu">paste0</span>(<span class="st">"outputs/tas/"</span>,</span>
+<span id="cb6-20"><a href="#cb6-20" aria-hidden="true" tabindex="-1"></a>                                files<span class="sc">$</span>country[r], <span class="st">"_"</span>,</span>
+<span id="cb6-21"><a href="#cb6-21" aria-hidden="true" tabindex="-1"></a>                                files<span class="sc">$</span>project[r], <span class="st">"_"</span>,</span>
+<span id="cb6-22"><a href="#cb6-22" aria-hidden="true" tabindex="-1"></a>                                files<span class="sc">$</span>experiment[r], <span class="st">".tif"</span>),</span>
+<span id="cb6-23"><a href="#cb6-23" aria-hidden="true" tabindex="-1"></a>              <span class="at">overwrite =</span> T)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </details>
 </div>
 <div class="cell">
 <details>
 <summary>Code</summary>
-<div class="sourceCode cell-code" id="cb6"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a>fg <span class="ot">&lt;-</span> <span class="fu">rast</span>(<span class="fu">list.files</span>(<span class="st">"outputs/tas/"</span>, <span class="at">pattern =</span> <span class="st">"Guiana"</span>, <span class="at">full.names =</span> T))</span>
-<span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a><span class="fu">names</span>(fg) <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="st">"CMIP6_2.6"</span>, <span class="st">"CMIP6_8.5"</span>, <span class="st">"CORDEX_2.6"</span>, <span class="st">"CORDEX_8.5"</span>)</span>
-<span id="cb6-3"><a href="#cb6-3" aria-hidden="true" tabindex="-1"></a><span class="fu">as.data.frame</span>(fg, <span class="at">xy =</span> T, <span class="at">na.rm =</span> F) <span class="sc">%&gt;%</span> </span>
-<span id="cb6-4"><a href="#cb6-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">gather</span>(projection, tmf, <span class="sc">-</span>x, <span class="sc">-</span>y) <span class="sc">%&gt;%</span> </span>
-<span id="cb6-5"><a href="#cb6-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">separate</span>(projection, <span class="fu">c</span>(<span class="st">"project"</span>, <span class="st">"experiment"</span>), <span class="st">"_"</span>) <span class="sc">%&gt;%</span> </span>
-<span id="cb6-6"><a href="#cb6-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">project =</span> <span class="fu">factor</span>(project, <span class="at">levels =</span> <span class="fu">c</span>(<span class="st">"CMIP6"</span>, <span class="st">"CORDEX"</span>, <span class="st">"CMIP6-CORDEX"</span>))) <span class="sc">%&gt;%</span> </span>
-<span id="cb6-7"><a href="#cb6-7" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ggplot</span>(<span class="fu">aes</span>(x, y, <span class="at">fill =</span> tmf)) <span class="sc">+</span></span>
-<span id="cb6-8"><a href="#cb6-8" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_raster</span>() <span class="sc">+</span></span>
-<span id="cb6-9"><a href="#cb6-9" aria-hidden="true" tabindex="-1"></a>  <span class="fu">coord_equal</span>() <span class="sc">+</span></span>
-<span id="cb6-10"><a href="#cb6-10" aria-hidden="true" tabindex="-1"></a>  <span class="fu">facet_grid</span>(experiment <span class="sc">~</span> project) <span class="sc">+</span></span>
-<span id="cb6-11"><a href="#cb6-11" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme_bw</span>() <span class="sc">+</span></span>
-<span id="cb6-12"><a href="#cb6-12" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme</span>(<span class="at">axis.title =</span> <span class="fu">element_blank</span>(), </span>
-<span id="cb6-13"><a href="#cb6-13" aria-hidden="true" tabindex="-1"></a>        <span class="at">axis.ticks =</span> <span class="fu">element_blank</span>(),</span>
-<span id="cb6-14"><a href="#cb6-14" aria-hidden="true" tabindex="-1"></a>        <span class="at">axis.text =</span> <span class="fu">element_blank</span>(), </span>
-<span id="cb6-15"><a href="#cb6-15" aria-hidden="true" tabindex="-1"></a>        <span class="at">panel.border =</span> <span class="fu">element_blank</span>(), <span class="at">panel.grid =</span> <span class="fu">element_blank</span>(),</span>
-<span id="cb6-16"><a href="#cb6-16" aria-hidden="true" tabindex="-1"></a>        <span class="at">panel.background =</span> <span class="fu">element_rect</span>(<span class="at">fill =</span> <span class="st">"black"</span>)) <span class="sc">+</span></span>
-<span id="cb6-17"><a href="#cb6-17" aria-hidden="true" tabindex="-1"></a>  <span class="fu">scale_fill_gradient2</span>(<span class="st">""</span>, <span class="at">low =</span> <span class="st">"#053061"</span>, <span class="at">mid =</span> <span class="st">"white"</span>, <span class="at">high =</span> <span class="st">"#67001f"</span>, </span>
-<span id="cb6-18"><a href="#cb6-18" aria-hidden="true" tabindex="-1"></a>                       <span class="at">midpoint =</span> <span class="dv">16</span>, <span class="at">na.value =</span> <span class="st">"black"</span>) <span class="sc">+</span></span>
-<span id="cb6-19"><a href="#cb6-19" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_contour</span>(<span class="fu">aes</span>(<span class="at">z =</span> tmf), <span class="at">breaks =</span> <span class="dv">16</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-</details>
-<div class="cell-output-display">
-<div class="quarto-figure quarto-figure-center">
-<figure class="figure">
-<p><img src="04_tmf_files/figure-html/tasfg-1.png" class="img-fluid figure-img" width="672"></p>
-<figcaption class="figure-caption">Mean annual temperature predicted in French Guiana by the end of the century for CMIP6 and CORDEX model with experiment 2.6 and 8.5</figcaption>
-</figure>
-</div>
-</div>
-</div>
-<div class="cell">
-<details>
-<summary>Code</summary>
-<div class="sourceCode cell-code" id="cb7"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a>ci <span class="ot">&lt;-</span> <span class="fu">rast</span>(<span class="fu">list.files</span>(<span class="st">"outputs/tas/"</span>, <span class="at">pattern =</span> <span class="st">"Ivoire"</span>, <span class="at">full.names =</span> T))</span>
-<span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a><span class="fu">names</span>(ci) <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="st">"CMIP6_2.6"</span>, <span class="st">"CMIP6_8.5"</span>, <span class="st">"CORDEX_2.6"</span>, <span class="st">"CORDEX_8.5"</span>)</span>
-<span id="cb7-3"><a href="#cb7-3" aria-hidden="true" tabindex="-1"></a><span class="fu">as.data.frame</span>(ci, <span class="at">xy =</span> T, <span class="at">na.rm =</span> F) <span class="sc">%&gt;%</span> </span>
+<div class="sourceCode cell-code" id="cb7"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a>fg <span class="ot">&lt;-</span> <span class="fu">rast</span>(<span class="fu">list.files</span>(<span class="st">"outputs/tas/"</span>, <span class="at">pattern =</span> <span class="st">"Guiana"</span>, <span class="at">full.names =</span> T))</span>
+<span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a><span class="fu">names</span>(fg) <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="st">"CMIP6_2.6"</span>, <span class="st">"CMIP6_8.5"</span>, <span class="st">"CORDEX_2.6"</span>, <span class="st">"CORDEX_8.5"</span>)</span>
+<span id="cb7-3"><a href="#cb7-3" aria-hidden="true" tabindex="-1"></a><span class="fu">as.data.frame</span>(fg, <span class="at">xy =</span> T, <span class="at">na.rm =</span> F) <span class="sc">%&gt;%</span> </span>
 <span id="cb7-4"><a href="#cb7-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">gather</span>(projection, tmf, <span class="sc">-</span>x, <span class="sc">-</span>y) <span class="sc">%&gt;%</span> </span>
 <span id="cb7-5"><a href="#cb7-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">separate</span>(projection, <span class="fu">c</span>(<span class="st">"project"</span>, <span class="st">"experiment"</span>), <span class="st">"_"</span>) <span class="sc">%&gt;%</span> </span>
 <span id="cb7-6"><a href="#cb7-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">project =</span> <span class="fu">factor</span>(project, <span class="at">levels =</span> <span class="fu">c</span>(<span class="st">"CMIP6"</span>, <span class="st">"CORDEX"</span>, <span class="st">"CMIP6-CORDEX"</span>))) <span class="sc">%&gt;%</span> </span>
@@ -466,8 +493,8 @@ pet = 0.0023 \times rsds \times (tas + 17.8) \times (tasmax - tasmin)^{0.5}
 <div class="cell-output-display">
 <div class="quarto-figure quarto-figure-center">
 <figure class="figure">
-<p><img src="04_tmf_files/figure-html/tasci-1.png" class="img-fluid figure-img" width="672"></p>
-<figcaption class="figure-caption">Mean annual temperature predicted in Ivory Coast by the end of the century for CMIP6 and CORDEX model with experiment 2.6 and 8.5</figcaption>
+<p><img src="04_tmf_files/figure-html/tasfg-1.png" class="img-fluid figure-img" width="672"></p>
+<figcaption class="figure-caption">Mean annual temperature predicted in French Guiana by the end of the century for CMIP6 and CORDEX model with experiment 2.6 and 8.5</figcaption>
 </figure>
 </div>
 </div>
@@ -475,13 +502,13 @@ pet = 0.0023 \times rsds \times (tas + 17.8) \times (tasmax - tasmin)^{0.5}
 <div class="cell">
 <details>
 <summary>Code</summary>
-<div class="sourceCode cell-code" id="cb8"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a>nc <span class="ot">&lt;-</span> <span class="fu">rast</span>(<span class="fu">list.files</span>(<span class="st">"outputs/tas/"</span>, <span class="at">pattern =</span> <span class="st">"Caledonia"</span>, <span class="at">full.names =</span> T))</span>
-<span id="cb8-2"><a href="#cb8-2" aria-hidden="true" tabindex="-1"></a><span class="fu">names</span>(nc) <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="st">"CMIP6_2.6"</span>, <span class="st">"CMIP6_8.5"</span>, <span class="st">"CORDEX_2.6"</span>, <span class="st">"CORDEX_8.5"</span>)</span>
-<span id="cb8-3"><a href="#cb8-3" aria-hidden="true" tabindex="-1"></a><span class="fu">as.data.frame</span>(nc, <span class="at">xy =</span> T, <span class="at">na.rm =</span> F) <span class="sc">%&gt;%</span> </span>
+<div class="sourceCode cell-code" id="cb8"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a>ci <span class="ot">&lt;-</span> <span class="fu">rast</span>(<span class="fu">list.files</span>(<span class="st">"outputs/tas/"</span>, <span class="at">pattern =</span> <span class="st">"Ivoire"</span>, <span class="at">full.names =</span> T))</span>
+<span id="cb8-2"><a href="#cb8-2" aria-hidden="true" tabindex="-1"></a><span class="fu">names</span>(ci) <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="st">"CMIP6_2.6"</span>, <span class="st">"CMIP6_8.5"</span>, <span class="st">"CORDEX_2.6"</span>, <span class="st">"CORDEX_8.5"</span>)</span>
+<span id="cb8-3"><a href="#cb8-3" aria-hidden="true" tabindex="-1"></a><span class="fu">as.data.frame</span>(ci, <span class="at">xy =</span> T, <span class="at">na.rm =</span> F) <span class="sc">%&gt;%</span> </span>
 <span id="cb8-4"><a href="#cb8-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">gather</span>(projection, tmf, <span class="sc">-</span>x, <span class="sc">-</span>y) <span class="sc">%&gt;%</span> </span>
 <span id="cb8-5"><a href="#cb8-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">separate</span>(projection, <span class="fu">c</span>(<span class="st">"project"</span>, <span class="st">"experiment"</span>), <span class="st">"_"</span>) <span class="sc">%&gt;%</span> </span>
 <span id="cb8-6"><a href="#cb8-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">project =</span> <span class="fu">factor</span>(project, <span class="at">levels =</span> <span class="fu">c</span>(<span class="st">"CMIP6"</span>, <span class="st">"CORDEX"</span>, <span class="st">"CMIP6-CORDEX"</span>))) <span class="sc">%&gt;%</span> </span>
-<span id="cb8-7"><a href="#cb8-7" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ggplot</span>(<span class="fu">aes</span>(x, <span class="sc">-</span>y, <span class="at">fill =</span> tmf)) <span class="sc">+</span></span>
+<span id="cb8-7"><a href="#cb8-7" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ggplot</span>(<span class="fu">aes</span>(x, y, <span class="at">fill =</span> tmf)) <span class="sc">+</span></span>
 <span id="cb8-8"><a href="#cb8-8" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_raster</span>() <span class="sc">+</span></span>
 <span id="cb8-9"><a href="#cb8-9" aria-hidden="true" tabindex="-1"></a>  <span class="fu">coord_equal</span>() <span class="sc">+</span></span>
 <span id="cb8-10"><a href="#cb8-10" aria-hidden="true" tabindex="-1"></a>  <span class="fu">facet_grid</span>(experiment <span class="sc">~</span> project) <span class="sc">+</span></span>
@@ -498,6 +525,38 @@ pet = 0.0023 \times rsds \times (tas + 17.8) \times (tasmax - tasmin)^{0.5}
 <div class="cell-output-display">
 <div class="quarto-figure quarto-figure-center">
 <figure class="figure">
+<p><img src="04_tmf_files/figure-html/tasci-1.png" class="img-fluid figure-img" width="672"></p>
+<figcaption class="figure-caption">Mean annual temperature predicted in Ivory Coast by the end of the century for CMIP6 and CORDEX model with experiment 2.6 and 8.5</figcaption>
+</figure>
+</div>
+</div>
+</div>
+<div class="cell">
+<details>
+<summary>Code</summary>
+<div class="sourceCode cell-code" id="cb9"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a>nc <span class="ot">&lt;-</span> <span class="fu">rast</span>(<span class="fu">list.files</span>(<span class="st">"outputs/tas/"</span>, <span class="at">pattern =</span> <span class="st">"Caledonia"</span>, <span class="at">full.names =</span> T))</span>
+<span id="cb9-2"><a href="#cb9-2" aria-hidden="true" tabindex="-1"></a><span class="fu">names</span>(nc) <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="st">"CMIP6_2.6"</span>, <span class="st">"CMIP6_8.5"</span>, <span class="st">"CORDEX_2.6"</span>, <span class="st">"CORDEX_8.5"</span>)</span>
+<span id="cb9-3"><a href="#cb9-3" aria-hidden="true" tabindex="-1"></a><span class="fu">as.data.frame</span>(nc, <span class="at">xy =</span> T, <span class="at">na.rm =</span> F) <span class="sc">%&gt;%</span> </span>
+<span id="cb9-4"><a href="#cb9-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">gather</span>(projection, tmf, <span class="sc">-</span>x, <span class="sc">-</span>y) <span class="sc">%&gt;%</span> </span>
+<span id="cb9-5"><a href="#cb9-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">separate</span>(projection, <span class="fu">c</span>(<span class="st">"project"</span>, <span class="st">"experiment"</span>), <span class="st">"_"</span>) <span class="sc">%&gt;%</span> </span>
+<span id="cb9-6"><a href="#cb9-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">project =</span> <span class="fu">factor</span>(project, <span class="at">levels =</span> <span class="fu">c</span>(<span class="st">"CMIP6"</span>, <span class="st">"CORDEX"</span>, <span class="st">"CMIP6-CORDEX"</span>))) <span class="sc">%&gt;%</span> </span>
+<span id="cb9-7"><a href="#cb9-7" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ggplot</span>(<span class="fu">aes</span>(x, <span class="sc">-</span>y, <span class="at">fill =</span> tmf)) <span class="sc">+</span></span>
+<span id="cb9-8"><a href="#cb9-8" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_raster</span>() <span class="sc">+</span></span>
+<span id="cb9-9"><a href="#cb9-9" aria-hidden="true" tabindex="-1"></a>  <span class="fu">coord_equal</span>() <span class="sc">+</span></span>
+<span id="cb9-10"><a href="#cb9-10" aria-hidden="true" tabindex="-1"></a>  <span class="fu">facet_grid</span>(experiment <span class="sc">~</span> project) <span class="sc">+</span></span>
+<span id="cb9-11"><a href="#cb9-11" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme_bw</span>() <span class="sc">+</span></span>
+<span id="cb9-12"><a href="#cb9-12" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme</span>(<span class="at">axis.title =</span> <span class="fu">element_blank</span>(), </span>
+<span id="cb9-13"><a href="#cb9-13" aria-hidden="true" tabindex="-1"></a>        <span class="at">axis.ticks =</span> <span class="fu">element_blank</span>(),</span>
+<span id="cb9-14"><a href="#cb9-14" aria-hidden="true" tabindex="-1"></a>        <span class="at">axis.text =</span> <span class="fu">element_blank</span>(), </span>
+<span id="cb9-15"><a href="#cb9-15" aria-hidden="true" tabindex="-1"></a>        <span class="at">panel.border =</span> <span class="fu">element_blank</span>(), <span class="at">panel.grid =</span> <span class="fu">element_blank</span>(),</span>
+<span id="cb9-16"><a href="#cb9-16" aria-hidden="true" tabindex="-1"></a>        <span class="at">panel.background =</span> <span class="fu">element_rect</span>(<span class="at">fill =</span> <span class="st">"black"</span>)) <span class="sc">+</span></span>
+<span id="cb9-17"><a href="#cb9-17" aria-hidden="true" tabindex="-1"></a>  <span class="fu">scale_fill_gradient2</span>(<span class="st">""</span>, <span class="at">low =</span> <span class="st">"#053061"</span>, <span class="at">mid =</span> <span class="st">"white"</span>, <span class="at">high =</span> <span class="st">"#67001f"</span>, </span>
+<span id="cb9-18"><a href="#cb9-18" aria-hidden="true" tabindex="-1"></a>                       <span class="at">midpoint =</span> <span class="dv">16</span>, <span class="at">na.value =</span> <span class="st">"black"</span>) <span class="sc">+</span></span>
+<span id="cb9-19"><a href="#cb9-19" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_contour</span>(<span class="fu">aes</span>(<span class="at">z =</span> tmf), <span class="at">breaks =</span> <span class="dv">16</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+<div class="cell-output-display">
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
 <p><img src="04_tmf_files/figure-html/tasnc-1.png" class="img-fluid figure-img" width="672"></p>
 <figcaption class="figure-caption">Mean annual temperature predicted in New Caledonia by the end of the century for CMIP6 and CORDEX model with experiment 2.6 and 8.5</figcaption>
 </figure>
@@ -510,69 +569,37 @@ pet = 0.0023 \times rsds \times (tas + 17.8) \times (tasmax - tasmin)^{0.5}
 <div class="cell">
 <details>
 <summary>Code</summary>
-<div class="sourceCode cell-code" id="cb9"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a>index <span class="ot">&lt;-</span> <span class="fu">data.frame</span>(</span>
-<span id="cb9-2"><a href="#cb9-2" aria-hidden="true" tabindex="-1"></a>  <span class="at">file =</span> <span class="fu">list.files</span>(<span class="st">"results/tmf/nc/"</span>, <span class="at">full.names =</span> F),</span>
-<span id="cb9-3"><a href="#cb9-3" aria-hidden="true" tabindex="-1"></a>  <span class="at">path =</span> <span class="fu">list.files</span>(<span class="st">"results/tmf/nc/"</span>, <span class="at">full.names =</span> T)</span>
-<span id="cb9-4"><a href="#cb9-4" aria-hidden="true" tabindex="-1"></a>) <span class="sc">%&gt;%</span> </span>
-<span id="cb9-5"><a href="#cb9-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">separate</span>(file, <span class="fu">c</span>(<span class="st">"country"</span>, <span class="st">"project"</span>, <span class="st">"domain"</span>, <span class="st">"institute"</span>, <span class="st">"model"</span>, <span class="st">"experiment"</span>,</span>
-<span id="cb9-6"><a href="#cb9-6" aria-hidden="true" tabindex="-1"></a>                   <span class="st">"ensemble"</span>, <span class="st">"rcm"</span>, <span class="st">"downscaling"</span>, <span class="st">"base"</span>, <span class="st">"aggregation"</span>,</span>
-<span id="cb9-7"><a href="#cb9-7" aria-hidden="true" tabindex="-1"></a>                   <span class="st">"period_future"</span>, <span class="st">"period_present"</span>, <span class="st">"period_hist"</span>), <span class="at">sep =</span> <span class="st">"_"</span>, <span class="at">remove =</span> F)</span>
-<span id="cb9-8"><a href="#cb9-8" aria-hidden="true" tabindex="-1"></a>files <span class="ot">&lt;-</span> index <span class="sc">%&gt;%</span> </span>
-<span id="cb9-9"><a href="#cb9-9" aria-hidden="true" tabindex="-1"></a>  <span class="fu">select</span>(country, project, experiment) <span class="sc">%&gt;%</span> </span>
-<span id="cb9-10"><a href="#cb9-10" aria-hidden="true" tabindex="-1"></a>  <span class="fu">unique</span>()</span>
-<span id="cb9-11"><a href="#cb9-11" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span>(r <span class="cf">in</span> <span class="dv">1</span><span class="sc">:</span><span class="fu">nrow</span>(files))</span>
-<span id="cb9-12"><a href="#cb9-12" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(index, </span>
-<span id="cb9-13"><a href="#cb9-13" aria-hidden="true" tabindex="-1"></a>              country <span class="sc">==</span> files<span class="sc">$</span>country[r], </span>
-<span id="cb9-14"><a href="#cb9-14" aria-hidden="true" tabindex="-1"></a>              project <span class="sc">==</span> files<span class="sc">$</span>project[r], </span>
-<span id="cb9-15"><a href="#cb9-15" aria-hidden="true" tabindex="-1"></a>              experiment <span class="sc">==</span> files<span class="sc">$</span>experiment[r])<span class="sc">$</span>path <span class="sc">%&gt;%</span> </span>
-<span id="cb9-16"><a href="#cb9-16" aria-hidden="true" tabindex="-1"></a>  <span class="fu">lapply</span>(rast, <span class="at">lyrs =</span> <span class="st">"pr"</span>) <span class="sc">%&gt;%</span> </span>
-<span id="cb9-17"><a href="#cb9-17" aria-hidden="true" tabindex="-1"></a>  <span class="fu">rast</span>() <span class="sc">%&gt;%</span> </span>
-<span id="cb9-18"><a href="#cb9-18" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mean</span>() <span class="sc">%&gt;%</span> </span>
-<span id="cb9-19"><a href="#cb9-19" aria-hidden="true" tabindex="-1"></a>  <span class="fu">writeRaster</span>(<span class="at">filename =</span> <span class="fu">paste0</span>(<span class="st">"outputs/pr/"</span>,</span>
-<span id="cb9-20"><a href="#cb9-20" aria-hidden="true" tabindex="-1"></a>                                files<span class="sc">$</span>country[r], <span class="st">"_"</span>,</span>
-<span id="cb9-21"><a href="#cb9-21" aria-hidden="true" tabindex="-1"></a>                                files<span class="sc">$</span>project[r], <span class="st">"_"</span>,</span>
-<span id="cb9-22"><a href="#cb9-22" aria-hidden="true" tabindex="-1"></a>                                files<span class="sc">$</span>experiment[r], <span class="st">".tif"</span>),</span>
-<span id="cb9-23"><a href="#cb9-23" aria-hidden="true" tabindex="-1"></a>              <span class="at">overwrite =</span> T)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb10"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a>index <span class="ot">&lt;-</span> <span class="fu">data.frame</span>(</span>
+<span id="cb10-2"><a href="#cb10-2" aria-hidden="true" tabindex="-1"></a>  <span class="at">file =</span> <span class="fu">list.files</span>(<span class="st">"results/tmf/nc/"</span>, <span class="at">full.names =</span> F),</span>
+<span id="cb10-3"><a href="#cb10-3" aria-hidden="true" tabindex="-1"></a>  <span class="at">path =</span> <span class="fu">list.files</span>(<span class="st">"results/tmf/nc/"</span>, <span class="at">full.names =</span> T)</span>
+<span id="cb10-4"><a href="#cb10-4" aria-hidden="true" tabindex="-1"></a>) <span class="sc">%&gt;%</span> </span>
+<span id="cb10-5"><a href="#cb10-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">separate</span>(file, <span class="fu">c</span>(<span class="st">"country"</span>, <span class="st">"project"</span>, <span class="st">"domain"</span>, <span class="st">"institute"</span>, <span class="st">"model"</span>, <span class="st">"experiment"</span>,</span>
+<span id="cb10-6"><a href="#cb10-6" aria-hidden="true" tabindex="-1"></a>                   <span class="st">"ensemble"</span>, <span class="st">"rcm"</span>, <span class="st">"downscaling"</span>, <span class="st">"base"</span>, <span class="st">"aggregation"</span>,</span>
+<span id="cb10-7"><a href="#cb10-7" aria-hidden="true" tabindex="-1"></a>                   <span class="st">"period_future"</span>, <span class="st">"period_present"</span>, <span class="st">"period_hist"</span>), <span class="at">sep =</span> <span class="st">"_"</span>, <span class="at">remove =</span> F)</span>
+<span id="cb10-8"><a href="#cb10-8" aria-hidden="true" tabindex="-1"></a>files <span class="ot">&lt;-</span> index <span class="sc">%&gt;%</span> </span>
+<span id="cb10-9"><a href="#cb10-9" aria-hidden="true" tabindex="-1"></a>  <span class="fu">select</span>(country, project, experiment) <span class="sc">%&gt;%</span> </span>
+<span id="cb10-10"><a href="#cb10-10" aria-hidden="true" tabindex="-1"></a>  <span class="fu">unique</span>()</span>
+<span id="cb10-11"><a href="#cb10-11" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span>(r <span class="cf">in</span> <span class="dv">1</span><span class="sc">:</span><span class="fu">nrow</span>(files))</span>
+<span id="cb10-12"><a href="#cb10-12" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(index, </span>
+<span id="cb10-13"><a href="#cb10-13" aria-hidden="true" tabindex="-1"></a>              country <span class="sc">==</span> files<span class="sc">$</span>country[r], </span>
+<span id="cb10-14"><a href="#cb10-14" aria-hidden="true" tabindex="-1"></a>              project <span class="sc">==</span> files<span class="sc">$</span>project[r], </span>
+<span id="cb10-15"><a href="#cb10-15" aria-hidden="true" tabindex="-1"></a>              experiment <span class="sc">==</span> files<span class="sc">$</span>experiment[r])<span class="sc">$</span>path <span class="sc">%&gt;%</span> </span>
+<span id="cb10-16"><a href="#cb10-16" aria-hidden="true" tabindex="-1"></a>  <span class="fu">lapply</span>(rast, <span class="at">lyrs =</span> <span class="st">"pr"</span>) <span class="sc">%&gt;%</span> </span>
+<span id="cb10-17"><a href="#cb10-17" aria-hidden="true" tabindex="-1"></a>  <span class="fu">rast</span>() <span class="sc">%&gt;%</span> </span>
+<span id="cb10-18"><a href="#cb10-18" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mean</span>() <span class="sc">%&gt;%</span> </span>
+<span id="cb10-19"><a href="#cb10-19" aria-hidden="true" tabindex="-1"></a>  <span class="fu">writeRaster</span>(<span class="at">filename =</span> <span class="fu">paste0</span>(<span class="st">"outputs/pr/"</span>,</span>
+<span id="cb10-20"><a href="#cb10-20" aria-hidden="true" tabindex="-1"></a>                                files<span class="sc">$</span>country[r], <span class="st">"_"</span>,</span>
+<span id="cb10-21"><a href="#cb10-21" aria-hidden="true" tabindex="-1"></a>                                files<span class="sc">$</span>project[r], <span class="st">"_"</span>,</span>
+<span id="cb10-22"><a href="#cb10-22" aria-hidden="true" tabindex="-1"></a>                                files<span class="sc">$</span>experiment[r], <span class="st">".tif"</span>),</span>
+<span id="cb10-23"><a href="#cb10-23" aria-hidden="true" tabindex="-1"></a>              <span class="at">overwrite =</span> T)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </details>
 </div>
 <div class="cell">
 <details>
 <summary>Code</summary>
-<div class="sourceCode cell-code" id="cb10"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a>fg <span class="ot">&lt;-</span> <span class="fu">rast</span>(<span class="fu">list.files</span>(<span class="st">"outputs/pr/"</span>, <span class="at">pattern =</span> <span class="st">"Guiana"</span>, <span class="at">full.names =</span> T))</span>
-<span id="cb10-2"><a href="#cb10-2" aria-hidden="true" tabindex="-1"></a><span class="fu">names</span>(fg) <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="st">"CMIP6_2.6"</span>, <span class="st">"CMIP6_8.5"</span>, <span class="st">"CORDEX_2.6"</span>, <span class="st">"CORDEX_8.5"</span>)</span>
-<span id="cb10-3"><a href="#cb10-3" aria-hidden="true" tabindex="-1"></a><span class="fu">as.data.frame</span>(fg, <span class="at">xy =</span> T, <span class="at">na.rm =</span> F) <span class="sc">%&gt;%</span> </span>
-<span id="cb10-4"><a href="#cb10-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">gather</span>(projection, tmf, <span class="sc">-</span>x, <span class="sc">-</span>y) <span class="sc">%&gt;%</span> </span>
-<span id="cb10-5"><a href="#cb10-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">separate</span>(projection, <span class="fu">c</span>(<span class="st">"project"</span>, <span class="st">"experiment"</span>), <span class="st">"_"</span>) <span class="sc">%&gt;%</span> </span>
-<span id="cb10-6"><a href="#cb10-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">project =</span> <span class="fu">factor</span>(project, <span class="at">levels =</span> <span class="fu">c</span>(<span class="st">"CMIP6"</span>, <span class="st">"CORDEX"</span>, <span class="st">"CMIP6-CORDEX"</span>))) <span class="sc">%&gt;%</span> </span>
-<span id="cb10-7"><a href="#cb10-7" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ggplot</span>(<span class="fu">aes</span>(x, y, <span class="at">fill =</span> tmf)) <span class="sc">+</span></span>
-<span id="cb10-8"><a href="#cb10-8" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_raster</span>() <span class="sc">+</span></span>
-<span id="cb10-9"><a href="#cb10-9" aria-hidden="true" tabindex="-1"></a>  <span class="fu">coord_equal</span>() <span class="sc">+</span></span>
-<span id="cb10-10"><a href="#cb10-10" aria-hidden="true" tabindex="-1"></a>  <span class="fu">facet_grid</span>(experiment <span class="sc">~</span> project) <span class="sc">+</span></span>
-<span id="cb10-11"><a href="#cb10-11" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme_bw</span>() <span class="sc">+</span></span>
-<span id="cb10-12"><a href="#cb10-12" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme</span>(<span class="at">axis.title =</span> <span class="fu">element_blank</span>(), </span>
-<span id="cb10-13"><a href="#cb10-13" aria-hidden="true" tabindex="-1"></a>        <span class="at">axis.ticks =</span> <span class="fu">element_blank</span>(),</span>
-<span id="cb10-14"><a href="#cb10-14" aria-hidden="true" tabindex="-1"></a>        <span class="at">axis.text =</span> <span class="fu">element_blank</span>(), </span>
-<span id="cb10-15"><a href="#cb10-15" aria-hidden="true" tabindex="-1"></a>        <span class="at">panel.border =</span> <span class="fu">element_blank</span>(), <span class="at">panel.grid =</span> <span class="fu">element_blank</span>(),</span>
-<span id="cb10-16"><a href="#cb10-16" aria-hidden="true" tabindex="-1"></a>        <span class="at">panel.background =</span> <span class="fu">element_rect</span>(<span class="at">fill =</span> <span class="st">"black"</span>)) <span class="sc">+</span></span>
-<span id="cb10-17"><a href="#cb10-17" aria-hidden="true" tabindex="-1"></a>  <span class="fu">scale_fill_gradient2</span>(<span class="st">""</span>, <span class="at">low =</span> <span class="st">"#543005"</span>, <span class="at">mid =</span> <span class="st">"white"</span>, <span class="at">high =</span> <span class="st">"#003c30"</span>, </span>
-<span id="cb10-18"><a href="#cb10-18" aria-hidden="true" tabindex="-1"></a>                       <span class="at">midpoint =</span> <span class="dv">1000</span>, <span class="at">na.value =</span> <span class="st">"black"</span>) <span class="sc">+</span></span>
-<span id="cb10-19"><a href="#cb10-19" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_contour</span>(<span class="fu">aes</span>(<span class="at">z =</span> tmf), <span class="at">breaks =</span> <span class="dv">1000</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-</details>
-<div class="cell-output-display">
-<div class="quarto-figure quarto-figure-center">
-<figure class="figure">
-<p><img src="04_tmf_files/figure-html/prfg-1.png" class="img-fluid figure-img" width="672"></p>
-<figcaption class="figure-caption">Annual precipitation predicted in French Guiana by the end of the century for CMIP6 and CORDEX model with experiment 2.6 and 8.5</figcaption>
-</figure>
-</div>
-</div>
-</div>
-<div class="cell">
-<details>
-<summary>Code</summary>
-<div class="sourceCode cell-code" id="cb11"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a>ci <span class="ot">&lt;-</span> <span class="fu">rast</span>(<span class="fu">list.files</span>(<span class="st">"outputs/pr/"</span>, <span class="at">pattern =</span> <span class="st">"Ivoire"</span>, <span class="at">full.names =</span> T))</span>
-<span id="cb11-2"><a href="#cb11-2" aria-hidden="true" tabindex="-1"></a><span class="fu">names</span>(ci) <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="st">"CMIP6_2.6"</span>, <span class="st">"CMIP6_8.5"</span>, <span class="st">"CORDEX_2.6"</span>, <span class="st">"CORDEX_8.5"</span>)</span>
-<span id="cb11-3"><a href="#cb11-3" aria-hidden="true" tabindex="-1"></a><span class="fu">as.data.frame</span>(ci, <span class="at">xy =</span> T, <span class="at">na.rm =</span> F) <span class="sc">%&gt;%</span> </span>
+<div class="sourceCode cell-code" id="cb11"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a>fg <span class="ot">&lt;-</span> <span class="fu">rast</span>(<span class="fu">list.files</span>(<span class="st">"outputs/pr/"</span>, <span class="at">pattern =</span> <span class="st">"Guiana"</span>, <span class="at">full.names =</span> T))</span>
+<span id="cb11-2"><a href="#cb11-2" aria-hidden="true" tabindex="-1"></a><span class="fu">names</span>(fg) <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="st">"CMIP6_2.6"</span>, <span class="st">"CMIP6_8.5"</span>, <span class="st">"CORDEX_2.6"</span>, <span class="st">"CORDEX_8.5"</span>)</span>
+<span id="cb11-3"><a href="#cb11-3" aria-hidden="true" tabindex="-1"></a><span class="fu">as.data.frame</span>(fg, <span class="at">xy =</span> T, <span class="at">na.rm =</span> F) <span class="sc">%&gt;%</span> </span>
 <span id="cb11-4"><a href="#cb11-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">gather</span>(projection, tmf, <span class="sc">-</span>x, <span class="sc">-</span>y) <span class="sc">%&gt;%</span> </span>
 <span id="cb11-5"><a href="#cb11-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">separate</span>(projection, <span class="fu">c</span>(<span class="st">"project"</span>, <span class="st">"experiment"</span>), <span class="st">"_"</span>) <span class="sc">%&gt;%</span> </span>
 <span id="cb11-6"><a href="#cb11-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">project =</span> <span class="fu">factor</span>(project, <span class="at">levels =</span> <span class="fu">c</span>(<span class="st">"CMIP6"</span>, <span class="st">"CORDEX"</span>, <span class="st">"CMIP6-CORDEX"</span>))) <span class="sc">%&gt;%</span> </span>
@@ -593,8 +620,8 @@ pet = 0.0023 \times rsds \times (tas + 17.8) \times (tasmax - tasmin)^{0.5}
 <div class="cell-output-display">
 <div class="quarto-figure quarto-figure-center">
 <figure class="figure">
-<p><img src="04_tmf_files/figure-html/prci-1.png" class="img-fluid figure-img" width="672"></p>
-<figcaption class="figure-caption">Annual precipitation predicted in Ivory Coast by the end of the century for CMIP6 and CORDEX model with experiment 2.6 and 8.5</figcaption>
+<p><img src="04_tmf_files/figure-html/prfg-1.png" class="img-fluid figure-img" width="672"></p>
+<figcaption class="figure-caption">Annual precipitation predicted in French Guiana by the end of the century for CMIP6 and CORDEX model with experiment 2.6 and 8.5</figcaption>
 </figure>
 </div>
 </div>
@@ -602,13 +629,13 @@ pet = 0.0023 \times rsds \times (tas + 17.8) \times (tasmax - tasmin)^{0.5}
 <div class="cell">
 <details>
 <summary>Code</summary>
-<div class="sourceCode cell-code" id="cb12"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a>nc <span class="ot">&lt;-</span> <span class="fu">rast</span>(<span class="fu">list.files</span>(<span class="st">"outputs/pr/"</span>, <span class="at">pattern =</span> <span class="st">"Caledonia"</span>, <span class="at">full.names =</span> T))</span>
-<span id="cb12-2"><a href="#cb12-2" aria-hidden="true" tabindex="-1"></a><span class="fu">names</span>(nc) <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="st">"CMIP6_2.6"</span>, <span class="st">"CMIP6_8.5"</span>, <span class="st">"CORDEX_2.6"</span>, <span class="st">"CORDEX_8.5"</span>)</span>
-<span id="cb12-3"><a href="#cb12-3" aria-hidden="true" tabindex="-1"></a><span class="fu">as.data.frame</span>(nc, <span class="at">xy =</span> T, <span class="at">na.rm =</span> F) <span class="sc">%&gt;%</span> </span>
+<div class="sourceCode cell-code" id="cb12"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a>ci <span class="ot">&lt;-</span> <span class="fu">rast</span>(<span class="fu">list.files</span>(<span class="st">"outputs/pr/"</span>, <span class="at">pattern =</span> <span class="st">"Ivoire"</span>, <span class="at">full.names =</span> T))</span>
+<span id="cb12-2"><a href="#cb12-2" aria-hidden="true" tabindex="-1"></a><span class="fu">names</span>(ci) <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="st">"CMIP6_2.6"</span>, <span class="st">"CMIP6_8.5"</span>, <span class="st">"CORDEX_2.6"</span>, <span class="st">"CORDEX_8.5"</span>)</span>
+<span id="cb12-3"><a href="#cb12-3" aria-hidden="true" tabindex="-1"></a><span class="fu">as.data.frame</span>(ci, <span class="at">xy =</span> T, <span class="at">na.rm =</span> F) <span class="sc">%&gt;%</span> </span>
 <span id="cb12-4"><a href="#cb12-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">gather</span>(projection, tmf, <span class="sc">-</span>x, <span class="sc">-</span>y) <span class="sc">%&gt;%</span> </span>
 <span id="cb12-5"><a href="#cb12-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">separate</span>(projection, <span class="fu">c</span>(<span class="st">"project"</span>, <span class="st">"experiment"</span>), <span class="st">"_"</span>) <span class="sc">%&gt;%</span> </span>
 <span id="cb12-6"><a href="#cb12-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">project =</span> <span class="fu">factor</span>(project, <span class="at">levels =</span> <span class="fu">c</span>(<span class="st">"CMIP6"</span>, <span class="st">"CORDEX"</span>, <span class="st">"CMIP6-CORDEX"</span>))) <span class="sc">%&gt;%</span> </span>
-<span id="cb12-7"><a href="#cb12-7" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ggplot</span>(<span class="fu">aes</span>(x, <span class="sc">-</span>y, <span class="at">fill =</span> tmf)) <span class="sc">+</span></span>
+<span id="cb12-7"><a href="#cb12-7" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ggplot</span>(<span class="fu">aes</span>(x, y, <span class="at">fill =</span> tmf)) <span class="sc">+</span></span>
 <span id="cb12-8"><a href="#cb12-8" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_raster</span>() <span class="sc">+</span></span>
 <span id="cb12-9"><a href="#cb12-9" aria-hidden="true" tabindex="-1"></a>  <span class="fu">coord_equal</span>() <span class="sc">+</span></span>
 <span id="cb12-10"><a href="#cb12-10" aria-hidden="true" tabindex="-1"></a>  <span class="fu">facet_grid</span>(experiment <span class="sc">~</span> project) <span class="sc">+</span></span>
@@ -625,6 +652,38 @@ pet = 0.0023 \times rsds \times (tas + 17.8) \times (tasmax - tasmin)^{0.5}
 <div class="cell-output-display">
 <div class="quarto-figure quarto-figure-center">
 <figure class="figure">
+<p><img src="04_tmf_files/figure-html/prci-1.png" class="img-fluid figure-img" width="672"></p>
+<figcaption class="figure-caption">Annual precipitation predicted in Ivory Coast by the end of the century for CMIP6 and CORDEX model with experiment 2.6 and 8.5</figcaption>
+</figure>
+</div>
+</div>
+</div>
+<div class="cell">
+<details>
+<summary>Code</summary>
+<div class="sourceCode cell-code" id="cb13"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true" tabindex="-1"></a>nc <span class="ot">&lt;-</span> <span class="fu">rast</span>(<span class="fu">list.files</span>(<span class="st">"outputs/pr/"</span>, <span class="at">pattern =</span> <span class="st">"Caledonia"</span>, <span class="at">full.names =</span> T))</span>
+<span id="cb13-2"><a href="#cb13-2" aria-hidden="true" tabindex="-1"></a><span class="fu">names</span>(nc) <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="st">"CMIP6_2.6"</span>, <span class="st">"CMIP6_8.5"</span>, <span class="st">"CORDEX_2.6"</span>, <span class="st">"CORDEX_8.5"</span>)</span>
+<span id="cb13-3"><a href="#cb13-3" aria-hidden="true" tabindex="-1"></a><span class="fu">as.data.frame</span>(nc, <span class="at">xy =</span> T, <span class="at">na.rm =</span> F) <span class="sc">%&gt;%</span> </span>
+<span id="cb13-4"><a href="#cb13-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">gather</span>(projection, tmf, <span class="sc">-</span>x, <span class="sc">-</span>y) <span class="sc">%&gt;%</span> </span>
+<span id="cb13-5"><a href="#cb13-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">separate</span>(projection, <span class="fu">c</span>(<span class="st">"project"</span>, <span class="st">"experiment"</span>), <span class="st">"_"</span>) <span class="sc">%&gt;%</span> </span>
+<span id="cb13-6"><a href="#cb13-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">project =</span> <span class="fu">factor</span>(project, <span class="at">levels =</span> <span class="fu">c</span>(<span class="st">"CMIP6"</span>, <span class="st">"CORDEX"</span>, <span class="st">"CMIP6-CORDEX"</span>))) <span class="sc">%&gt;%</span> </span>
+<span id="cb13-7"><a href="#cb13-7" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ggplot</span>(<span class="fu">aes</span>(x, <span class="sc">-</span>y, <span class="at">fill =</span> tmf)) <span class="sc">+</span></span>
+<span id="cb13-8"><a href="#cb13-8" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_raster</span>() <span class="sc">+</span></span>
+<span id="cb13-9"><a href="#cb13-9" aria-hidden="true" tabindex="-1"></a>  <span class="fu">coord_equal</span>() <span class="sc">+</span></span>
+<span id="cb13-10"><a href="#cb13-10" aria-hidden="true" tabindex="-1"></a>  <span class="fu">facet_grid</span>(experiment <span class="sc">~</span> project) <span class="sc">+</span></span>
+<span id="cb13-11"><a href="#cb13-11" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme_bw</span>() <span class="sc">+</span></span>
+<span id="cb13-12"><a href="#cb13-12" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme</span>(<span class="at">axis.title =</span> <span class="fu">element_blank</span>(), </span>
+<span id="cb13-13"><a href="#cb13-13" aria-hidden="true" tabindex="-1"></a>        <span class="at">axis.ticks =</span> <span class="fu">element_blank</span>(),</span>
+<span id="cb13-14"><a href="#cb13-14" aria-hidden="true" tabindex="-1"></a>        <span class="at">axis.text =</span> <span class="fu">element_blank</span>(), </span>
+<span id="cb13-15"><a href="#cb13-15" aria-hidden="true" tabindex="-1"></a>        <span class="at">panel.border =</span> <span class="fu">element_blank</span>(), <span class="at">panel.grid =</span> <span class="fu">element_blank</span>(),</span>
+<span id="cb13-16"><a href="#cb13-16" aria-hidden="true" tabindex="-1"></a>        <span class="at">panel.background =</span> <span class="fu">element_rect</span>(<span class="at">fill =</span> <span class="st">"black"</span>)) <span class="sc">+</span></span>
+<span id="cb13-17"><a href="#cb13-17" aria-hidden="true" tabindex="-1"></a>  <span class="fu">scale_fill_gradient2</span>(<span class="st">""</span>, <span class="at">low =</span> <span class="st">"#543005"</span>, <span class="at">mid =</span> <span class="st">"white"</span>, <span class="at">high =</span> <span class="st">"#003c30"</span>, </span>
+<span id="cb13-18"><a href="#cb13-18" aria-hidden="true" tabindex="-1"></a>                       <span class="at">midpoint =</span> <span class="dv">1000</span>, <span class="at">na.value =</span> <span class="st">"black"</span>) <span class="sc">+</span></span>
+<span id="cb13-19"><a href="#cb13-19" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_contour</span>(<span class="fu">aes</span>(<span class="at">z =</span> tmf), <span class="at">breaks =</span> <span class="dv">1000</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+<div class="cell-output-display">
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
 <p><img src="04_tmf_files/figure-html/prnc-1.png" class="img-fluid figure-img" width="672"></p>
 <figcaption class="figure-caption">Annual precipitation predicted in New Caledonia by the end of the century for CMIP6 and CORDEX model with experiment 2.6 and 8.5</figcaption>
 </figure>
@@ -637,69 +696,37 @@ pet = 0.0023 \times rsds \times (tas + 17.8) \times (tasmax - tasmin)^{0.5}
 <div class="cell">
 <details>
 <summary>Code</summary>
-<div class="sourceCode cell-code" id="cb13"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true" tabindex="-1"></a>index <span class="ot">&lt;-</span> <span class="fu">data.frame</span>(</span>
-<span id="cb13-2"><a href="#cb13-2" aria-hidden="true" tabindex="-1"></a>  <span class="at">file =</span> <span class="fu">list.files</span>(<span class="st">"results/tmf/nc/"</span>, <span class="at">full.names =</span> F),</span>
-<span id="cb13-3"><a href="#cb13-3" aria-hidden="true" tabindex="-1"></a>  <span class="at">path =</span> <span class="fu">list.files</span>(<span class="st">"results/tmf/nc/"</span>, <span class="at">full.names =</span> T)</span>
-<span id="cb13-4"><a href="#cb13-4" aria-hidden="true" tabindex="-1"></a>) <span class="sc">%&gt;%</span> </span>
-<span id="cb13-5"><a href="#cb13-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">separate</span>(file, <span class="fu">c</span>(<span class="st">"country"</span>, <span class="st">"project"</span>, <span class="st">"domain"</span>, <span class="st">"institute"</span>, <span class="st">"model"</span>, <span class="st">"experiment"</span>,</span>
-<span id="cb13-6"><a href="#cb13-6" aria-hidden="true" tabindex="-1"></a>                   <span class="st">"ensemble"</span>, <span class="st">"rcm"</span>, <span class="st">"downscaling"</span>, <span class="st">"base"</span>, <span class="st">"aggregation"</span>,</span>
-<span id="cb13-7"><a href="#cb13-7" aria-hidden="true" tabindex="-1"></a>                   <span class="st">"period_future"</span>, <span class="st">"period_present"</span>, <span class="st">"period_hist"</span>), <span class="at">sep =</span> <span class="st">"_"</span>, <span class="at">remove =</span> F)</span>
-<span id="cb13-8"><a href="#cb13-8" aria-hidden="true" tabindex="-1"></a>files <span class="ot">&lt;-</span> index <span class="sc">%&gt;%</span> </span>
-<span id="cb13-9"><a href="#cb13-9" aria-hidden="true" tabindex="-1"></a>  <span class="fu">select</span>(country, project, experiment) <span class="sc">%&gt;%</span> </span>
-<span id="cb13-10"><a href="#cb13-10" aria-hidden="true" tabindex="-1"></a>  <span class="fu">unique</span>()</span>
-<span id="cb13-11"><a href="#cb13-11" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span>(r <span class="cf">in</span> <span class="dv">1</span><span class="sc">:</span><span class="fu">nrow</span>(files))</span>
-<span id="cb13-12"><a href="#cb13-12" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(index, </span>
-<span id="cb13-13"><a href="#cb13-13" aria-hidden="true" tabindex="-1"></a>              country <span class="sc">==</span> files<span class="sc">$</span>country[r], </span>
-<span id="cb13-14"><a href="#cb13-14" aria-hidden="true" tabindex="-1"></a>              project <span class="sc">==</span> files<span class="sc">$</span>project[r], </span>
-<span id="cb13-15"><a href="#cb13-15" aria-hidden="true" tabindex="-1"></a>              experiment <span class="sc">==</span> files<span class="sc">$</span>experiment[r])<span class="sc">$</span>path <span class="sc">%&gt;%</span> </span>
-<span id="cb13-16"><a href="#cb13-16" aria-hidden="true" tabindex="-1"></a>  <span class="fu">lapply</span>(rast, <span class="at">lyrs =</span> <span class="st">"pet_pr"</span>) <span class="sc">%&gt;%</span> </span>
-<span id="cb13-17"><a href="#cb13-17" aria-hidden="true" tabindex="-1"></a>  <span class="fu">rast</span>() <span class="sc">%&gt;%</span> </span>
-<span id="cb13-18"><a href="#cb13-18" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mean</span>() <span class="sc">%&gt;%</span> </span>
-<span id="cb13-19"><a href="#cb13-19" aria-hidden="true" tabindex="-1"></a>  <span class="fu">writeRaster</span>(<span class="at">filename =</span> <span class="fu">paste0</span>(<span class="st">"outputs/wb/"</span>,</span>
-<span id="cb13-20"><a href="#cb13-20" aria-hidden="true" tabindex="-1"></a>                                files<span class="sc">$</span>country[r], <span class="st">"_"</span>,</span>
-<span id="cb13-21"><a href="#cb13-21" aria-hidden="true" tabindex="-1"></a>                                files<span class="sc">$</span>project[r], <span class="st">"_"</span>,</span>
-<span id="cb13-22"><a href="#cb13-22" aria-hidden="true" tabindex="-1"></a>                                files<span class="sc">$</span>experiment[r], <span class="st">".tif"</span>),</span>
-<span id="cb13-23"><a href="#cb13-23" aria-hidden="true" tabindex="-1"></a>              <span class="at">overwrite =</span> T)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb14"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb14-1"><a href="#cb14-1" aria-hidden="true" tabindex="-1"></a>index <span class="ot">&lt;-</span> <span class="fu">data.frame</span>(</span>
+<span id="cb14-2"><a href="#cb14-2" aria-hidden="true" tabindex="-1"></a>  <span class="at">file =</span> <span class="fu">list.files</span>(<span class="st">"results/tmf/nc/"</span>, <span class="at">full.names =</span> F),</span>
+<span id="cb14-3"><a href="#cb14-3" aria-hidden="true" tabindex="-1"></a>  <span class="at">path =</span> <span class="fu">list.files</span>(<span class="st">"results/tmf/nc/"</span>, <span class="at">full.names =</span> T)</span>
+<span id="cb14-4"><a href="#cb14-4" aria-hidden="true" tabindex="-1"></a>) <span class="sc">%&gt;%</span> </span>
+<span id="cb14-5"><a href="#cb14-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">separate</span>(file, <span class="fu">c</span>(<span class="st">"country"</span>, <span class="st">"project"</span>, <span class="st">"domain"</span>, <span class="st">"institute"</span>, <span class="st">"model"</span>, <span class="st">"experiment"</span>,</span>
+<span id="cb14-6"><a href="#cb14-6" aria-hidden="true" tabindex="-1"></a>                   <span class="st">"ensemble"</span>, <span class="st">"rcm"</span>, <span class="st">"downscaling"</span>, <span class="st">"base"</span>, <span class="st">"aggregation"</span>,</span>
+<span id="cb14-7"><a href="#cb14-7" aria-hidden="true" tabindex="-1"></a>                   <span class="st">"period_future"</span>, <span class="st">"period_present"</span>, <span class="st">"period_hist"</span>), <span class="at">sep =</span> <span class="st">"_"</span>, <span class="at">remove =</span> F)</span>
+<span id="cb14-8"><a href="#cb14-8" aria-hidden="true" tabindex="-1"></a>files <span class="ot">&lt;-</span> index <span class="sc">%&gt;%</span> </span>
+<span id="cb14-9"><a href="#cb14-9" aria-hidden="true" tabindex="-1"></a>  <span class="fu">select</span>(country, project, experiment) <span class="sc">%&gt;%</span> </span>
+<span id="cb14-10"><a href="#cb14-10" aria-hidden="true" tabindex="-1"></a>  <span class="fu">unique</span>()</span>
+<span id="cb14-11"><a href="#cb14-11" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span>(r <span class="cf">in</span> <span class="dv">1</span><span class="sc">:</span><span class="fu">nrow</span>(files))</span>
+<span id="cb14-12"><a href="#cb14-12" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(index, </span>
+<span id="cb14-13"><a href="#cb14-13" aria-hidden="true" tabindex="-1"></a>              country <span class="sc">==</span> files<span class="sc">$</span>country[r], </span>
+<span id="cb14-14"><a href="#cb14-14" aria-hidden="true" tabindex="-1"></a>              project <span class="sc">==</span> files<span class="sc">$</span>project[r], </span>
+<span id="cb14-15"><a href="#cb14-15" aria-hidden="true" tabindex="-1"></a>              experiment <span class="sc">==</span> files<span class="sc">$</span>experiment[r])<span class="sc">$</span>path <span class="sc">%&gt;%</span> </span>
+<span id="cb14-16"><a href="#cb14-16" aria-hidden="true" tabindex="-1"></a>  <span class="fu">lapply</span>(rast, <span class="at">lyrs =</span> <span class="st">"pet_pr"</span>) <span class="sc">%&gt;%</span> </span>
+<span id="cb14-17"><a href="#cb14-17" aria-hidden="true" tabindex="-1"></a>  <span class="fu">rast</span>() <span class="sc">%&gt;%</span> </span>
+<span id="cb14-18"><a href="#cb14-18" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mean</span>() <span class="sc">%&gt;%</span> </span>
+<span id="cb14-19"><a href="#cb14-19" aria-hidden="true" tabindex="-1"></a>  <span class="fu">writeRaster</span>(<span class="at">filename =</span> <span class="fu">paste0</span>(<span class="st">"outputs/wb/"</span>,</span>
+<span id="cb14-20"><a href="#cb14-20" aria-hidden="true" tabindex="-1"></a>                                files<span class="sc">$</span>country[r], <span class="st">"_"</span>,</span>
+<span id="cb14-21"><a href="#cb14-21" aria-hidden="true" tabindex="-1"></a>                                files<span class="sc">$</span>project[r], <span class="st">"_"</span>,</span>
+<span id="cb14-22"><a href="#cb14-22" aria-hidden="true" tabindex="-1"></a>                                files<span class="sc">$</span>experiment[r], <span class="st">".tif"</span>),</span>
+<span id="cb14-23"><a href="#cb14-23" aria-hidden="true" tabindex="-1"></a>              <span class="at">overwrite =</span> T)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </details>
 </div>
 <div class="cell">
 <details>
 <summary>Code</summary>
-<div class="sourceCode cell-code" id="cb14"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb14-1"><a href="#cb14-1" aria-hidden="true" tabindex="-1"></a>fg <span class="ot">&lt;-</span> <span class="fu">rast</span>(<span class="fu">list.files</span>(<span class="st">"outputs/wb/"</span>, <span class="at">pattern =</span> <span class="st">"Guiana"</span>, <span class="at">full.names =</span> T))</span>
-<span id="cb14-2"><a href="#cb14-2" aria-hidden="true" tabindex="-1"></a><span class="fu">names</span>(fg) <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="st">"CMIP6_2.6"</span>, <span class="st">"CMIP6_8.5"</span>, <span class="st">"CORDEX_2.6"</span>, <span class="st">"CORDEX_8.5"</span>)</span>
-<span id="cb14-3"><a href="#cb14-3" aria-hidden="true" tabindex="-1"></a><span class="fu">as.data.frame</span>(fg, <span class="at">xy =</span> T, <span class="at">na.rm =</span> F) <span class="sc">%&gt;%</span> </span>
-<span id="cb14-4"><a href="#cb14-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">gather</span>(projection, tmf, <span class="sc">-</span>x, <span class="sc">-</span>y) <span class="sc">%&gt;%</span> </span>
-<span id="cb14-5"><a href="#cb14-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">separate</span>(projection, <span class="fu">c</span>(<span class="st">"project"</span>, <span class="st">"experiment"</span>), <span class="st">"_"</span>) <span class="sc">%&gt;%</span> </span>
-<span id="cb14-6"><a href="#cb14-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">project =</span> <span class="fu">factor</span>(project, <span class="at">levels =</span> <span class="fu">c</span>(<span class="st">"CMIP6"</span>, <span class="st">"CORDEX"</span>, <span class="st">"CMIP6-CORDEX"</span>))) <span class="sc">%&gt;%</span> </span>
-<span id="cb14-7"><a href="#cb14-7" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ggplot</span>(<span class="fu">aes</span>(x, y, <span class="at">fill =</span> tmf)) <span class="sc">+</span></span>
-<span id="cb14-8"><a href="#cb14-8" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_raster</span>() <span class="sc">+</span></span>
-<span id="cb14-9"><a href="#cb14-9" aria-hidden="true" tabindex="-1"></a>  <span class="fu">coord_equal</span>() <span class="sc">+</span></span>
-<span id="cb14-10"><a href="#cb14-10" aria-hidden="true" tabindex="-1"></a>  <span class="fu">facet_grid</span>(experiment <span class="sc">~</span> project) <span class="sc">+</span></span>
-<span id="cb14-11"><a href="#cb14-11" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme_bw</span>() <span class="sc">+</span></span>
-<span id="cb14-12"><a href="#cb14-12" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme</span>(<span class="at">axis.title =</span> <span class="fu">element_blank</span>(), </span>
-<span id="cb14-13"><a href="#cb14-13" aria-hidden="true" tabindex="-1"></a>        <span class="at">axis.ticks =</span> <span class="fu">element_blank</span>(),</span>
-<span id="cb14-14"><a href="#cb14-14" aria-hidden="true" tabindex="-1"></a>        <span class="at">axis.text =</span> <span class="fu">element_blank</span>(), </span>
-<span id="cb14-15"><a href="#cb14-15" aria-hidden="true" tabindex="-1"></a>        <span class="at">panel.border =</span> <span class="fu">element_blank</span>(), <span class="at">panel.grid =</span> <span class="fu">element_blank</span>(),</span>
-<span id="cb14-16"><a href="#cb14-16" aria-hidden="true" tabindex="-1"></a>        <span class="at">panel.background =</span> <span class="fu">element_rect</span>(<span class="at">fill =</span> <span class="st">"black"</span>)) <span class="sc">%&gt;%</span> </span>
-<span id="cb14-17"><a href="#cb14-17" aria-hidden="true" tabindex="-1"></a>  <span class="fu">scale_fill_gradient2</span>(<span class="st">""</span>, <span class="at">low =</span> <span class="st">"#003c30"</span>, <span class="at">mid =</span> <span class="st">"white"</span>, <span class="at">high =</span> <span class="st">"#543005"</span>, </span>
-<span id="cb14-18"><a href="#cb14-18" aria-hidden="true" tabindex="-1"></a>                       <span class="at">midpoint =</span> <span class="dv">1</span>, <span class="at">na.value =</span> <span class="st">"black"</span>) <span class="sc">+</span></span>
-<span id="cb14-19"><a href="#cb14-19" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_contour</span>(<span class="fu">aes</span>(<span class="at">z =</span> tmf), <span class="at">breaks =</span> <span class="dv">1</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-</details>
-<div class="cell-output-display">
-<div class="quarto-figure quarto-figure-center">
-<figure class="figure">
-<p><img src="04_tmf_files/figure-html/wbfg-1.png" class="img-fluid figure-img" width="672"></p>
-<figcaption class="figure-caption">Annual ratio of potential evapotranspiration over precipitation ditribution predicted in French Guiana by the end of the century for CMIP6 and CORDEX model with experiment 2.6 and 8.5</figcaption>
-</figure>
-</div>
-</div>
-</div>
-<div class="cell">
-<details>
-<summary>Code</summary>
-<div class="sourceCode cell-code" id="cb15"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb15-1"><a href="#cb15-1" aria-hidden="true" tabindex="-1"></a>ci <span class="ot">&lt;-</span> <span class="fu">rast</span>(<span class="fu">list.files</span>(<span class="st">"outputs/wb/"</span>, <span class="at">pattern =</span> <span class="st">"Ivoire"</span>, <span class="at">full.names =</span> T))</span>
-<span id="cb15-2"><a href="#cb15-2" aria-hidden="true" tabindex="-1"></a><span class="fu">names</span>(ci) <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="st">"CMIP6_2.6"</span>, <span class="st">"CMIP6_8.5"</span>, <span class="st">"CORDEX_2.6"</span>, <span class="st">"CORDEX_8.5"</span>)</span>
-<span id="cb15-3"><a href="#cb15-3" aria-hidden="true" tabindex="-1"></a><span class="fu">as.data.frame</span>(ci, <span class="at">xy =</span> T, <span class="at">na.rm =</span> F) <span class="sc">%&gt;%</span> </span>
+<div class="sourceCode cell-code" id="cb15"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb15-1"><a href="#cb15-1" aria-hidden="true" tabindex="-1"></a>fg <span class="ot">&lt;-</span> <span class="fu">rast</span>(<span class="fu">list.files</span>(<span class="st">"outputs/wb/"</span>, <span class="at">pattern =</span> <span class="st">"Guiana"</span>, <span class="at">full.names =</span> T))</span>
+<span id="cb15-2"><a href="#cb15-2" aria-hidden="true" tabindex="-1"></a><span class="fu">names</span>(fg) <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="st">"CMIP6_2.6"</span>, <span class="st">"CMIP6_8.5"</span>, <span class="st">"CORDEX_2.6"</span>, <span class="st">"CORDEX_8.5"</span>)</span>
+<span id="cb15-3"><a href="#cb15-3" aria-hidden="true" tabindex="-1"></a><span class="fu">as.data.frame</span>(fg, <span class="at">xy =</span> T, <span class="at">na.rm =</span> F) <span class="sc">%&gt;%</span> </span>
 <span id="cb15-4"><a href="#cb15-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">gather</span>(projection, tmf, <span class="sc">-</span>x, <span class="sc">-</span>y) <span class="sc">%&gt;%</span> </span>
 <span id="cb15-5"><a href="#cb15-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">separate</span>(projection, <span class="fu">c</span>(<span class="st">"project"</span>, <span class="st">"experiment"</span>), <span class="st">"_"</span>) <span class="sc">%&gt;%</span> </span>
 <span id="cb15-6"><a href="#cb15-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">project =</span> <span class="fu">factor</span>(project, <span class="at">levels =</span> <span class="fu">c</span>(<span class="st">"CMIP6"</span>, <span class="st">"CORDEX"</span>, <span class="st">"CMIP6-CORDEX"</span>))) <span class="sc">%&gt;%</span> </span>
@@ -720,8 +747,8 @@ pet = 0.0023 \times rsds \times (tas + 17.8) \times (tasmax - tasmin)^{0.5}
 <div class="cell-output-display">
 <div class="quarto-figure quarto-figure-center">
 <figure class="figure">
-<p><img src="04_tmf_files/figure-html/wbci-1.png" class="img-fluid figure-img" width="672"></p>
-<figcaption class="figure-caption">Annual ratio of potential evapotranspiration over precipitation ditribution predicted in Ivory Coast by the end of the century for CMIP6 and CORDEX model with experiment 2.6 and 8.5</figcaption>
+<p><img src="04_tmf_files/figure-html/wbfg-1.png" class="img-fluid figure-img" width="672"></p>
+<figcaption class="figure-caption">Annual ratio of potential evapotranspiration over precipitation ditribution predicted in French Guiana by the end of the century for CMIP6 and CORDEX model with experiment 2.6 and 8.5</figcaption>
 </figure>
 </div>
 </div>
@@ -729,13 +756,13 @@ pet = 0.0023 \times rsds \times (tas + 17.8) \times (tasmax - tasmin)^{0.5}
 <div class="cell">
 <details>
 <summary>Code</summary>
-<div class="sourceCode cell-code" id="cb16"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb16-1"><a href="#cb16-1" aria-hidden="true" tabindex="-1"></a>nc <span class="ot">&lt;-</span> <span class="fu">rast</span>(<span class="fu">list.files</span>(<span class="st">"outputs/wb/"</span>, <span class="at">pattern =</span> <span class="st">"Caledonia"</span>, <span class="at">full.names =</span> T))</span>
-<span id="cb16-2"><a href="#cb16-2" aria-hidden="true" tabindex="-1"></a><span class="fu">names</span>(nc) <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="st">"CMIP6_2.6"</span>, <span class="st">"CMIP6_8.5"</span>, <span class="st">"CORDEX_2.6"</span>, <span class="st">"CORDEX_8.5"</span>)</span>
-<span id="cb16-3"><a href="#cb16-3" aria-hidden="true" tabindex="-1"></a><span class="fu">as.data.frame</span>(nc, <span class="at">xy =</span> T, <span class="at">na.rm =</span> F) <span class="sc">%&gt;%</span> </span>
+<div class="sourceCode cell-code" id="cb16"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb16-1"><a href="#cb16-1" aria-hidden="true" tabindex="-1"></a>ci <span class="ot">&lt;-</span> <span class="fu">rast</span>(<span class="fu">list.files</span>(<span class="st">"outputs/wb/"</span>, <span class="at">pattern =</span> <span class="st">"Ivoire"</span>, <span class="at">full.names =</span> T))</span>
+<span id="cb16-2"><a href="#cb16-2" aria-hidden="true" tabindex="-1"></a><span class="fu">names</span>(ci) <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="st">"CMIP6_2.6"</span>, <span class="st">"CMIP6_8.5"</span>, <span class="st">"CORDEX_2.6"</span>, <span class="st">"CORDEX_8.5"</span>)</span>
+<span id="cb16-3"><a href="#cb16-3" aria-hidden="true" tabindex="-1"></a><span class="fu">as.data.frame</span>(ci, <span class="at">xy =</span> T, <span class="at">na.rm =</span> F) <span class="sc">%&gt;%</span> </span>
 <span id="cb16-4"><a href="#cb16-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">gather</span>(projection, tmf, <span class="sc">-</span>x, <span class="sc">-</span>y) <span class="sc">%&gt;%</span> </span>
 <span id="cb16-5"><a href="#cb16-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">separate</span>(projection, <span class="fu">c</span>(<span class="st">"project"</span>, <span class="st">"experiment"</span>), <span class="st">"_"</span>) <span class="sc">%&gt;%</span> </span>
 <span id="cb16-6"><a href="#cb16-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">project =</span> <span class="fu">factor</span>(project, <span class="at">levels =</span> <span class="fu">c</span>(<span class="st">"CMIP6"</span>, <span class="st">"CORDEX"</span>, <span class="st">"CMIP6-CORDEX"</span>))) <span class="sc">%&gt;%</span> </span>
-<span id="cb16-7"><a href="#cb16-7" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ggplot</span>(<span class="fu">aes</span>(x, <span class="sc">-</span>y, <span class="at">fill =</span> tmf)) <span class="sc">+</span></span>
+<span id="cb16-7"><a href="#cb16-7" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ggplot</span>(<span class="fu">aes</span>(x, y, <span class="at">fill =</span> tmf)) <span class="sc">+</span></span>
 <span id="cb16-8"><a href="#cb16-8" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_raster</span>() <span class="sc">+</span></span>
 <span id="cb16-9"><a href="#cb16-9" aria-hidden="true" tabindex="-1"></a>  <span class="fu">coord_equal</span>() <span class="sc">+</span></span>
 <span id="cb16-10"><a href="#cb16-10" aria-hidden="true" tabindex="-1"></a>  <span class="fu">facet_grid</span>(experiment <span class="sc">~</span> project) <span class="sc">+</span></span>
@@ -748,6 +775,38 @@ pet = 0.0023 \times rsds \times (tas + 17.8) \times (tasmax - tasmin)^{0.5}
 <span id="cb16-17"><a href="#cb16-17" aria-hidden="true" tabindex="-1"></a>  <span class="fu">scale_fill_gradient2</span>(<span class="st">""</span>, <span class="at">low =</span> <span class="st">"#003c30"</span>, <span class="at">mid =</span> <span class="st">"white"</span>, <span class="at">high =</span> <span class="st">"#543005"</span>, </span>
 <span id="cb16-18"><a href="#cb16-18" aria-hidden="true" tabindex="-1"></a>                       <span class="at">midpoint =</span> <span class="dv">1</span>, <span class="at">na.value =</span> <span class="st">"black"</span>) <span class="sc">+</span></span>
 <span id="cb16-19"><a href="#cb16-19" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_contour</span>(<span class="fu">aes</span>(<span class="at">z =</span> tmf), <span class="at">breaks =</span> <span class="dv">1</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+<div class="cell-output-display">
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="04_tmf_files/figure-html/wbci-1.png" class="img-fluid figure-img" width="672"></p>
+<figcaption class="figure-caption">Annual ratio of potential evapotranspiration over precipitation ditribution predicted in Ivory Coast by the end of the century for CMIP6 and CORDEX model with experiment 2.6 and 8.5</figcaption>
+</figure>
+</div>
+</div>
+</div>
+<div class="cell">
+<details>
+<summary>Code</summary>
+<div class="sourceCode cell-code" id="cb17"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb17-1"><a href="#cb17-1" aria-hidden="true" tabindex="-1"></a>nc <span class="ot">&lt;-</span> <span class="fu">rast</span>(<span class="fu">list.files</span>(<span class="st">"outputs/wb/"</span>, <span class="at">pattern =</span> <span class="st">"Caledonia"</span>, <span class="at">full.names =</span> T))</span>
+<span id="cb17-2"><a href="#cb17-2" aria-hidden="true" tabindex="-1"></a><span class="fu">names</span>(nc) <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="st">"CMIP6_2.6"</span>, <span class="st">"CMIP6_8.5"</span>, <span class="st">"CORDEX_2.6"</span>, <span class="st">"CORDEX_8.5"</span>)</span>
+<span id="cb17-3"><a href="#cb17-3" aria-hidden="true" tabindex="-1"></a><span class="fu">as.data.frame</span>(nc, <span class="at">xy =</span> T, <span class="at">na.rm =</span> F) <span class="sc">%&gt;%</span> </span>
+<span id="cb17-4"><a href="#cb17-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">gather</span>(projection, tmf, <span class="sc">-</span>x, <span class="sc">-</span>y) <span class="sc">%&gt;%</span> </span>
+<span id="cb17-5"><a href="#cb17-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">separate</span>(projection, <span class="fu">c</span>(<span class="st">"project"</span>, <span class="st">"experiment"</span>), <span class="st">"_"</span>) <span class="sc">%&gt;%</span> </span>
+<span id="cb17-6"><a href="#cb17-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">project =</span> <span class="fu">factor</span>(project, <span class="at">levels =</span> <span class="fu">c</span>(<span class="st">"CMIP6"</span>, <span class="st">"CORDEX"</span>, <span class="st">"CMIP6-CORDEX"</span>))) <span class="sc">%&gt;%</span> </span>
+<span id="cb17-7"><a href="#cb17-7" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ggplot</span>(<span class="fu">aes</span>(x, <span class="sc">-</span>y, <span class="at">fill =</span> tmf)) <span class="sc">+</span></span>
+<span id="cb17-8"><a href="#cb17-8" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_raster</span>() <span class="sc">+</span></span>
+<span id="cb17-9"><a href="#cb17-9" aria-hidden="true" tabindex="-1"></a>  <span class="fu">coord_equal</span>() <span class="sc">+</span></span>
+<span id="cb17-10"><a href="#cb17-10" aria-hidden="true" tabindex="-1"></a>  <span class="fu">facet_grid</span>(experiment <span class="sc">~</span> project) <span class="sc">+</span></span>
+<span id="cb17-11"><a href="#cb17-11" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme_bw</span>() <span class="sc">+</span></span>
+<span id="cb17-12"><a href="#cb17-12" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme</span>(<span class="at">axis.title =</span> <span class="fu">element_blank</span>(), </span>
+<span id="cb17-13"><a href="#cb17-13" aria-hidden="true" tabindex="-1"></a>        <span class="at">axis.ticks =</span> <span class="fu">element_blank</span>(),</span>
+<span id="cb17-14"><a href="#cb17-14" aria-hidden="true" tabindex="-1"></a>        <span class="at">axis.text =</span> <span class="fu">element_blank</span>(), </span>
+<span id="cb17-15"><a href="#cb17-15" aria-hidden="true" tabindex="-1"></a>        <span class="at">panel.border =</span> <span class="fu">element_blank</span>(), <span class="at">panel.grid =</span> <span class="fu">element_blank</span>(),</span>
+<span id="cb17-16"><a href="#cb17-16" aria-hidden="true" tabindex="-1"></a>        <span class="at">panel.background =</span> <span class="fu">element_rect</span>(<span class="at">fill =</span> <span class="st">"black"</span>)) <span class="sc">%&gt;%</span> </span>
+<span id="cb17-17"><a href="#cb17-17" aria-hidden="true" tabindex="-1"></a>  <span class="fu">scale_fill_gradient2</span>(<span class="st">""</span>, <span class="at">low =</span> <span class="st">"#003c30"</span>, <span class="at">mid =</span> <span class="st">"white"</span>, <span class="at">high =</span> <span class="st">"#543005"</span>, </span>
+<span id="cb17-18"><a href="#cb17-18" aria-hidden="true" tabindex="-1"></a>                       <span class="at">midpoint =</span> <span class="dv">1</span>, <span class="at">na.value =</span> <span class="st">"black"</span>) <span class="sc">+</span></span>
+<span id="cb17-19"><a href="#cb17-19" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_contour</span>(<span class="fu">aes</span>(<span class="at">z =</span> tmf), <span class="at">breaks =</span> <span class="dv">1</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </details>
 <div class="cell-output-display">
 <div class="quarto-figure quarto-figure-center">

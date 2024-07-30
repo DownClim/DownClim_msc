@@ -1,0 +1,16 @@
+---
+title: "Figures for the manuscript"
+author: Sylvain Schmitt -
+date: today
+date-format: medium
+format: 
+  gfm:
+    toc: true
+    toc-depth: 2
+---
+
+This folder will contains all the figures and tables for the manuscript.
+
+```{r, comment=""}
+fs::dir_tree()
+```
