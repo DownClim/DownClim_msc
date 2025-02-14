@@ -1,0 +1,230 @@
+```{r set}
+#| include: false
+library(tidyverse)
+library(sf)
+```
+
+# MeteoFrance {.unnumbered}
+
+## Data
+
+```{r meteofrance_data}
+#| warning: false
+#| message: false
+weather <- list.files("data", pattern = "gz", full.names = TRUE) %>% 
+  read_delim(locale = locale(decimal_mark = "."), delim = ";") %>% 
+  select(NOM_USUEL, LAT, LON, AAAAMM, RR, TM, TMMAX, TMMIN) %>% 
+  rename_all(tolower) %>% 
+  rename(loc = nom_usuel, pr = rr, tas = tm, tasmin = tmmin, tasmax = tmmax) %>% 
+  mutate(pr = as.numeric(pr)) %>% 
+  mutate(aaaamm = as.character(aaaamm)) %>% 
+  mutate(year = str_sub(aaaamm, 1, 4), month = str_sub(aaaamm, 5, 6)) %>% 
+  mutate(date = as_date(paste0(year, "-", month, "-01"))) %>% 
+  select(loc, lat, lon, date, pr, tas, tasmin, tasmax)
+climate <- weather %>% 
+  filter(year(date) %in% 2006:2019) %>% 
+  group_by(loc, year(date)) %>% 
+  filter(n() == 12) %>% 
+  group_by(loc, lat, lon, month = month(date)) %>% 
+  summarise_all(mean, na.omit = TRUE) %>% 
+  mutate(country = ifelse(lon > 0, "New Caledonia", "French Guiana"))
+annual_climate <- climate %>% 
+  group_by(country, loc, lat, lon) %>% 
+  summarise(pr = sum(pr), tas = mean(tas)) %>% 
+  st_as_sf(coords = c("lon", "lat"), crs = 4326)
+xy <- climate %>% 
+  select(loc, lat, lon) %>% 
+  unique() %>% 
+  st_as_sf(coords = c("lon", "lat"), crs = 4326)
+```
+
+```{r meteofrance_climato}
+#| warning: false
+#| message: false
+#| fig-cap: "Caption."
+climate %>% 
+  group_by(country, loc, lat, lon) %>% 
+  summarise(pr = sum(pr), tas = mean(tas)) %>% 
+  ggplot(aes(pr, tas, label = tolower(loc), col = country)) +
+  geom_point() +
+  ggrepel::geom_text_repel() +
+  theme_bw() +
+  xlab("Yearly precipitaiton [mm]") +
+  ylab("Annual mean temperature [°C]") +
+  theme(legend.position = "bottom") +
+  ggtitle("Climatologie MétéoFrance 2006-2019")
+```
+
+```{r meteofrance_eval}
+#| eval: false
+clim <- climate %>% 
+  ungroup() %>% 
+  select(-lat, -lon, -date, -`year(date)`, -country) %>% 
+  gather(variable, observed, -loc, -month)
+evaluate <- function(name, clim, xy, path, typ){
+  terra::extract(terra::rast(file.path(path, name)), 
+                       xy) %>% 
+  mutate(loc = xy$loc) %>% 
+  select(-ID) %>% 
+  gather(variable, projected, -loc) %>% 
+  separate(variable, c("variable", "m", "month"), convert = TRUE) %>% 
+  mutate(month = as.numeric(month)) %>% 
+  na.omit() %>% 
+  select(-m) %>% 
+  left_join(clim) %>% 
+  na.omit() %>% 
+  mutate(area = str_split_1(name, "_")[1],
+         origin = str_split_1(name, "_")[2],
+         type = typ,
+         domain = str_split_1(name, "_")[3],
+         institute = str_split_1(name, "_")[4],
+         model = str_split_1(name, "_")[5],
+         experiment = str_split_1(name, "_")[6],
+         ensemble = str_split_1(name, "_")[7],
+         rcm = str_split_1(name, "_")[7],
+         downscaling = gsub(".nc", "", str_split_1(name, "_")[14]),
+         base = "meteo-france") %>% 
+  group_by(area, origin, type, domain, institute, model,
+           experiment, ensemble, rcm, downscaling,
+           base, month, variable) %>% 
+  summarise(CC = cor(projected, observed),
+            RMSE = sqrt(mean((projected - observed)^2)),
+            SDE = sd(projected - observed),
+            bias = mean(projected - observed)) %>% 
+  gather(metric, value, -area, -origin, -type, -domain, 
+         -institute, -model, -experiment, -ensemble, 
+         -rcm, -downscaling, -base, -month, -variable) %>% 
+    ungroup()
+}
+files_dc <- data_frame(file = list.files("results/downscaled/")) %>% 
+  separate(file, 
+           c("area", "origin", "domain", "institute", "model",
+           "experiment", "ensemble", "rcm", "version",
+           "base", "aggregation", "period_proj", "period_ref", "downscaling"), 
+           sep = "_", remove = FALSE) %>% 
+  filter(period_proj == "2006-2019") %>% 
+  filter(area != "Côte-d'Ivoire")
+eval_dc <- lapply(files_dc$file, evaluate, 
+                  clim, xy, "results/downscaled", "downscaled") %>% 
+  bind_rows()
+files_raw <- data_frame(file = list.files("results/projections/", pattern = ".nc")) %>% 
+  separate(file, 
+           c("area", "origin", "domain", "institute", "model",
+           "experiment", "ensemble", "rcm", "version",
+           "base", "aggregation", "period"), 
+           sep = "_", remove = FALSE) %>% 
+  filter(period == "2006-2019.nc") %>% 
+  filter(area != "Côte-d'Ivoire")
+eval_raw <- lapply(files_raw$file, evaluate, 
+                   clim, xy, "results/projections", "raw") %>% 
+  bind_rows()
+bind_rows(eval_dc, eval_raw) %>% 
+  write_tsv("outputs/eval_meteofrance.tsv")
+eval <- vroom::vroom("results/evaluation/evaluations.tsv")
+read_tsv("outputs/eval_meteofrance.tsv") %>% 
+  mutate(base_eval = base, base = NA) %>% 
+  bind_rows(eval) %>% 
+  write_tsv("outputs/eval.tsv")
+```
+
+## Precipitation
+
+```{r pr_rmsep}
+#| warning: false
+#| message: false
+#| fig-cap: "Caption."
+read_tsv("outputs/eval.tsv") %>% 
+  filter(metric == "RMSE", variable == "pr") %>% 
+  filter(type == "downscaled") %>% 
+  ggplot(aes(1, value, fill = paste(origin, type))) +
+  geom_boxplot(alpha = 0.5) +
+  facet_grid(base_eval ~ area, scales = "free") +
+  theme_bw() +
+  scale_fill_discrete("") +
+  theme(legend.position = "bottom", axis.title = element_blank()) +
+  ggtitle("Precipitation RMSEP (mm)") +
+  ggpubr::stat_compare_means(label.y.npc = 0.9) +
+  scale_y_log10()
+```
+
+```{r pr_cc}
+#| warning: false
+#| message: false
+#| fig-cap: "Caption."
+read_tsv("outputs/eval.tsv") %>% 
+  filter(metric == "CC", variable == "pr") %>% 
+  filter(type == "downscaled") %>% 
+  mutate(value = ifelse(value < 0, 0, value)) %>% 
+  ggplot(aes(1, 1-value, fill = paste(origin, type))) +
+  geom_boxplot(alpha = 0.5) +
+  facet_grid(base_eval ~ area, scales = "free") +
+  theme_bw() +
+  scale_fill_discrete("") +
+  theme(legend.position = "bottom", axis.title = element_blank()) +
+  ggtitle("Precipitation 1-CC (mm)") +
+  ggpubr::stat_compare_means(label.y.npc = 0.1) +
+  scale_y_log10(labels = scales::comma)
+```
+
+## Temperature
+
+```{r tas_rmsep}
+#| warning: false
+#| message: false
+#| fig-cap: "Caption."
+read_tsv("outputs/eval.tsv") %>% 
+  filter(metric == "RMSE", variable == "tas") %>% 
+  filter(type == "downscaled") %>% 
+  ggplot(aes(1, value, fill = paste(origin, type))) +
+  geom_boxplot(alpha = 0.5) +
+  facet_grid(base_eval ~ area, scales = "free") +
+  theme_bw() +
+  scale_fill_discrete("") +
+  theme(legend.position = "bottom", axis.title = element_blank()) +
+  ggtitle("Temperature RMSEP (°C)") +
+  ggpubr::stat_compare_means(label.y.npc = 0.9) +
+  scale_y_log10()
+```
+
+```{r tas_cc}
+#| warning: false
+#| message: false
+#| fig-cap: "Caption."
+read_tsv("outputs/eval.tsv") %>% 
+  filter(metric == "CC", variable == "tas") %>% 
+  filter(type == "downscaled") %>% 
+  mutate(value = ifelse(value < 0, 0, value)) %>% 
+  ggplot(aes(1, 1-value, fill = paste(origin, type))) +
+  geom_boxplot(alpha = 0.5) +
+  facet_grid(base_eval ~ area, scales = "free") +
+  theme_bw() +
+  scale_fill_discrete("") +
+  theme(legend.position = "bottom", axis.title = element_blank()) +
+  ggtitle("Mean temperature 1-CC (°C)") +
+  ggpubr::stat_compare_means(label.y.npc = 0.1) +
+  scale_y_log10(labels = scales::comma)
+```
+
+## Summary
+
+```{r meteofrance_summary}
+#| warning: false
+#| message: false
+options(knitr.kable.NA = '')
+read_tsv("outputs/eval.tsv") %>% 
+  filter(variable %in% c("tas", "pr")) %>% 
+  filter(type == "downscaled") %>% 
+  mutate(variable = recode(variable, 
+                           "pr" = "precipitation",
+                           "tas" = "temperature")) %>% 
+  group_by(area, origin, type, variable, base_eval, metric) %>% 
+  summarise(value = round(median(value, na.rm = T), 3)) %>% 
+  pivot_wider(names_from = metric, values_from = value) %>% 
+  mutate(value = paste0(RMSE, " (", CC, ")")) %>% 
+  ungroup() %>% 
+  select(-CC, -RMSE, -SDE, -bias, -type) %>% 
+  pivot_wider(names_from = base_eval, values_from = value) %>% 
+  select(area, variable, origin, chelsa2, chirps, gshtd, `meteo-france`) %>% 
+  arrange(area, variable, origin) %>% 
+  knitr::kable(caption = "Caption.")
+```
