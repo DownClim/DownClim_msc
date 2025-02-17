@@ -1,3 +1,4 @@
+-   DownClim 0.1.0.9048: hist & eval figs
 -   DownClim 0.1.0.9047: meteo-france eval
 -   DownClim 0.1.0.9046: msc outline figures and tables
 -   DownClim 0.1.0.9045: tmf attributes maps

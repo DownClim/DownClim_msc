@@ -8,8 +8,8 @@ book:
   date: last-modified
   chapters:
     - index.qmd
-    - 01_test.qmd
-    - 02_evaluations.qmd
+    - 01_histograms.qmd
+    - 02_evaluation.qmd
     - 03_bias.qmd
     - 04_meteofrance.qmd
     - 11_tmf.qmd

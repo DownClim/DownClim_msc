@@ -40,19 +40,6 @@ ggplot() +
                        limits = c(-100, 100))
 ```
 
-```{r prcidiff}
-#| message: false
-ggplot() +
-  tidyterra::geom_spatraster(data = cmip6-cordex) +
-  theme_bw() +
-  theme(panel.border = element_blank(), panel.grid = element_blank(),
-          panel.background = element_rect(fill = "black")) +
-  ggtitle("CMIP6 - CORDEX", "Bias median across month versus CHIRPS") +
-  scale_fill_gradient2("", low = "#543005", mid = "white", 
-                       high = "#003c30", midpoint = 0, na.value = "black",
-                       limits = c(-25, 25))
-```
-
 ### FG
 
 ```{r prfgcmip6}
@@ -83,19 +70,6 @@ ggplot() +
   scale_fill_gradient2("", low = "#543005", mid = "white", 
                        high = "#003c30", midpoint = 0, na.value = "black",
                        limits = c(-100, 100))
-```
-
-```{r prfgdiff}
-#| message: false
-ggplot() +
-  tidyterra::geom_spatraster(data = cmip6-cordex) +
-  theme_bw() +
-  theme(panel.border = element_blank(), panel.grid = element_blank(),
-          panel.background = element_rect(fill = "black")) +
-  ggtitle("CMIP6 - CORDEX", "Bias median across month versus CHIRPS") +
-  scale_fill_gradient2("", low = "#543005", mid = "white", 
-                       high = "#003c30", midpoint = 0, na.value = "black",
-                       limits = c(-25, 25))
 ```
 
 ### NC
@@ -132,19 +106,6 @@ ggplot() +
                        limits = c(-200, 200))
 ```
 
-```{r prncdiff}
-#| message: false
-ggplot() +
-  tidyterra::geom_spatraster(data = cmip6-cordex) +
-  theme_bw() +
-  theme(panel.border = element_blank(), panel.grid = element_blank(),
-          panel.background = element_rect(fill = "black")) +
-  ggtitle("CMIP6 - CORDEX", "Bias median across month versus CHIRPS") +
-  scale_fill_gradient2("", low = "#543005", mid = "white", 
-                       high = "#003c30", midpoint = 0, na.value = "black",
-                       limits = c(-30, 30))
-```
-
 ## Temperature
 
 ### CI
@@ -179,19 +140,6 @@ ggplot() +
                        limits = c(-4, 4))
 ```
 
-```{r tascidiff}
-#| message: false
-ggplot() +
-  tidyterra::geom_spatraster(data = cmip6-cordex) +
-  theme_bw() +
-  theme(panel.border = element_blank(), panel.grid = element_blank(),
-          panel.background = element_rect(fill = "black")) +
-  ggtitle("CMIP6 - CORDEX", "Bias median across month versus GSHTD") +
-  scale_fill_gradient2("", low = "#053061", mid = "white", high = "#67001f", 
-                       midpoint = 0, na.value = "black",
-                       limits = c(-1, 1))
-```
-
 ### FG
 
 ```{r tasfgcmip6}
@@ -222,19 +170,6 @@ ggplot() +
   scale_fill_gradient2("", low = "#053061", mid = "white", high = "#67001f", 
                        midpoint = 0, na.value = "black",
                        limits = c(-4, 4))
-```
-
-```{r tasfgdiff}
-#| message: false
-ggplot() +
-  tidyterra::geom_spatraster(data = cmip6-cordex) +
-  theme_bw() +
-  theme(panel.border = element_blank(), panel.grid = element_blank(),
-          panel.background = element_rect(fill = "black")) +
-  ggtitle("CMIP6 - CORDEX", "Bias median across month versus GSHTD") +
-  scale_fill_gradient2("", low = "#053061", mid = "white", high = "#67001f", 
-                       midpoint = 0, na.value = "black",
-                       limits = c(-1, 1))
 ```
 
 ### NC
@@ -269,17 +204,4 @@ ggplot() +
   scale_fill_gradient2("", low = "#053061", mid = "white", high = "#67001f", 
                        midpoint = 0, na.value = "black",
                        limits = c(-2, 2))
-```
-
-```{r tasncdiff}
-#| message: false
-ggplot() +
-  tidyterra::geom_spatraster(data = cmip6-cordex) +
-  theme_bw() +
-  theme(panel.border = element_blank(), panel.grid = element_blank(),
-          panel.background = element_rect(fill = "black")) +
-  ggtitle("CMIP6 - CORDEX", "Bias median across month versus GSHTD") +
-  scale_fill_gradient2("", low = "#053061", mid = "white", high = "#67001f", 
-                       midpoint = 0, na.value = "black",
-                       limits = c(-0.5, 0.5))
 ```
