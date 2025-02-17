@@ -10,10 +10,10 @@ area_file =  snakemake.input[3]
 out_file = snakemake.output[0]
       
 # test
-# rsds_file = "results/tmf/rsds/Côte-d'Ivoire.nc"
-# future_file = "results/downscaled/Côte-d'Ivoire_CMIP6_world_CAS_FGOALS-g3_ssp126_r1i1p1f1_none_none_chelsa2_monthly-means_2071-2100_1980-2005_bc.nc"
-# present_file = "results/baselines/Côte-d'Ivoire_chelsa2_monthly-means_2006-2019.nc"
-# area_file = "results/areas/Côte-d'Ivoire.shp"
+rsds_file = "results/tmf/rsds/French-Guiana.nc"
+future_file = "results/downscaled/Côte-d'Ivoire_CMIP6_world_CAS_FGOALS-g3_ssp126_r1i1p1f1_none_none_chelsa2_monthly-means_2071-2100_1980-2005_bc.nc"
+present_file = "results/baselines/French-Guiana_chelsa2_monthly-means_2006-2019.nc"
+area_file = "results/areas/French-Guiana.shp"
 
 # libs
 import xarray as xr
@@ -46,6 +46,7 @@ rsds = xr.open_dataset(rsds_file).rio.clip(area_shp.geometry.values, area_shp.cr
 present = xr.open_dataset(present_file).rio.clip(area_shp.geometry.values, area_shp.crs)
 future = xr.open_dataset(future_file).rio.clip(area_shp.geometry.values, area_shp.crs)
 present = prep_tmf(present, rsds)
+# present["tmf"].to_netcdf("outputs/tmf_hist/French-Guiana.nc")
 future = prep_tmf(future, rsds)
 anomalies = future
 anomalies['tmf'] = (future - present).tmf

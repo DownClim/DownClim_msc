@@ -14,6 +14,174 @@ To demonstrate the aim of the tool, we want to validate and/or assess the projec
 
 -   \(2\) the variation of projected tropical moist forest distribution according on the product and the experiment.
 
+```{r scheme}
+#| message: false
+#| warning: false
+#| fig-cap: "Fig. 1. Study scheme. We first downscaled CMIP6 global climate models (GCMs) and CORDEX regional climate models (RCMs) for experiments 2.6 and 8.5 against CHELSA2 using bias correction with monthly means of the period 1980-2005. We then assessed the downscaled projections against monthly means of precipitation (CHIRPS) and temperature (GSHTD) for the period 2006-2019. Finally, we projected the potential future tropical moist forest (TMF) climate niche for all models and experiments for the period 2070-2100." #nolint
+library(tidyverse)
+set.seed(42)
+arrow_height <- 28.5
+g <- bind_rows(
+  data.frame(
+    year = 1980:2005,
+    period = "historical",
+    experiment = "historical",
+    product = "climate model"
+  ) %>%
+    mutate(mean_temperature = -6.717360 + 0.016125 * year) %>%
+    mutate(temperature = mean_temperature + rnorm(n(), 0, sd = 0.2266)),
+  data.frame(
+    year = 1980:2005,
+    period = "historical",
+    experiment = "historical",
+    product = "downscaling data"
+  ) %>%
+    mutate(mean_temperature = -6.717360 + 0.016125 * year - 1) %>%
+    mutate(temperature = mean_temperature + rnorm(n(), 0, sd = 0.2266)),
+  data.frame(
+    year = 2006:2019,
+    period = "evaluation",
+    experiment = "historical",
+    product = "climate model"
+  ) %>%
+    mutate(mean_temperature = -6.717360 + 0.016125 * year) %>%
+    mutate(temperature = mean_temperature + rnorm(n(), 0, sd = 0.2266)),
+  data.frame(
+    year = 2006:2019,
+    period = "evaluation",
+    experiment = "historical",
+    product = "evaluation data"
+  ) %>%
+    mutate(mean_temperature = -6.717360 + 0.016125 * year - 0.8) %>%
+    mutate(temperature = mean_temperature + rnorm(n(), 0, sd = 0.2266)),
+  data.frame(
+    year = 2020:2100,
+    period = "projection",
+    experiment = "2.6",
+    product = "climate model"
+  ) %>%
+    mutate(mean_temperature = 1.094e+01 + 7.357e-03 * year) %>%
+    mutate(temperature = mean_temperature + rnorm(n(), 0, sd = 0.2492)),
+  data.frame(
+    year = 2020:2100,
+    period = "projection",
+    experiment = "8.5",
+    product = "climate model"
+  ) %>%
+    mutate(mean_temperature = -20 + 2.272e-02 * year) %>%
+    mutate(temperature = mean_temperature + rnorm(n(), 0, sd = 0.2285))
+) %>%
+  ggplot(aes(x = year)) +
+  geom_line(aes(
+    y = temperature, col = product,
+    group = paste(period, experiment, product)
+  ), alpha = .5) +
+  geom_line(aes(
+    y = mean_temperature, col = product,
+    group = paste(period, experiment, product)
+  ), alpha = .5) +
+  theme_bw() +
+  ylab("Temperature (°C)") +
+  scale_colour_discrete("") +
+  theme(legend.position = "bottom", axis.title.x = element_blank()) +
+  geom_segment(aes(x = x, y = y, xend = xend, yend = yend),
+    col = "darkgrey",
+    data.frame(
+      x = 1980, xend = 2005,
+      y = arrow_height, yend = arrow_height
+    ),
+    arrow = arrow(length = unit(0.2, "cm"))
+  ) +
+  geom_segment(aes(x = x, y = y, xend = xend, yend = yend),
+    col = "darkgrey",
+    data.frame(
+      x = 2005, xend = 1980,
+      y = arrow_height, yend = arrow_height
+    ),
+    arrow = arrow(length = unit(0.2, "cm"))
+  ) +
+  geom_segment(aes(x = x, y = y, xend = xend, yend = yend),
+    col = "darkgrey",
+    data.frame(
+      x = 2006, xend = 2019,
+      y = arrow_height, yend = arrow_height
+    ),
+    arrow = arrow(length = unit(0.2, "cm"))
+  ) +
+  geom_segment(aes(x = x, y = y, xend = xend, yend = yend),
+    col = "darkgrey",
+    data.frame(
+      x = 2019, xend = 2006,
+      y = arrow_height, yend = arrow_height
+    ),
+    arrow = arrow(length = unit(0.2, "cm"))
+  ) +
+  geom_segment(aes(x = x, y = y, xend = xend, yend = yend),
+    col = "darkgrey",
+    data.frame(
+      x = 2070, xend = 2100,
+      y = arrow_height, yend = arrow_height
+    ),
+    arrow = arrow(length = unit(0.2, "cm"))
+  ) +
+  geom_segment(aes(x = x, y = y, xend = xend, yend = yend),
+    col = "darkgrey",
+    data.frame(
+      x = 2100, xend = 2070,
+      y = arrow_height, yend = arrow_height
+    ),
+    arrow = arrow(length = unit(0.2, "cm"))
+  ) +
+  annotate("text",
+    x = 1990, y = arrow_height - 0.25,
+    label = "downscaling", col = "darkgrey"
+  ) +
+  annotate("text",
+    x = 1990, y = arrow_height - 0.5,
+    label = "italic('CHELSA2')",
+    parse = TRUE, size = 3, col = "darkgrey"
+  ) +
+  annotate("text",
+    x = 2012, y = arrow_height - 0.25,
+    label = "evaluation", col = "darkgrey"
+  ) +
+  annotate("text",
+    x = 2012, y = arrow_height - 0.5,
+    label = "italic('CHIRPS, GSHTD')",
+    parse = TRUE, size = 3, col = "darkgrey"
+  ) +
+  annotate("text",
+    x = 2085, y = arrow_height - 0.35,
+    label = "TMF projection", col = "darkgrey"
+  ) +
+  geom_segment(aes(x = x, y = y, xend = xend, yend = yend),
+    col = "black", size = 1.1,
+    data.frame(
+      x = 1991, xend = 1991,
+      y = 24.5, yend = 25.2
+    ),
+    arrow = arrow(length = unit(0.2, "cm"))
+  ) +
+  annotate("text",
+    x = 1982, y = 25 - 0.2,
+    label = "bias\ncorrection", col = "black"
+  ) +
+  geom_segment(aes(x = x, y = y, xend = xend, yend = yend),
+    col = "black", size = 1.1,
+    data.frame(
+      x = 2010, xend = 2010,
+      y = 25.5, yend = 25
+    ),
+    arrow = arrow(length = unit(0.2, "cm"))
+  ) +
+  annotate("text",
+    x = 2019, y = 25.3,
+    label = "evaluation", col = "black"
+  )
+ggsave("figures/f01.png", g, bg = "white", dpi = 800, height = 4, width = 7)
+g
+```
+
 ## Poeple
 
 -   Sylvain Schmitt (sylvain.schmitt\@cirad.fr)

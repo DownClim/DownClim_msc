@@ -14,27 +14,37 @@ The effect of downscaling on histograms of temperature at surface was very count
 ```{r hist_tas_ci}
 #| message: false
 #| warning: false
-#| fig-cap: "Fig 2. Histograms of monthly mean temperature (°C) in Côte d'Ivoire for all CMIP6 and CORDEX projections before and after downscaling compared to CHELSA 2. Bar colours indicate the month. Histograms for French Guiana, Côte d'Ivoire and New Caledonia for temperature are shown in Supplementary Fig. S1 and for precipitation in Supplementary Fig. S2."
-g <- vroom::vroom("results/evaluation/histograms.tsv") %>% 
-  filter(variable == "tas", area == "Côte-d'Ivoire") %>% 
-  group_by(origin, type, area, month) %>% 
-  mutate(density = count / sum(count)) %>% 
-  mutate(type = ifelse(origin == "chelsa2", "downscaled", type)) %>% 
-  mutate(origin = toupper(origin)) %>% 
-  mutate(type = factor(type, levels = c("raw", "downscaled"))) %>% 
-  ggplot(aes(bin, density, 
-             fill = as.factor(month),
-             col = as.factor(month))) +
+#| fig-cap: "Fig 2. Histograms of monthly mean temperature (°C) in Côte d'Ivoire for all CMIP6 and CORDEX projections before and after downscaling compared to CHELSA 2. Bar colours indicate the month. Histograms for French Guiana, Côte d'Ivoire and New Caledonia for temperature are shown in Supplementary Fig. S1 and for precipitation in Supplementary Fig. S2." #nolint
+g <- vroom::vroom("results/evaluation/histograms.tsv") %>%
+  filter(variable == "tas", area == "Côte-d'Ivoire") %>%
+  group_by(origin, type, area, month) %>%
+  mutate(density = count / sum(count)) %>%
+  mutate(type = ifelse(origin == "chelsa2", "downscaled", type)) %>%
+  mutate(origin = toupper(origin)) %>%
+  mutate(type = factor(type, levels = c("raw", "downscaled"))) %>%
+  ggplot(aes(bin, density,
+    fill = as.factor(month),
+    col = as.factor(month)
+  )) +
   geom_col() +
   theme_bw() +
   facet_grid(type ~ origin) +
-  xlab("Mean temperature (°C)") + ylab("") +
-  scale_fill_viridis_d("", direction = -1,
-                       labels = c("J", "F", "M", "A", "M", "J", 
-                                  "J", "A", "S", "O", "N", "D")) +
-  scale_color_viridis_d("",  direction = -1,
-                        labels = c("J", "F", "M", "A", "M", "J",
-                                   "J", "A", "S", "O", "N", "D"))
+  xlab("Mean temperature (°C)") +
+  ylab("") +
+  scale_fill_viridis_d("",
+    direction = -1,
+    labels = c(
+      "J", "F", "M", "A", "M", "J",
+      "J", "A", "S", "O", "N", "D"
+    )
+  ) +
+  scale_color_viridis_d("",
+    direction = -1,
+    labels = c(
+      "J", "F", "M", "A", "M", "J",
+      "J", "A", "S", "O", "N", "D"
+    )
+  )
 ggsave("figures/f02.png", g, dpi = 300, width = 8, height = 5, bg = "white")
 g
 ```
@@ -42,27 +52,37 @@ g
 ```{r hist_tas}
 #| message: false
 #| warning: false
-#| fig-cap: "Fig. S1. Histograms of monthly mean temperature (°C) in French Guiana, Côte d'Ivoire and New Caledonia for all CMIP6 and CORDEX projections before and after downscaling compared to CHELSA 2. Bar colours indicate the month."
-g <- vroom::vroom("results/evaluation/histograms.tsv") %>% 
-  filter(variable == "tas") %>% 
-  group_by(origin, type, area, month) %>% 
-  mutate(density = count / sum(count)) %>% 
-  mutate(type = ifelse(origin == "chelsa2", "downscaled", type)) %>% 
-  mutate(origin = toupper(origin)) %>% 
-  mutate(type = factor(type, levels = c("raw", "downscaled"))) %>% 
-  ggplot(aes(bin, density, 
-             fill = as.factor(month),
-             col = as.factor(month))) +
+#| fig-cap: "Fig. S1. Histograms of monthly mean temperature (°C) in French Guiana, Côte d'Ivoire and New Caledonia for all CMIP6 and CORDEX projections before and after downscaling compared to CHELSA 2. Bar colours indicate the month." #nolint
+g <- vroom::vroom("results/evaluation/histograms.tsv") %>%
+  filter(variable == "tas") %>%
+  group_by(origin, type, area, month) %>%
+  mutate(density = count / sum(count)) %>%
+  mutate(type = ifelse(origin == "chelsa2", "downscaled", type)) %>%
+  mutate(origin = toupper(origin)) %>%
+  mutate(type = factor(type, levels = c("raw", "downscaled"))) %>%
+  ggplot(aes(bin, density,
+    fill = as.factor(month),
+    col = as.factor(month)
+  )) +
   geom_col() +
   theme_bw() +
   facet_grid(type ~ origin ~ area) +
-  xlab("Mean temperature (°C)") + ylab("") +
-  scale_fill_viridis_d("", direction = -1,
-                       labels = c("J", "F", "M", "A", "M", "J",
-                                  "J", "A", "S", "O", "N", "D")) +
-  scale_color_viridis_d("",  direction = -1,
-                        labels = c("J", "F", "M", "A", "M", "J",
-                                   "J", "A", "S", "O", "N", "D"))
+  xlab("Mean temperature (°C)") +
+  ylab("") +
+  scale_fill_viridis_d("",
+    direction = -1,
+    labels = c(
+      "J", "F", "M", "A", "M", "J",
+      "J", "A", "S", "O", "N", "D"
+    )
+  ) +
+  scale_color_viridis_d("",
+    direction = -1,
+    labels = c(
+      "J", "F", "M", "A", "M", "J",
+      "J", "A", "S", "O", "N", "D"
+    )
+  )
 ggsave("figures/fs01.png", g, dpi = 800, bg = "white", width = 8)
 g
 ```
@@ -70,27 +90,37 @@ g
 ```{r hist_pr}
 #| message: false
 #| warning: false
-#| fig-cap: "Fig. S2. Histograms of monthly precipitaiton (mm) in French Guiana, Côte d'Ivoire and New Caledonia for all CMIP6 and CORDEX projections before and after downscaling compared to CHELSA 2. Bar colours indicate the month."
-g <- vroom::vroom("results/evaluation/histograms.tsv") %>% 
-  filter(variable == "pr") %>% 
-  group_by(origin, type, area, month) %>% 
-  mutate(density = count / sum(count)) %>% 
-  mutate(type = ifelse(origin == "chelsa2", "downscaled", type)) %>% 
-  mutate(origin = toupper(origin)) %>% 
-  mutate(type = factor(type, levels = c("raw", "downscaled"))) %>% 
-  ggplot(aes(bin, density, 
-             fill = as.factor(month),
-             col = as.factor(month))) +
+#| fig-cap: "Fig. S2. Histograms of monthly precipitation (mm) in French Guiana, Côte d'Ivoire and New Caledonia for all CMIP6 and CORDEX projections before and after downscaling compared to CHELSA 2. Bar colours indicate the month." #nolint
+g <- vroom::vroom("results/evaluation/histograms.tsv") %>%
+  filter(variable == "pr") %>%
+  group_by(origin, type, area, month) %>%
+  mutate(density = count / sum(count)) %>%
+  mutate(type = ifelse(origin == "chelsa2", "downscaled", type)) %>%
+  mutate(origin = toupper(origin)) %>%
+  mutate(type = factor(type, levels = c("raw", "downscaled"))) %>%
+  ggplot(aes(bin, density,
+    fill = as.factor(month),
+    col = as.factor(month)
+  )) +
   geom_col() +
   theme_bw() +
   facet_grid(type ~ origin ~ area) +
-  xlab("Precipitation (mm)") + ylab("") +
-  scale_fill_viridis_d("", direction = -1,
-                       labels = c("J", "F", "M", "A", "M", "J",
-                                  "J", "A", "S", "O", "N", "D")) +
-  scale_color_viridis_d("",  direction = -1,
-                        labels = c("J", "F", "M", "A", "M", "J",
-                                   "J", "A", "S", "O", "N", "D"))
+  xlab("Precipitation (mm)") +
+  ylab("") +
+  scale_fill_viridis_d("",
+    direction = -1,
+    labels = c(
+      "J", "F", "M", "A", "M", "J",
+      "J", "A", "S", "O", "N", "D"
+    )
+  ) +
+  scale_color_viridis_d("",
+    direction = -1,
+    labels = c(
+      "J", "F", "M", "A", "M", "J",
+      "J", "A", "S", "O", "N", "D"
+    )
+  )
 ggsave("figures/fs02.png", g, dpi = 800, bg = "white", width = 8)
 g
 ```

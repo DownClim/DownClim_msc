@@ -11,9 +11,9 @@ format:
 
 ```{r setup, include=FALSE}
 library(tidyverse)
-rm(list = ls()) ; invisible(gc()) ; set.seed(42)
-knitr::opts_chunk$set(echo = F, message = F, warning = F, fig.height = 6, fig.width = 8,
-                      cache = F, cache.lazy = F)
+rm(list = ls())
+invisible(gc())
+set.seed(42)
 ```
 
 [`snakemake`](https://github.com/sylvainschmitt/snakemake_singularity) workflow to downscale climate projections.
