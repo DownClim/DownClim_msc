@@ -216,8 +216,8 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
     <h2 id="toc-title">Table of contents</h2>
    
   <ul>
-  <li><a href="#current-tmf" id="toc-current-tmf" class="nav-link active" data-scroll-target="#current-tmf">Current TMF</a></li>
-  <li><a href="#projected-tmf" id="toc-projected-tmf" class="nav-link" data-scroll-target="#projected-tmf">Projected TMF</a></li>
+  <li><a href="#current" id="toc-current" class="nav-link active" data-scroll-target="#current">Current</a></li>
+  <li><a href="#projected" id="toc-projected" class="nav-link" data-scroll-target="#projected">Projected</a></li>
   </ul>
 </nav>
     </div>
@@ -241,13 +241,13 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 
 </header>
 
-<p>Tropical moist forest (TMF) climatic niche distributions were projected at the end of the century (2070-2100) using downscaled CMIP6 and CORDEX projections for scenario 2.6 and 8.5. Specifically, we used the definition from Holdridge 1976 (ref) as areas with a mean annual temperature over 16°C, a total annual precipitation over 1,000 mm/year, and a ratio of potential evapotranspiration over precipitation below 1. Potential evaportanspiration (pet, mm/month) was derived from monthly means, maxmimum and minimum temperatures (tas, tas_min, tas_max, 0C) and surface downward shortwave radiation (rsds, MJ/m2/month) as:</p>
+<p>Tropical moist forest (TMF) climatic niche distributions were projected at the end of the century (2070-2100) using downscaled CMIP6 and CORDEX projections for scenario 2.6 and 8.5. Specifically, we used the definition from Holdridge 1976 (ref) as areas with a mean annual temperature over 16°C, a total annual precipitation over 1,000 <span class="math inline">\(mm~yr^{-1}\)</span>, and a ratio of potential evapotranspiration over precipitation below 1. Potential evaportanspiration (pet, <span class="math inline">\(mm~month^{-1}\)</span>) was derived from monthly mean, maximum and minimum temperatures (tas, tasmax, tasmin, °C) and surface downward short-wave radiation (rsds, <span class="math inline">\(MJ~m^{-~2}~month^{-1}\)</span>) as:</p>
 <p><span class="math display">\[
 pet = 0.0023 \times rsds \times (tas + 17.8) \times (tasmax - tasmin)^{0.5}
 \]</span></p>
-<p>Surface downward shortwave radiation was derived from CHELSA 2 historical climatologies and assumed constant.</p>
-<section id="current-tmf" class="level2">
-<h2 class="anchored" data-anchor-id="current-tmf">Current TMF</h2>
+<p>Surface downward short-wave radiation was derived from CHELSA 2 historical climatologies and assumed constant.</p>
+<section id="current" class="level2">
+<h2 class="anchored" data-anchor-id="current">Current</h2>
 <div class="cell">
 <details>
 <summary>Code</summary>
@@ -265,35 +265,39 @@ pet = 0.0023 \times rsds \times (tas + 17.8) \times (tasmax - tasmin)^{0.5}
 <div class="cell">
 <details>
 <summary>Code</summary>
-<div class="sourceCode cell-code" id="cb2"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="fu">read_tsv</span>(<span class="st">"outputs/current_tmf.tsv"</span>) <span class="sc">%&gt;%</span></span>
-<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ggplot</span>(<span class="fu">aes</span>(x, y, <span class="at">fill =</span> <span class="fu">as.character</span>(tmf))) <span class="sc">+</span></span>
-<span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_raster</span>() <span class="sc">+</span></span>
-<span id="cb2-4"><a href="#cb2-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">facet_wrap</span>(<span class="sc">~</span>area, <span class="at">scales =</span> <span class="st">"free"</span>) <span class="sc">+</span></span>
-<span id="cb2-5"><a href="#cb2-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme_bw</span>() <span class="sc">+</span></span>
-<span id="cb2-6"><a href="#cb2-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">scale_fill_manual</span>(<span class="at">guide =</span> <span class="st">"none"</span>, <span class="at">values =</span> <span class="fu">c</span>(<span class="st">"darkgrey"</span>, <span class="st">"#48712d"</span>)) <span class="sc">+</span></span>
-<span id="cb2-7"><a href="#cb2-7" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme</span>(</span>
-<span id="cb2-8"><a href="#cb2-8" aria-hidden="true" tabindex="-1"></a>    <span class="at">axis.title =</span> <span class="fu">element_blank</span>(),</span>
-<span id="cb2-9"><a href="#cb2-9" aria-hidden="true" tabindex="-1"></a>    <span class="at">axis.ticks =</span> <span class="fu">element_blank</span>(),</span>
-<span id="cb2-10"><a href="#cb2-10" aria-hidden="true" tabindex="-1"></a>    <span class="at">axis.text =</span> <span class="fu">element_blank</span>(),</span>
-<span id="cb2-11"><a href="#cb2-11" aria-hidden="true" tabindex="-1"></a>    <span class="at">panel.border =</span> <span class="fu">element_blank</span>(),</span>
-<span id="cb2-12"><a href="#cb2-12" aria-hidden="true" tabindex="-1"></a>    <span class="at">panel.grid =</span> <span class="fu">element_blank</span>(),</span>
-<span id="cb2-13"><a href="#cb2-13" aria-hidden="true" tabindex="-1"></a>    <span class="at">panel.background =</span> <span class="fu">element_rect</span>(<span class="at">fill =</span> <span class="st">"white"</span>),</span>
-<span id="cb2-14"><a href="#cb2-14" aria-hidden="true" tabindex="-1"></a>    <span class="at">panel.spacing =</span> <span class="fu">unit</span>(<span class="dv">0</span>, <span class="st">"lines"</span>),</span>
-<span id="cb2-15"><a href="#cb2-15" aria-hidden="true" tabindex="-1"></a>    <span class="at">aspect.ratio =</span> <span class="dv">1</span></span>
-<span id="cb2-16"><a href="#cb2-16" aria-hidden="true" tabindex="-1"></a>  )</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb2"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a>g <span class="ot">&lt;-</span> <span class="fu">read_tsv</span>(<span class="st">"outputs/current_tmf.tsv"</span>) <span class="sc">%&gt;%</span></span>
+<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">area =</span> <span class="fu">ifelse</span>(area <span class="sc">==</span> <span class="st">"Côte-d'Ivoire"</span>, <span class="st">"Ivory-Coast"</span>, area)) <span class="sc">%&gt;%</span></span>
+<span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">area =</span> <span class="fu">gsub</span>(<span class="st">"-"</span>, <span class="st">" "</span>, area)) <span class="sc">%&gt;%</span></span>
+<span id="cb2-4"><a href="#cb2-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ggplot</span>(<span class="fu">aes</span>(x, y, <span class="at">fill =</span> <span class="fu">as.character</span>(tmf))) <span class="sc">+</span></span>
+<span id="cb2-5"><a href="#cb2-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_raster</span>() <span class="sc">+</span></span>
+<span id="cb2-6"><a href="#cb2-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">facet_wrap</span>(<span class="sc">~</span>area, <span class="at">scales =</span> <span class="st">"free"</span>) <span class="sc">+</span></span>
+<span id="cb2-7"><a href="#cb2-7" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme_bw</span>() <span class="sc">+</span></span>
+<span id="cb2-8"><a href="#cb2-8" aria-hidden="true" tabindex="-1"></a>  <span class="fu">scale_fill_manual</span>(<span class="at">guide =</span> <span class="st">"none"</span>, <span class="at">values =</span> <span class="fu">c</span>(<span class="st">"darkgrey"</span>, <span class="st">"#48712d"</span>)) <span class="sc">+</span></span>
+<span id="cb2-9"><a href="#cb2-9" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme</span>(</span>
+<span id="cb2-10"><a href="#cb2-10" aria-hidden="true" tabindex="-1"></a>    <span class="at">axis.title =</span> <span class="fu">element_blank</span>(),</span>
+<span id="cb2-11"><a href="#cb2-11" aria-hidden="true" tabindex="-1"></a>    <span class="at">axis.ticks =</span> <span class="fu">element_blank</span>(),</span>
+<span id="cb2-12"><a href="#cb2-12" aria-hidden="true" tabindex="-1"></a>    <span class="at">axis.text =</span> <span class="fu">element_blank</span>(),</span>
+<span id="cb2-13"><a href="#cb2-13" aria-hidden="true" tabindex="-1"></a>    <span class="at">panel.border =</span> <span class="fu">element_blank</span>(),</span>
+<span id="cb2-14"><a href="#cb2-14" aria-hidden="true" tabindex="-1"></a>    <span class="at">panel.grid =</span> <span class="fu">element_blank</span>(),</span>
+<span id="cb2-15"><a href="#cb2-15" aria-hidden="true" tabindex="-1"></a>    <span class="at">panel.background =</span> <span class="fu">element_rect</span>(<span class="at">fill =</span> <span class="st">"white"</span>),</span>
+<span id="cb2-16"><a href="#cb2-16" aria-hidden="true" tabindex="-1"></a>    <span class="at">panel.spacing =</span> <span class="fu">unit</span>(<span class="dv">0</span>, <span class="st">"lines"</span>),</span>
+<span id="cb2-17"><a href="#cb2-17" aria-hidden="true" tabindex="-1"></a>    <span class="at">aspect.ratio =</span> <span class="dv">1</span></span>
+<span id="cb2-18"><a href="#cb2-18" aria-hidden="true" tabindex="-1"></a>  )</span>
+<span id="cb2-19"><a href="#cb2-19" aria-hidden="true" tabindex="-1"></a><span class="fu">ggsave</span>(<span class="st">"figures/fs07.png"</span>, g, <span class="at">dpi =</span> <span class="dv">800</span>, <span class="at">bg =</span> <span class="st">"white"</span>, <span class="at">width =</span> <span class="dv">8</span>)</span>
+<span id="cb2-20"><a href="#cb2-20" aria-hidden="true" tabindex="-1"></a>g</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </details>
 <div class="cell-output-display">
 <div class="quarto-figure quarto-figure-center">
 <figure class="figure">
 <p><img src="11_tmf_files/figure-html/current_tmf_map-1.png" class="img-fluid figure-img" width="672"></p>
-<figcaption class="figure-caption">Current distribution of the climate niche of the tropical moist forests in Côte d’Ivoire, French Guiana and New Caledonia.</figcaption>
+<figcaption class="figure-caption">Fig. S7. Current distribution of the climate niche of the tropical moist forests in Ivory Coast, French Guiana and New Caledonia.</figcaption>
 </figure>
 </div>
 </div>
 </div>
 </section>
-<section id="projected-tmf" class="level2">
-<h2 class="anchored" data-anchor-id="projected-tmf">Projected TMF</h2>
+<section id="projected" class="level2">
+<h2 class="anchored" data-anchor-id="projected">Projected</h2>
 <div class="cell">
 <details>
 <summary>Code</summary>
@@ -404,27 +408,30 @@ pet = 0.0023 \times rsds \times (tas + 17.8) \times (tasmax - tasmin)^{0.5}
 <div class="cell">
 <details>
 <summary>Code</summary>
-<div class="sourceCode cell-code" id="cb5"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="fu">vroom</span>(<span class="st">"outputs/fg_tmf.tsv"</span>) <span class="sc">%&gt;%</span></span>
-<span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ggplot</span>(<span class="fu">aes</span>(x, y, <span class="at">fill =</span> type, <span class="at">alpha =</span> agreement)) <span class="sc">+</span></span>
-<span id="cb5-3"><a href="#cb5-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_raster</span>() <span class="sc">+</span></span>
-<span id="cb5-4"><a href="#cb5-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">coord_equal</span>() <span class="sc">+</span></span>
-<span id="cb5-5"><a href="#cb5-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">facet_grid</span>(experiment <span class="sc">~</span> project) <span class="sc">+</span></span>
-<span id="cb5-6"><a href="#cb5-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme_bw</span>() <span class="sc">+</span></span>
-<span id="cb5-7"><a href="#cb5-7" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme</span>(</span>
-<span id="cb5-8"><a href="#cb5-8" aria-hidden="true" tabindex="-1"></a>    <span class="at">axis.title =</span> <span class="fu">element_blank</span>(),</span>
-<span id="cb5-9"><a href="#cb5-9" aria-hidden="true" tabindex="-1"></a>    <span class="at">axis.ticks =</span> <span class="fu">element_blank</span>(),</span>
-<span id="cb5-10"><a href="#cb5-10" aria-hidden="true" tabindex="-1"></a>    <span class="at">axis.text =</span> <span class="fu">element_blank</span>(),</span>
-<span id="cb5-11"><a href="#cb5-11" aria-hidden="true" tabindex="-1"></a>    <span class="at">panel.border =</span> <span class="fu">element_blank</span>(), <span class="at">panel.grid =</span> <span class="fu">element_blank</span>(),</span>
-<span id="cb5-12"><a href="#cb5-12" aria-hidden="true" tabindex="-1"></a>    <span class="at">panel.background =</span> <span class="fu">element_rect</span>(<span class="at">fill =</span> <span class="st">"white"</span>)</span>
-<span id="cb5-13"><a href="#cb5-13" aria-hidden="true" tabindex="-1"></a>  ) <span class="sc">+</span></span>
-<span id="cb5-14"><a href="#cb5-14" aria-hidden="true" tabindex="-1"></a>  <span class="fu">scale_fill_manual</span>(<span class="st">""</span>, <span class="at">values =</span> <span class="fu">c</span>(<span class="st">"#48712d"</span>, <span class="st">"black"</span>)) <span class="sc">+</span></span>
-<span id="cb5-15"><a href="#cb5-15" aria-hidden="true" tabindex="-1"></a>  <span class="fu">scale_alpha_continuous</span>(<span class="st">"Model</span><span class="sc">\n</span><span class="st">Agreement</span><span class="sc">\n</span><span class="st">(%)"</span>, <span class="at">range =</span> <span class="fu">c</span>(.<span class="dv">1</span>, <span class="dv">1</span>))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb5"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a>g <span class="ot">&lt;-</span> <span class="fu">vroom</span>(<span class="st">"outputs/fg_tmf.tsv"</span>) <span class="sc">%&gt;%</span></span>
+<span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">experiment =</span> <span class="fu">paste0</span>(experiment, <span class="st">"~W~m^{-~2}"</span>)) <span class="sc">%&gt;%</span> </span>
+<span id="cb5-3"><a href="#cb5-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ggplot</span>(<span class="fu">aes</span>(x, y, <span class="at">fill =</span> type, <span class="at">alpha =</span> agreement)) <span class="sc">+</span></span>
+<span id="cb5-4"><a href="#cb5-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_raster</span>() <span class="sc">+</span></span>
+<span id="cb5-5"><a href="#cb5-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">coord_equal</span>() <span class="sc">+</span></span>
+<span id="cb5-6"><a href="#cb5-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">facet_grid</span>(experiment <span class="sc">~</span> project, <span class="at">labeller =</span> label_parsed) <span class="sc">+</span></span>
+<span id="cb5-7"><a href="#cb5-7" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme_bw</span>() <span class="sc">+</span></span>
+<span id="cb5-8"><a href="#cb5-8" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme</span>(</span>
+<span id="cb5-9"><a href="#cb5-9" aria-hidden="true" tabindex="-1"></a>    <span class="at">axis.title =</span> <span class="fu">element_blank</span>(),</span>
+<span id="cb5-10"><a href="#cb5-10" aria-hidden="true" tabindex="-1"></a>    <span class="at">axis.ticks =</span> <span class="fu">element_blank</span>(),</span>
+<span id="cb5-11"><a href="#cb5-11" aria-hidden="true" tabindex="-1"></a>    <span class="at">axis.text =</span> <span class="fu">element_blank</span>(),</span>
+<span id="cb5-12"><a href="#cb5-12" aria-hidden="true" tabindex="-1"></a>    <span class="at">panel.border =</span> <span class="fu">element_blank</span>(), <span class="at">panel.grid =</span> <span class="fu">element_blank</span>(),</span>
+<span id="cb5-13"><a href="#cb5-13" aria-hidden="true" tabindex="-1"></a>    <span class="at">panel.background =</span> <span class="fu">element_rect</span>(<span class="at">fill =</span> <span class="st">"white"</span>)</span>
+<span id="cb5-14"><a href="#cb5-14" aria-hidden="true" tabindex="-1"></a>  ) <span class="sc">+</span></span>
+<span id="cb5-15"><a href="#cb5-15" aria-hidden="true" tabindex="-1"></a>  <span class="fu">scale_fill_manual</span>(<span class="st">""</span>, <span class="at">values =</span> <span class="fu">c</span>(<span class="st">"#e40400"</span>, <span class="st">"black"</span>)) <span class="sc">+</span></span>
+<span id="cb5-16"><a href="#cb5-16" aria-hidden="true" tabindex="-1"></a>  <span class="fu">scale_alpha_continuous</span>(<span class="st">"Model</span><span class="sc">\n</span><span class="st">Agreement</span><span class="sc">\n</span><span class="st">(%)"</span>, <span class="at">range =</span> <span class="fu">c</span>(.<span class="dv">1</span>, <span class="dv">1</span>))</span>
+<span id="cb5-17"><a href="#cb5-17" aria-hidden="true" tabindex="-1"></a><span class="fu">ggsave</span>(<span class="st">"figures/fs08.png"</span>, g, <span class="at">dpi =</span> <span class="dv">800</span>, <span class="at">bg =</span> <span class="st">"white"</span>, <span class="at">width =</span> <span class="dv">8</span>)</span>
+<span id="cb5-18"><a href="#cb5-18" aria-hidden="true" tabindex="-1"></a>g</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </details>
 <div class="cell-output-display">
 <div class="quarto-figure quarto-figure-center">
 <figure class="figure">
 <p><img src="11_tmf_files/figure-html/tmffg-1.png" class="img-fluid figure-img" width="672"></p>
-<figcaption class="figure-caption">Tropical moist forest ditribution predicted in French Guiana by the end of the century for CMIP6 and CORDEX model with experiment 2.6 and 8.5.</figcaption>
+<figcaption class="figure-caption">Fig. S8. Tropical moist forest ditribution predicted in French Guiana by the end of the century for CMIP6 and CORDEX model with experiment 2.6 and 8.5.</figcaption>
 </figure>
 </div>
 </div>
@@ -433,27 +440,30 @@ pet = 0.0023 \times rsds \times (tas + 17.8) \times (tasmax - tasmin)^{0.5}
 <div class="cell">
 <details>
 <summary>Code</summary>
-<div class="sourceCode cell-code" id="cb6"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a><span class="fu">vroom</span>(<span class="st">"outputs/ci_tmf.tsv"</span>) <span class="sc">%&gt;%</span></span>
-<span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ggplot</span>(<span class="fu">aes</span>(x, y, <span class="at">fill =</span> type, <span class="at">alpha =</span> agreement)) <span class="sc">+</span></span>
-<span id="cb6-3"><a href="#cb6-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_raster</span>() <span class="sc">+</span></span>
-<span id="cb6-4"><a href="#cb6-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">coord_equal</span>() <span class="sc">+</span></span>
-<span id="cb6-5"><a href="#cb6-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">facet_grid</span>(experiment <span class="sc">~</span> project) <span class="sc">+</span></span>
-<span id="cb6-6"><a href="#cb6-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme_bw</span>() <span class="sc">+</span></span>
-<span id="cb6-7"><a href="#cb6-7" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme</span>(</span>
-<span id="cb6-8"><a href="#cb6-8" aria-hidden="true" tabindex="-1"></a>    <span class="at">axis.title =</span> <span class="fu">element_blank</span>(),</span>
-<span id="cb6-9"><a href="#cb6-9" aria-hidden="true" tabindex="-1"></a>    <span class="at">axis.ticks =</span> <span class="fu">element_blank</span>(),</span>
-<span id="cb6-10"><a href="#cb6-10" aria-hidden="true" tabindex="-1"></a>    <span class="at">axis.text =</span> <span class="fu">element_blank</span>(),</span>
-<span id="cb6-11"><a href="#cb6-11" aria-hidden="true" tabindex="-1"></a>    <span class="at">panel.border =</span> <span class="fu">element_blank</span>(), <span class="at">panel.grid =</span> <span class="fu">element_blank</span>(),</span>
-<span id="cb6-12"><a href="#cb6-12" aria-hidden="true" tabindex="-1"></a>    <span class="at">panel.background =</span> <span class="fu">element_rect</span>(<span class="at">fill =</span> <span class="st">"white"</span>)</span>
-<span id="cb6-13"><a href="#cb6-13" aria-hidden="true" tabindex="-1"></a>  ) <span class="sc">+</span></span>
-<span id="cb6-14"><a href="#cb6-14" aria-hidden="true" tabindex="-1"></a>  <span class="fu">scale_fill_manual</span>(<span class="st">""</span>, <span class="at">values =</span> <span class="fu">c</span>(<span class="st">"#48712d"</span>, <span class="st">"#e40400"</span>, <span class="st">"darkgrey"</span>, <span class="st">"black"</span>)) <span class="sc">+</span></span>
-<span id="cb6-15"><a href="#cb6-15" aria-hidden="true" tabindex="-1"></a>  <span class="fu">scale_alpha_continuous</span>(<span class="st">"Model</span><span class="sc">\n</span><span class="st">Agreement</span><span class="sc">\n</span><span class="st">(%)"</span>, <span class="at">range =</span> <span class="fu">c</span>(.<span class="dv">1</span>, <span class="dv">1</span>))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb6"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a>g <span class="ot">&lt;-</span> <span class="fu">vroom</span>(<span class="st">"outputs/ci_tmf.tsv"</span>) <span class="sc">%&gt;%</span></span>
+<span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">experiment =</span> <span class="fu">paste0</span>(experiment, <span class="st">"~W~m^{-~2}"</span>)) <span class="sc">%&gt;%</span> </span>
+<span id="cb6-3"><a href="#cb6-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ggplot</span>(<span class="fu">aes</span>(x, y, <span class="at">fill =</span> type, <span class="at">alpha =</span> agreement)) <span class="sc">+</span></span>
+<span id="cb6-4"><a href="#cb6-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_raster</span>() <span class="sc">+</span></span>
+<span id="cb6-5"><a href="#cb6-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">coord_equal</span>() <span class="sc">+</span></span>
+<span id="cb6-6"><a href="#cb6-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">facet_grid</span>(experiment <span class="sc">~</span> project, <span class="at">labeller =</span> label_parsed) <span class="sc">+</span></span>
+<span id="cb6-7"><a href="#cb6-7" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme_bw</span>() <span class="sc">+</span></span>
+<span id="cb6-8"><a href="#cb6-8" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme</span>(</span>
+<span id="cb6-9"><a href="#cb6-9" aria-hidden="true" tabindex="-1"></a>    <span class="at">axis.title =</span> <span class="fu">element_blank</span>(),</span>
+<span id="cb6-10"><a href="#cb6-10" aria-hidden="true" tabindex="-1"></a>    <span class="at">axis.ticks =</span> <span class="fu">element_blank</span>(),</span>
+<span id="cb6-11"><a href="#cb6-11" aria-hidden="true" tabindex="-1"></a>    <span class="at">axis.text =</span> <span class="fu">element_blank</span>(),</span>
+<span id="cb6-12"><a href="#cb6-12" aria-hidden="true" tabindex="-1"></a>    <span class="at">panel.border =</span> <span class="fu">element_blank</span>(), <span class="at">panel.grid =</span> <span class="fu">element_blank</span>(),</span>
+<span id="cb6-13"><a href="#cb6-13" aria-hidden="true" tabindex="-1"></a>    <span class="at">panel.background =</span> <span class="fu">element_rect</span>(<span class="at">fill =</span> <span class="st">"white"</span>)</span>
+<span id="cb6-14"><a href="#cb6-14" aria-hidden="true" tabindex="-1"></a>  ) <span class="sc">+</span></span>
+<span id="cb6-15"><a href="#cb6-15" aria-hidden="true" tabindex="-1"></a>  <span class="fu">scale_fill_manual</span>(<span class="st">""</span>, <span class="at">values =</span> <span class="fu">c</span>(<span class="st">"#48712d"</span>, <span class="st">"#e40400"</span>, <span class="st">"darkgrey"</span>, <span class="st">"black"</span>)) <span class="sc">+</span></span>
+<span id="cb6-16"><a href="#cb6-16" aria-hidden="true" tabindex="-1"></a>  <span class="fu">scale_alpha_continuous</span>(<span class="st">"Model</span><span class="sc">\n</span><span class="st">Agreement</span><span class="sc">\n</span><span class="st">(%)"</span>, <span class="at">range =</span> <span class="fu">c</span>(.<span class="dv">1</span>, <span class="dv">1</span>))</span>
+<span id="cb6-17"><a href="#cb6-17" aria-hidden="true" tabindex="-1"></a><span class="fu">ggsave</span>(<span class="st">"figures/fs09.png"</span>, g, <span class="at">dpi =</span> <span class="dv">800</span>, <span class="at">bg =</span> <span class="st">"white"</span>, <span class="at">width =</span> <span class="dv">8</span>)</span>
+<span id="cb6-18"><a href="#cb6-18" aria-hidden="true" tabindex="-1"></a>g</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </details>
 <div class="cell-output-display">
 <div class="quarto-figure quarto-figure-center">
 <figure class="figure">
 <p><img src="11_tmf_files/figure-html/tmfci-1.png" class="img-fluid figure-img" width="672"></p>
-<figcaption class="figure-caption">Tropical moist forest ditribution predicted in Ivory Coast by the end of the century for CMIP6 and CORDEX model with experiment 2.6 and 8.5.</figcaption>
+<figcaption class="figure-caption">Fig. S9. Tropical moist forest ditribution predicted in Ivory Coast by the end of the century for CMIP6 and CORDEX model with experiment 2.6 and 8.5.</figcaption>
 </figure>
 </div>
 </div>
@@ -462,27 +472,30 @@ pet = 0.0023 \times rsds \times (tas + 17.8) \times (tasmax - tasmin)^{0.5}
 <div class="cell">
 <details>
 <summary>Code</summary>
-<div class="sourceCode cell-code" id="cb7"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a><span class="fu">vroom</span>(<span class="st">"outputs/nc_tmf.tsv"</span>) <span class="sc">%&gt;%</span></span>
-<span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ggplot</span>(<span class="fu">aes</span>(x, y, <span class="at">fill =</span> type, <span class="at">alpha =</span> agreement)) <span class="sc">+</span></span>
-<span id="cb7-3"><a href="#cb7-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_raster</span>() <span class="sc">+</span></span>
-<span id="cb7-4"><a href="#cb7-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">coord_equal</span>() <span class="sc">+</span></span>
-<span id="cb7-5"><a href="#cb7-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">facet_grid</span>(experiment <span class="sc">~</span> project) <span class="sc">+</span></span>
-<span id="cb7-6"><a href="#cb7-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme_bw</span>() <span class="sc">+</span></span>
-<span id="cb7-7"><a href="#cb7-7" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme</span>(</span>
-<span id="cb7-8"><a href="#cb7-8" aria-hidden="true" tabindex="-1"></a>    <span class="at">axis.title =</span> <span class="fu">element_blank</span>(),</span>
-<span id="cb7-9"><a href="#cb7-9" aria-hidden="true" tabindex="-1"></a>    <span class="at">axis.ticks =</span> <span class="fu">element_blank</span>(),</span>
-<span id="cb7-10"><a href="#cb7-10" aria-hidden="true" tabindex="-1"></a>    <span class="at">axis.text =</span> <span class="fu">element_blank</span>(),</span>
-<span id="cb7-11"><a href="#cb7-11" aria-hidden="true" tabindex="-1"></a>    <span class="at">panel.border =</span> <span class="fu">element_blank</span>(), <span class="at">panel.grid =</span> <span class="fu">element_blank</span>(),</span>
-<span id="cb7-12"><a href="#cb7-12" aria-hidden="true" tabindex="-1"></a>    <span class="at">panel.background =</span> <span class="fu">element_rect</span>(<span class="at">fill =</span> <span class="st">"white"</span>)</span>
-<span id="cb7-13"><a href="#cb7-13" aria-hidden="true" tabindex="-1"></a>  ) <span class="sc">+</span></span>
-<span id="cb7-14"><a href="#cb7-14" aria-hidden="true" tabindex="-1"></a>  <span class="fu">scale_fill_manual</span>(<span class="st">""</span>, <span class="at">values =</span> <span class="fu">c</span>(<span class="st">"#48712d"</span>, <span class="st">"#e40400"</span>, <span class="st">"darkgrey"</span>, <span class="st">"black"</span>)) <span class="sc">+</span></span>
-<span id="cb7-15"><a href="#cb7-15" aria-hidden="true" tabindex="-1"></a>  <span class="fu">scale_alpha_continuous</span>(<span class="st">"Model</span><span class="sc">\n</span><span class="st">Agreement</span><span class="sc">\n</span><span class="st">(%)"</span>, <span class="at">range =</span> <span class="fu">c</span>(.<span class="dv">1</span>, <span class="dv">1</span>))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb7"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a>g <span class="ot">&lt;-</span> <span class="fu">vroom</span>(<span class="st">"outputs/nc_tmf.tsv"</span>) <span class="sc">%&gt;%</span></span>
+<span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">experiment =</span> <span class="fu">paste0</span>(experiment, <span class="st">"~W~m^{-~2}"</span>)) <span class="sc">%&gt;%</span> </span>
+<span id="cb7-3"><a href="#cb7-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ggplot</span>(<span class="fu">aes</span>(x, y, <span class="at">fill =</span> type, <span class="at">alpha =</span> agreement)) <span class="sc">+</span></span>
+<span id="cb7-4"><a href="#cb7-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_raster</span>() <span class="sc">+</span></span>
+<span id="cb7-5"><a href="#cb7-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">coord_equal</span>() <span class="sc">+</span></span>
+<span id="cb7-6"><a href="#cb7-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">facet_grid</span>(experiment <span class="sc">~</span> project, <span class="at">labeller =</span> label_parsed) <span class="sc">+</span></span>
+<span id="cb7-7"><a href="#cb7-7" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme_bw</span>() <span class="sc">+</span></span>
+<span id="cb7-8"><a href="#cb7-8" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme</span>(</span>
+<span id="cb7-9"><a href="#cb7-9" aria-hidden="true" tabindex="-1"></a>    <span class="at">axis.title =</span> <span class="fu">element_blank</span>(),</span>
+<span id="cb7-10"><a href="#cb7-10" aria-hidden="true" tabindex="-1"></a>    <span class="at">axis.ticks =</span> <span class="fu">element_blank</span>(),</span>
+<span id="cb7-11"><a href="#cb7-11" aria-hidden="true" tabindex="-1"></a>    <span class="at">axis.text =</span> <span class="fu">element_blank</span>(),</span>
+<span id="cb7-12"><a href="#cb7-12" aria-hidden="true" tabindex="-1"></a>    <span class="at">panel.border =</span> <span class="fu">element_blank</span>(), <span class="at">panel.grid =</span> <span class="fu">element_blank</span>(),</span>
+<span id="cb7-13"><a href="#cb7-13" aria-hidden="true" tabindex="-1"></a>    <span class="at">panel.background =</span> <span class="fu">element_rect</span>(<span class="at">fill =</span> <span class="st">"white"</span>)</span>
+<span id="cb7-14"><a href="#cb7-14" aria-hidden="true" tabindex="-1"></a>  ) <span class="sc">+</span></span>
+<span id="cb7-15"><a href="#cb7-15" aria-hidden="true" tabindex="-1"></a>  <span class="fu">scale_fill_manual</span>(<span class="st">""</span>, <span class="at">values =</span> <span class="fu">c</span>(<span class="st">"#48712d"</span>, <span class="st">"#e40400"</span>, <span class="st">"darkgrey"</span>, <span class="st">"black"</span>)) <span class="sc">+</span></span>
+<span id="cb7-16"><a href="#cb7-16" aria-hidden="true" tabindex="-1"></a>  <span class="fu">scale_alpha_continuous</span>(<span class="st">"Model</span><span class="sc">\n</span><span class="st">Agreement</span><span class="sc">\n</span><span class="st">(%)"</span>, <span class="at">range =</span> <span class="fu">c</span>(.<span class="dv">1</span>, <span class="dv">1</span>))</span>
+<span id="cb7-17"><a href="#cb7-17" aria-hidden="true" tabindex="-1"></a><span class="fu">ggsave</span>(<span class="st">"figures/fs10.png"</span>, g, <span class="at">dpi =</span> <span class="dv">800</span>, <span class="at">bg =</span> <span class="st">"white"</span>, <span class="at">width =</span> <span class="dv">8</span>)</span>
+<span id="cb7-18"><a href="#cb7-18" aria-hidden="true" tabindex="-1"></a>g</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </details>
 <div class="cell-output-display">
 <div class="quarto-figure quarto-figure-center">
 <figure class="figure">
 <p><img src="11_tmf_files/figure-html/tmfnc-1.png" class="img-fluid figure-img" width="672"></p>
-<figcaption class="figure-caption">Tropical moist forest ditribution predicted in New Caledonia by the end of the century for CMIP6 and CORDEX model with experiment 2.6 and 8.5.</figcaption>
+<figcaption class="figure-caption">Fig. S10. Tropical moist forest ditribution predicted in New Caledonia by the end of the century for CMIP6 and CORDEX model with experiment 2.6 and 8.5.</figcaption>
 </figure>
 </div>
 </div>
@@ -492,41 +505,43 @@ pet = 0.0023 \times rsds \times (tas + 17.8) \times (tasmax - tasmin)^{0.5}
 <summary>Code</summary>
 <div class="sourceCode cell-code" id="cb8"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a>tmf <span class="ot">&lt;-</span> <span class="fu">list</span>(</span>
 <span id="cb8-2"><a href="#cb8-2" aria-hidden="true" tabindex="-1"></a>  <span class="st">"French Guiana"</span> <span class="ot">=</span> <span class="st">"outputs/fg_tmf.tsv"</span>,</span>
-<span id="cb8-3"><a href="#cb8-3" aria-hidden="true" tabindex="-1"></a>  <span class="st">"Côte d'Ivoire"</span> <span class="ot">=</span> <span class="st">"outputs/ci_tmf.tsv"</span>,</span>
+<span id="cb8-3"><a href="#cb8-3" aria-hidden="true" tabindex="-1"></a>  <span class="st">"Ivory Coast"</span> <span class="ot">=</span> <span class="st">"outputs/ci_tmf.tsv"</span>,</span>
 <span id="cb8-4"><a href="#cb8-4" aria-hidden="true" tabindex="-1"></a>  <span class="st">"New Caledonia"</span> <span class="ot">=</span> <span class="st">"outputs/nc_tmf.tsv"</span></span>
 <span id="cb8-5"><a href="#cb8-5" aria-hidden="true" tabindex="-1"></a>) <span class="sc">%&gt;%</span></span>
 <span id="cb8-6"><a href="#cb8-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">lapply</span>(vroom) <span class="sc">%&gt;%</span></span>
-<span id="cb8-7"><a href="#cb8-7" aria-hidden="true" tabindex="-1"></a>  <span class="fu">bind_rows</span>(<span class="at">.id =</span> <span class="st">"country"</span>)</span>
-<span id="cb8-8"><a href="#cb8-8" aria-hidden="true" tabindex="-1"></a>g <span class="ot">&lt;-</span> tmf <span class="sc">%&gt;%</span></span>
-<span id="cb8-9"><a href="#cb8-9" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">country =</span> <span class="fu">factor</span>(country,</span>
-<span id="cb8-10"><a href="#cb8-10" aria-hidden="true" tabindex="-1"></a>    <span class="at">levels =</span> <span class="fu">c</span>(</span>
-<span id="cb8-11"><a href="#cb8-11" aria-hidden="true" tabindex="-1"></a>      <span class="st">"French Guiana"</span>,</span>
-<span id="cb8-12"><a href="#cb8-12" aria-hidden="true" tabindex="-1"></a>      <span class="st">"Côte d'Ivoire"</span>,</span>
-<span id="cb8-13"><a href="#cb8-13" aria-hidden="true" tabindex="-1"></a>      <span class="st">"New Caledonia"</span></span>
-<span id="cb8-14"><a href="#cb8-14" aria-hidden="true" tabindex="-1"></a>    )</span>
-<span id="cb8-15"><a href="#cb8-15" aria-hidden="true" tabindex="-1"></a>  )) <span class="sc">%&gt;%</span></span>
-<span id="cb8-16"><a href="#cb8-16" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ggplot</span>(<span class="fu">aes</span>(x, y, <span class="at">fill =</span> type, <span class="at">alpha =</span> agreement)) <span class="sc">+</span></span>
-<span id="cb8-17"><a href="#cb8-17" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_raster</span>() <span class="sc">+</span></span>
-<span id="cb8-18"><a href="#cb8-18" aria-hidden="true" tabindex="-1"></a>  <span class="fu">facet_wrap</span>(<span class="sc">~</span>project <span class="sc">~</span> country, <span class="at">scales =</span> <span class="st">"free"</span>) <span class="sc">+</span></span>
-<span id="cb8-19"><a href="#cb8-19" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme_bw</span>() <span class="sc">+</span></span>
-<span id="cb8-20"><a href="#cb8-20" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme</span>(</span>
-<span id="cb8-21"><a href="#cb8-21" aria-hidden="true" tabindex="-1"></a>    <span class="at">axis.title =</span> <span class="fu">element_blank</span>(),</span>
-<span id="cb8-22"><a href="#cb8-22" aria-hidden="true" tabindex="-1"></a>    <span class="at">axis.ticks =</span> <span class="fu">element_blank</span>(),</span>
-<span id="cb8-23"><a href="#cb8-23" aria-hidden="true" tabindex="-1"></a>    <span class="at">axis.text =</span> <span class="fu">element_blank</span>(),</span>
-<span id="cb8-24"><a href="#cb8-24" aria-hidden="true" tabindex="-1"></a>    <span class="at">panel.border =</span> <span class="fu">element_blank</span>(), <span class="at">panel.grid =</span> <span class="fu">element_blank</span>(),</span>
-<span id="cb8-25"><a href="#cb8-25" aria-hidden="true" tabindex="-1"></a>    <span class="at">panel.background =</span> <span class="fu">element_rect</span>(<span class="at">fill =</span> <span class="st">"white"</span>)</span>
-<span id="cb8-26"><a href="#cb8-26" aria-hidden="true" tabindex="-1"></a>  ) <span class="sc">+</span></span>
-<span id="cb8-27"><a href="#cb8-27" aria-hidden="true" tabindex="-1"></a>  <span class="fu">scale_fill_manual</span>(<span class="st">""</span>, <span class="at">values =</span> <span class="fu">c</span>(<span class="st">"#48712d"</span>, <span class="st">"#e40400"</span>, <span class="st">"darkgrey"</span>, <span class="st">"black"</span>)) <span class="sc">+</span></span>
-<span id="cb8-28"><a href="#cb8-28" aria-hidden="true" tabindex="-1"></a>  <span class="fu">scale_alpha_continuous</span>(<span class="st">"Model Agreement (%)"</span>, <span class="at">range =</span> <span class="fu">c</span>(.<span class="dv">1</span>, <span class="dv">1</span>)) <span class="sc">+</span></span>
-<span id="cb8-29"><a href="#cb8-29" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme</span>(<span class="at">legend.position =</span> <span class="st">"bottom"</span>)</span>
-<span id="cb8-30"><a href="#cb8-30" aria-hidden="true" tabindex="-1"></a><span class="fu">ggsave</span>(<span class="st">"figures/f04.png"</span>, g, <span class="at">dpi =</span> <span class="dv">300</span>, <span class="at">width =</span> <span class="dv">8</span>, <span class="at">height =</span> <span class="dv">7</span>, <span class="at">bg =</span> <span class="st">"white"</span>)</span>
-<span id="cb8-31"><a href="#cb8-31" aria-hidden="true" tabindex="-1"></a>g</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb8-7"><a href="#cb8-7" aria-hidden="true" tabindex="-1"></a>  <span class="fu">bind_rows</span>(<span class="at">.id =</span> <span class="st">"country"</span>) <span class="sc">%&gt;%</span> </span>
+<span id="cb8-8"><a href="#cb8-8" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(experiment <span class="sc">==</span> <span class="st">"2.6"</span>)</span>
+<span id="cb8-9"><a href="#cb8-9" aria-hidden="true" tabindex="-1"></a>g <span class="ot">&lt;-</span> tmf <span class="sc">%&gt;%</span></span>
+<span id="cb8-10"><a href="#cb8-10" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">country =</span> <span class="fu">factor</span>(country,</span>
+<span id="cb8-11"><a href="#cb8-11" aria-hidden="true" tabindex="-1"></a>    <span class="at">levels =</span> <span class="fu">c</span>(</span>
+<span id="cb8-12"><a href="#cb8-12" aria-hidden="true" tabindex="-1"></a>      <span class="st">"French Guiana"</span>,</span>
+<span id="cb8-13"><a href="#cb8-13" aria-hidden="true" tabindex="-1"></a>      <span class="st">"Ivory Coast"</span>,</span>
+<span id="cb8-14"><a href="#cb8-14" aria-hidden="true" tabindex="-1"></a>      <span class="st">"New Caledonia"</span></span>
+<span id="cb8-15"><a href="#cb8-15" aria-hidden="true" tabindex="-1"></a>    )</span>
+<span id="cb8-16"><a href="#cb8-16" aria-hidden="true" tabindex="-1"></a>  )) <span class="sc">%&gt;%</span></span>
+<span id="cb8-17"><a href="#cb8-17" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">project_country =</span> <span class="fu">paste</span>(project, country)) <span class="sc">%&gt;%</span> </span>
+<span id="cb8-18"><a href="#cb8-18" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ggplot</span>(<span class="fu">aes</span>(x, y, <span class="at">fill =</span> type, <span class="at">alpha =</span> agreement)) <span class="sc">+</span></span>
+<span id="cb8-19"><a href="#cb8-19" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_raster</span>() <span class="sc">+</span></span>
+<span id="cb8-20"><a href="#cb8-20" aria-hidden="true" tabindex="-1"></a>  <span class="fu">facet_wrap</span>(<span class="sc">~</span> project_country, <span class="at">scales =</span> <span class="st">"free"</span>) <span class="sc">+</span></span>
+<span id="cb8-21"><a href="#cb8-21" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme_bw</span>() <span class="sc">+</span></span>
+<span id="cb8-22"><a href="#cb8-22" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme</span>(</span>
+<span id="cb8-23"><a href="#cb8-23" aria-hidden="true" tabindex="-1"></a>    <span class="at">axis.title =</span> <span class="fu">element_blank</span>(),</span>
+<span id="cb8-24"><a href="#cb8-24" aria-hidden="true" tabindex="-1"></a>    <span class="at">axis.ticks =</span> <span class="fu">element_blank</span>(),</span>
+<span id="cb8-25"><a href="#cb8-25" aria-hidden="true" tabindex="-1"></a>    <span class="at">axis.text =</span> <span class="fu">element_blank</span>(),</span>
+<span id="cb8-26"><a href="#cb8-26" aria-hidden="true" tabindex="-1"></a>    <span class="at">panel.border =</span> <span class="fu">element_blank</span>(), <span class="at">panel.grid =</span> <span class="fu">element_blank</span>(),</span>
+<span id="cb8-27"><a href="#cb8-27" aria-hidden="true" tabindex="-1"></a>    <span class="at">panel.background =</span> <span class="fu">element_rect</span>(<span class="at">fill =</span> <span class="st">"white"</span>)</span>
+<span id="cb8-28"><a href="#cb8-28" aria-hidden="true" tabindex="-1"></a>  ) <span class="sc">+</span></span>
+<span id="cb8-29"><a href="#cb8-29" aria-hidden="true" tabindex="-1"></a>  <span class="fu">scale_fill_manual</span>(<span class="st">""</span>, <span class="at">values =</span> <span class="fu">c</span>(<span class="st">"#48712d"</span>, <span class="st">"#e40400"</span>, <span class="st">"darkgrey"</span>, <span class="st">"black"</span>)) <span class="sc">+</span></span>
+<span id="cb8-30"><a href="#cb8-30" aria-hidden="true" tabindex="-1"></a>  <span class="fu">scale_alpha_continuous</span>(<span class="st">"Model Agreement (%)"</span>, <span class="at">range =</span> <span class="fu">c</span>(.<span class="dv">1</span>, <span class="dv">1</span>)) <span class="sc">+</span></span>
+<span id="cb8-31"><a href="#cb8-31" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme</span>(<span class="at">legend.position =</span> <span class="st">"bottom"</span>)</span>
+<span id="cb8-32"><a href="#cb8-32" aria-hidden="true" tabindex="-1"></a><span class="fu">ggsave</span>(<span class="st">"figures/f04.png"</span>, g, <span class="at">dpi =</span> <span class="dv">300</span>, <span class="at">width =</span> <span class="dv">8</span>, <span class="at">height =</span> <span class="dv">7</span>, <span class="at">bg =</span> <span class="st">"white"</span>)</span>
+<span id="cb8-33"><a href="#cb8-33" aria-hidden="true" tabindex="-1"></a>g</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </details>
 <div class="cell-output-display">
 <div class="quarto-figure quarto-figure-center">
 <figure class="figure">
 <p><img src="11_tmf_files/figure-html/fig4-1.png" class="img-fluid figure-img" width="672"></p>
-<figcaption class="figure-caption">Fig. 4. Projected climate niche shift of the tropical moist forest by the end of the century. The tropical moist forest climatic niche has been projected for the period 2070-2100 based on downscaled projections from CORDEX and CMIP6 for mean, minimum and maximum monthly temperature and monthly precipitation. The projected climatic niches were compared with the current climatic niche for each model and scenario to calculate shifts with loss (red) or gain (green) of forest. The maps show with colour intensity in Côte d’Ivoire, French Guiana and New Caledonia the agreement between models in shifts for scenario 2.6 with CMIP6 and CORDEX projections. Black pixels indicate areas of stable forest, while grey pixels indicate areas of historical and projection non-forest.</figcaption>
+<figcaption class="figure-caption">Fig. 4. Projected climate niche shift of the tropical moist forest by the end of the century. The tropical moist forest climatic niche has been projected for the period 2070-2100 based on downscaled projections from CORDEX and CMIP6 for mean, minimum and maximum monthly temperature and monthly precipitation. The projected climatic niches were compared with the current climatic niche for each model and scenario to calculate shifts with loss (red) or gain (green) of forest. The maps show with colour intensity in Ivory Coast, French Guiana and New Caledonia the agreement between models in shifts for scenario 2.6 with CMIP6 and CORDEX projections. Black pixels indicate areas of stable forest, while grey pixels indicate areas of historical and projection non-forest.</figcaption>
 </figure>
 </div>
 </div>

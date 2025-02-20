@@ -2,11 +2,10 @@
 #| include: false
 library(tidyverse)
 library(sf)
+library(knitr)
 ```
 
 # MeteoFrance {.unnumbered}
-
-## Data
 
 ```{r meteofrance_data}
 #| warning: false
@@ -25,13 +24,12 @@ climate <- weather %>%
   filter(year(date) %in% 2006:2019) %>%
   group_by(loc, year(date)) %>%
   filter(n() == 12) %>%
-  group_by(loc, lat, lon, month = month(date)) %>%
+  group_by(loc) %>%
+  mutate(n_year = n() / 12) %>%
+  filter(n_year >= 6) %>%
+  group_by(loc, lat, lon, n_year, month = month(date)) %>%
   summarise_all(mean, na.omit = TRUE) %>%
   mutate(country = ifelse(lon > 0, "New Caledonia", "French Guiana"))
-annual_climate <- climate %>%
-  group_by(country, loc, lat, lon) %>%
-  summarise(pr = sum(pr), tas = mean(tas)) %>%
-  st_as_sf(coords = c("lon", "lat"), crs = 4326)
 xy <- climate %>%
   select(loc, lat, lon) %>%
   unique() %>%
@@ -41,21 +39,24 @@ xy <- climate %>%
 ```{r meteofrance_climato}
 #| warning: false
 #| message: false
-#| fig-cap: "Caption."
-climate %>%
-  group_by(country, loc, lat, lon) %>%
+#| fig-cap: "Fig S5. Yearly precipitation and mean temperature from punctual Meteo-France data for the period 2006-2019 with a minimum of 6 complete years in French Guiana (red) and New Caledonia (blue). Point size represents the number of complete years in the data." #nolint
+g <- climate %>%
+  group_by(country, loc, n_year, lat, lon) %>%
   summarise(pr = sum(pr), tas = mean(tas)) %>%
-  ggplot(aes(pr, tas, label = tolower(loc), col = country)) +
+  ggplot(aes(pr, tas, label = tolower(loc), col = country, size = n_year)) +
   geom_point() +
   ggrepel::geom_text_repel() +
   theme_bw() +
   xlab("Yearly precipitaiton [mm]") +
   ylab("Annual mean temperature [°C]") +
   theme(legend.position = "bottom") +
-  ggtitle("Climatologie MétéoFrance 2006-2019")
+  scale_size_continuous("Number of years", range = c(1, 4)) +
+  scale_color_discrete("")
+ggsave("figures/fs05.png", g, dpi = 800, bg = "white", width = 8)
+g
 ```
 
-```{r meteofrance_eval}
+```{r meteofrance_meteofrance_eval}
 #| eval: false
 clim <- climate %>%
   ungroup() %>%
@@ -123,7 +124,8 @@ eval_dc <- lapply(
 ) %>%
   bind_rows()
 files_raw <- data_frame(file = list.files("results/projections/",
-                                          pattern = ".nc")) %>%
+  pattern = ".nc"
+)) %>%
   separate(file,
     c(
       "area", "origin", "domain", "institute", "model",
@@ -148,105 +150,92 @@ read_tsv("outputs/eval_meteofrance.tsv") %>%
   write_tsv("outputs/eval.tsv")
 ```
 
-## Precipitation
-
-```{r pr_rmsep}
-#| warning: false
+```{r eval}
 #| message: false
-#| fig-cap: "Caption."
-read_tsv("outputs/eval.tsv") %>%
-  filter(metric == "RMSE", variable == "pr") %>%
-  filter(type == "downscaled") %>%
-  ggplot(aes(1, value, fill = paste(origin, type))) +
-  geom_boxplot(alpha = 0.5) +
-  facet_grid(base_eval ~ area, scales = "free") +
-  theme_bw() +
-  scale_fill_discrete("") +
-  theme(legend.position = "bottom", axis.title = element_blank()) +
-  ggtitle("Precipitation RMSEP (mm)") +
-  ggpubr::stat_compare_means(label.y.npc = 0.9) +
-  scale_y_log10()
-```
-
-```{r pr_cc}
 #| warning: false
-#| message: false
-#| fig-cap: "Caption."
-read_tsv("outputs/eval.tsv") %>%
-  filter(metric == "CC", variable == "pr") %>%
+#| fig-cap: "Fig S6. Evaluation of downscaled projections from global (CMIP6) and regional (CORDEX) climate models. Monthly precipitation and mean temperature from climate models were downscaled against CHELSA2 data for the period 1980-2005 for French Guiana and Ivory Coast. We evaluated downscaled projected monthly precipitation monthly mean temperature against punctual Meteo-France data for the period 2006-2019 with a minimum of 6 complete years. The x-axis represents the root mean square error (RMSE) and the y-axis the correlation coefficient (CC), such that the best evaluation is located in the lower left corner with a RMSEP of 0 and a CC of 1. Each point represents the mean evaluation across months of a single climate model for experiment 2.6 or 8.5, with intervals around representing half the standard deviation across months. Blue dots represent CMIP6 global climate models with experiment 2.6 in light blue and 8.5 in dark blue, while red dots represent CORDEX regional climate models with experiment 2.6 in light red and 8.5 in dark red. Grey lines represent matching experiments for a single model." #nolint
+g <- read_tsv("outputs/eval_meteofrance.tsv") %>%
+  mutate(area = gsub("-", " ", area)) %>%
+  filter(metric %in% c("CC", "RMSE"), variable %in% c("tas", "pr")) %>%
   filter(type == "downscaled") %>%
-  mutate(value = ifelse(value < 0, 0, value)) %>%
-  ggplot(aes(1, 1 - value, fill = paste(origin, type))) +
-  geom_boxplot(alpha = 0.5) +
-  facet_grid(base_eval ~ area, scales = "free") +
+  mutate(variable = recode(variable,
+    "pr" = "precipitation (mm)",
+    "tas" = "temperature (°C)"
+  )) %>%
+  mutate(area = paste(area, variable)) %>%
+  mutate(experiment = recode(experiment,
+    "rcp26" = "2.6~W~m^{-~2}",
+    "rcp85" = "8.5~W~m^{-~2}",
+    "ssp126" = "2.6~W~m^{-~2}",
+    "ssp585" = "8.5~W~m^{-~2}"
+  )) %>%
+  mutate(origin = paste0(origin, "~", experiment)) %>%
+  select(-experiment) %>%
+  pivot_wider(names_from = metric, values_from = value) %>%
+  group_by(model, variable, origin, area) %>%
+  summarise(
+    sd_m = sd(RMSE) / 2, value_m = mean(RMSE),
+    sd_c = sd(CC) / 2, value_c = mean(CC)
+  ) %>%
+  mutate(area = factor(area,
+    levels = c(
+      "French Guiana precipitation (mm)",
+      "New Caledonia precipitation (mm)",
+      "French Guiana temperature (°C)",
+      "New Caledonia temperature (°C)"
+    )
+  )) %>%
+  ggplot(aes(value_m, value_c, color = origin)) +
+  geom_linerange(aes(xmin = value_m - sd_m, xmax = value_m + sd_m),
+    alpha = .2
+  ) +
+  geom_linerange(aes(ymin = value_c - sd_c, ymax = value_c + sd_c),
+    alpha = .2
+  ) +
+  geom_line(aes(group = model), alpha = .3, col = "black") +
+  geom_point() +
+  facet_wrap(~area, scales = "free") +
   theme_bw() +
-  scale_fill_discrete("") +
-  theme(legend.position = "bottom", axis.title = element_blank()) +
-  ggtitle("Precipitation 1-CC (mm)") +
-  ggpubr::stat_compare_means(label.y.npc = 0.1) +
-  scale_y_log10(labels = scales::comma)
+  theme(legend.position = "bottom") +
+  scale_color_manual("",
+    labels = scales::parse_format(),
+    values = c("#95b3cb", "#79a0cb", "#feacad", "#f9665e")
+  ) +
+  xlab("Root Mean Square Error (RMSE)") +
+  ylab("Correlation Coefficient (CC)") +
+  scale_y_reverse()
+ggsave("figures/fs06.png", g, dpi = 800, bg = "white", width = 8)
+g
 ```
-
-## Temperature
-
-```{r tas_rmsep}
-#| warning: false
-#| message: false
-#| fig-cap: "Caption."
-read_tsv("outputs/eval.tsv") %>%
-  filter(metric == "RMSE", variable == "tas") %>%
-  filter(type == "downscaled") %>%
-  ggplot(aes(1, value, fill = paste(origin, type))) +
-  geom_boxplot(alpha = 0.5) +
-  facet_grid(base_eval ~ area, scales = "free") +
-  theme_bw() +
-  scale_fill_discrete("") +
-  theme(legend.position = "bottom", axis.title = element_blank()) +
-  ggtitle("Temperature RMSEP (°C)") +
-  ggpubr::stat_compare_means(label.y.npc = 0.9) +
-  scale_y_log10()
-```
-
-```{r tas_cc}
-#| warning: false
-#| message: false
-#| fig-cap: "Caption."
-read_tsv("outputs/eval.tsv") %>%
-  filter(metric == "CC", variable == "tas") %>%
-  filter(type == "downscaled") %>%
-  mutate(value = ifelse(value < 0, 0, value)) %>%
-  ggplot(aes(1, 1 - value, fill = paste(origin, type))) +
-  geom_boxplot(alpha = 0.5) +
-  facet_grid(base_eval ~ area, scales = "free") +
-  theme_bw() +
-  scale_fill_discrete("") +
-  theme(legend.position = "bottom", axis.title = element_blank()) +
-  ggtitle("Mean temperature 1-CC (°C)") +
-  ggpubr::stat_compare_means(label.y.npc = 0.1) +
-  scale_y_log10(labels = scales::comma)
-```
-
-## Summary
 
 ```{r meteofrance_summary}
 #| warning: false
 #| message: false
-options(knitr.kable.NA = "")
-read_tsv("outputs/eval.tsv") %>%
-  filter(variable %in% c("tas", "pr")) %>%
-  filter(type == "downscaled") %>%
+t <- read_tsv("outputs/eval_meteofrance.tsv") %>%
+  mutate(area = gsub("-", " ", area)) %>%
+  filter(
+    variable %in% c("tas", "pr"),
+    type == "downscaled",
+    metric %in% c("RMSE", "CC")
+  ) %>%
   mutate(variable = recode(variable,
     "pr" = "precipitation",
     "tas" = "temperature"
   )) %>%
+  mutate(base_eval = "Météo France") %>%
+  group_by(area, origin, type, variable, base_eval, metric, model) %>%
+  summarise(value = mean(value)) %>% # inter-months
   group_by(area, origin, type, variable, base_eval, metric) %>%
-  summarise(value = round(median(value, na.rm = TRUE), 3)) %>%
-  pivot_wider(names_from = metric, values_from = value) %>%
-  mutate(value = paste0(RMSE, " (", CC, ")")) %>%
+  summarise(sd = sd(value), mean = mean(value)) %>% # inter-model
+  mutate(value = paste0(round(mean, 3), " (", round(sd, 3), ")")) %>%
+  select(-sd, -mean) %>%
+  pivot_wider(names_from = origin, values_from = value) %>%
   ungroup() %>%
-  select(-CC, -RMSE, -SDE, -bias, -type) %>%
-  pivot_wider(names_from = base_eval, values_from = value) %>%
-  select(area, variable, origin, chelsa2, chirps, gshtd, `meteo-france`) %>%
-  arrange(area, variable, origin) %>%
-  knitr::kable(caption = "Caption.")
+  mutate(Evaluation = paste(base_eval, variable)) %>%
+  rename(Country = area, Metric = metric) %>%
+  select(Country, Evaluation, Metric, CMIP6, CORDEX) %>%
+  arrange(Country, Evaluation, Metric)
+write_tsv(t, "figures/ts01.tsv")
+read_tsv("figures/ts01.tsv") %>%
+  kable(caption = "Table S1. Mean evaluation of downscaled CMIP6 and CORDEX projections between 2006 and 2019 against météo France precipitation and temperature data in French Guiana and New Caledonia. Numbers indicate root mean square error (RMSE) or correlation coefficient (CC) with mean followed by standard deviation in parentheses. CMIP6 and CORDEX assessments are averaged across months, models and scenarios.") # nolint
 ```

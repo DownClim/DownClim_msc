@@ -7,15 +7,15 @@ library(terra)
 
 # Tropical Moist Forests {.unnumbered}
 
-Tropical moist forest (TMF) climatic niche distributions were projected at the end of the century (2070-2100) using downscaled CMIP6 and CORDEX projections for scenario 2.6 and 8.5. Specifically, we used the definition from Holdridge 1976 (ref) as areas with a mean annual temperature over 16°C, a total annual precipitation over 1,000 mm/year, and a ratio of potential evapotranspiration over precipitation below 1. Potential evaportanspiration (pet, mm/month) was derived from monthly means, maxmimum and minimum temperatures (tas, tas_min, tas_max, 0C) and surface downward shortwave radiation (rsds, MJ/m2/month) as:
+Tropical moist forest (TMF) climatic niche distributions were projected at the end of the century (2070-2100) using downscaled CMIP6 and CORDEX projections for scenario 2.6 and 8.5. Specifically, we used the definition from Holdridge 1976 (ref) as areas with a mean annual temperature over 16°C, a total annual precipitation over 1,000 $mm~yr^{-1}$, and a ratio of potential evapotranspiration over precipitation below 1. Potential evaportanspiration (pet, $mm~month^{-1}$) was derived from monthly mean, maximum and minimum temperatures (tas, tasmax, tasmin, °C) and surface downward short-wave radiation (rsds, $MJ~m^{-~2}~month^{-1}$) as:
 
 $$
  pet = 0.0023 \times rsds \times (tas + 17.8) \times (tasmax - tasmin)^{0.5}
 $$
 
-Surface downward shortwave radiation was derived from CHELSA 2 historical climatologies and assumed constant.
+Surface downward short-wave radiation was derived from CHELSA 2 historical climatologies and assumed constant.
 
-## Current TMF
+## Current
 
 ```{r current_tmf_data}
 #| eval: false
@@ -33,8 +33,10 @@ write_tsv(tmf, "outputs/current_tmf.tsv")
 ```{r current_tmf_map}
 #| message: false
 #| warning: false
-#| fig-cap: "Current distribution of the climate niche of the tropical moist forests in Côte d'Ivoire, French Guiana and New Caledonia." #nolint
-read_tsv("outputs/current_tmf.tsv") %>%
+#| fig-cap: "Fig. S7. Current distribution of the climate niche of the tropical moist forests in Ivory Coast, French Guiana and New Caledonia." #nolint
+g <- read_tsv("outputs/current_tmf.tsv") %>%
+  mutate(area = ifelse(area == "Côte-d'Ivoire", "Ivory-Coast", area)) %>%
+  mutate(area = gsub("-", " ", area)) %>%
   ggplot(aes(x, y, fill = as.character(tmf))) +
   geom_raster() +
   facet_wrap(~area, scales = "free") +
@@ -50,9 +52,11 @@ read_tsv("outputs/current_tmf.tsv") %>%
     panel.spacing = unit(0, "lines"),
     aspect.ratio = 1
   )
+ggsave("figures/fs07.png", g, dpi = 800, bg = "white", width = 8)
+g
 ```
 
-## Projected TMF
+## Projected
 
 ```{r preptmf}
 #| eval: false
@@ -111,7 +115,8 @@ fg_tab <- as.data.frame(fg, xy = TRUE, na.rm = FALE) %>%
   mutate(type = ifelse(tmf == 0, "stable", type)) %>%
   mutate(type = ifelse(hist == 0 & tmf == 0, "non-forest", type)) %>%
   mutate(agreement = ifelse(type %in% c("stable", "non-forest"),
-                            100, agreement))
+    100, agreement
+  ))
 write_tsv(fg_tab, "outputs/fg_tmf.tsv")
 ci <- rast(c(
   list.files("outputs/tmf/", pattern = "Ivoire", full.names = TRUE),
@@ -132,7 +137,8 @@ ci_tab <- as.data.frame(ci, xy = TRUE, na.rm = FALSE) %>%
   mutate(type = ifelse(tmf == 0, "stable", type)) %>%
   mutate(type = ifelse(hist == 0 & tmf == 0, "non-forest", type)) %>%
   mutate(agreement = ifelse(type %in% c("stable", "non-forest"),
-                            100, agreement))
+    100, agreement
+  ))
 write_tsv(ci_tab, "outputs/ci_tmf.tsv")
 nc <- rast(c(
   list.files("outputs/tmf/", pattern = "Caledonia", full.names = TRUE),
@@ -154,7 +160,8 @@ nc_tab <- as.data.frame(nc, xy = TRUE, na.rm = FALSE) %>%
   mutate(type = ifelse(tmf == 0, "stable", type)) %>%
   mutate(type = ifelse(hist == 0 & tmf == 0, "non-forest", type)) %>%
   mutate(agreement = ifelse(type %in% c("stable", "non-forest"),
-                            100, agreement))
+    100, agreement
+  ))
 write_tsv(nc_tab, "outputs/nc_tmf.tsv")
 ```
 
@@ -163,12 +170,13 @@ write_tsv(nc_tab, "outputs/nc_tmf.tsv")
 ```{r tmffg}
 #| message: false
 #| warning: false
-#| fig-cap: "Tropical moist forest ditribution predicted in French Guiana by the end of the century for CMIP6 and CORDEX model with experiment 2.6 and 8.5." #nolint
-vroom("outputs/fg_tmf.tsv") %>%
+#| fig-cap: "Fig. S8. Tropical moist forest ditribution predicted in French Guiana by the end of the century for CMIP6 and CORDEX model with experiment 2.6 and 8.5." #nolint
+g <- vroom("outputs/fg_tmf.tsv") %>%
+  mutate(experiment = paste0(experiment, "~W~m^{-~2}")) %>%
   ggplot(aes(x, y, fill = type, alpha = agreement)) +
   geom_raster() +
   coord_equal() +
-  facet_grid(experiment ~ project) +
+  facet_grid(experiment ~ project, labeller = label_parsed) +
   theme_bw() +
   theme(
     axis.title = element_blank(),
@@ -177,8 +185,10 @@ vroom("outputs/fg_tmf.tsv") %>%
     panel.border = element_blank(), panel.grid = element_blank(),
     panel.background = element_rect(fill = "white")
   ) +
-  scale_fill_manual("", values = c("#48712d", "black")) +
+  scale_fill_manual("", values = c("#e40400", "black")) +
   scale_alpha_continuous("Model\nAgreement\n(%)", range = c(.1, 1))
+ggsave("figures/fs08.png", g, dpi = 800, bg = "white", width = 8)
+g
 ```
 
 <!-- CORDEX simulations predicted less TMF in the central and south west of Ivory Coast but more near the coast , especially in scenario 2.6. **I need to explore the drivers, determining variables tas, pet, pr to be added. I also need to explore the weird CORDEX patterns in the North.** -->
@@ -186,12 +196,13 @@ vroom("outputs/fg_tmf.tsv") %>%
 ```{r tmfci}
 #| message: false
 #| warning: false
-#| fig-cap: "Tropical moist forest ditribution predicted in Ivory Coast by the end of the century for CMIP6 and CORDEX model with experiment 2.6 and 8.5." #nolint
-vroom("outputs/ci_tmf.tsv") %>%
+#| fig-cap: "Fig. S9. Tropical moist forest ditribution predicted in Ivory Coast by the end of the century for CMIP6 and CORDEX model with experiment 2.6 and 8.5." #nolint
+g <- vroom("outputs/ci_tmf.tsv") %>%
+  mutate(experiment = paste0(experiment, "~W~m^{-~2}")) %>%
   ggplot(aes(x, y, fill = type, alpha = agreement)) +
   geom_raster() +
   coord_equal() +
-  facet_grid(experiment ~ project) +
+  facet_grid(experiment ~ project, labeller = label_parsed) +
   theme_bw() +
   theme(
     axis.title = element_blank(),
@@ -202,6 +213,8 @@ vroom("outputs/ci_tmf.tsv") %>%
   ) +
   scale_fill_manual("", values = c("#48712d", "#e40400", "darkgrey", "black")) +
   scale_alpha_continuous("Model\nAgreement\n(%)", range = c(.1, 1))
+ggsave("figures/fs09.png", g, dpi = 800, bg = "white", width = 8)
+g
 ```
 
 <!-- CORDEX and CMIP6 major projected distributions of TMF were in agreement in New Caledonia. Only less models projected TMF in the south east of the Grande Terre in CORDEX while more models projected TMF on the west coast in CORDEX, especially in the central west coast in experiment 8.5. -->
@@ -209,12 +222,13 @@ vroom("outputs/ci_tmf.tsv") %>%
 ```{r tmfnc}
 #| message: false
 #| warning: false
-#| fig-cap: "Tropical moist forest ditribution predicted in New Caledonia by the end of the century for CMIP6 and CORDEX model with experiment 2.6 and 8.5." #nolint
-vroom("outputs/nc_tmf.tsv") %>%
+#| fig-cap: "Fig. S10. Tropical moist forest ditribution predicted in New Caledonia by the end of the century for CMIP6 and CORDEX model with experiment 2.6 and 8.5." #nolint
+g <- vroom("outputs/nc_tmf.tsv") %>%
+  mutate(experiment = paste0(experiment, "~W~m^{-~2}")) %>%
   ggplot(aes(x, y, fill = type, alpha = agreement)) +
   geom_raster() +
   coord_equal() +
-  facet_grid(experiment ~ project) +
+  facet_grid(experiment ~ project, labeller = label_parsed) +
   theme_bw() +
   theme(
     axis.title = element_blank(),
@@ -225,30 +239,34 @@ vroom("outputs/nc_tmf.tsv") %>%
   ) +
   scale_fill_manual("", values = c("#48712d", "#e40400", "darkgrey", "black")) +
   scale_alpha_continuous("Model\nAgreement\n(%)", range = c(.1, 1))
+ggsave("figures/fs10.png", g, dpi = 800, bg = "white", width = 8)
+g
 ```
 
 ```{r fig4}
 #| message: false
 #| warning: false
-#| fig-cap: "Fig. 4. Projected climate niche shift of the tropical moist forest by the end of the century. The tropical moist forest climatic niche has been projected for the period 2070-2100 based on downscaled projections from CORDEX and CMIP6 for mean, minimum and maximum monthly temperature and monthly precipitation. The projected climatic niches were compared with the current climatic niche for each model and scenario to calculate shifts with loss (red) or gain (green) of forest. The maps show with colour intensity in Côte d'Ivoire, French Guiana and New Caledonia the agreement between models in shifts for scenario 2.6 with CMIP6 and CORDEX projections. Black pixels indicate areas of stable forest, while grey pixels indicate areas of historical and projection non-forest." #nolint
+#| fig-cap: "Fig. 4. Projected climate niche shift of the tropical moist forest by the end of the century. The tropical moist forest climatic niche has been projected for the period 2070-2100 based on downscaled projections from CORDEX and CMIP6 for mean, minimum and maximum monthly temperature and monthly precipitation. The projected climatic niches were compared with the current climatic niche for each model and scenario to calculate shifts with loss (red) or gain (green) of forest. The maps show with colour intensity in Ivory Coast, French Guiana and New Caledonia the agreement between models in shifts for scenario 2.6 with CMIP6 and CORDEX projections. Black pixels indicate areas of stable forest, while grey pixels indicate areas of historical and projection non-forest." #nolint
 tmf <- list(
   "French Guiana" = "outputs/fg_tmf.tsv",
-  "Côte d'Ivoire" = "outputs/ci_tmf.tsv",
+  "Ivory Coast" = "outputs/ci_tmf.tsv",
   "New Caledonia" = "outputs/nc_tmf.tsv"
 ) %>%
   lapply(vroom) %>%
-  bind_rows(.id = "country")
+  bind_rows(.id = "country") %>%
+  filter(experiment == "2.6")
 g <- tmf %>%
   mutate(country = factor(country,
     levels = c(
       "French Guiana",
-      "Côte d'Ivoire",
+      "Ivory Coast",
       "New Caledonia"
     )
   )) %>%
+  mutate(project_country = paste(project, country)) %>%
   ggplot(aes(x, y, fill = type, alpha = agreement)) +
   geom_raster() +
-  facet_wrap(~project ~ country, scales = "free") +
+  facet_wrap(~project_country, scales = "free") +
   theme_bw() +
   theme(
     axis.title = element_blank(),

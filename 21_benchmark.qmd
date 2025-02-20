@@ -9,8 +9,10 @@ We quickly reported benchmarks of the tool for other users. Most rules takes les
 
 ```{r prep}
 #| eval: false
-bc <- lapply(list.files("results/benchmarks/", full.names = TRUE),
-             readr::read_tsv) %>%
+bc <- lapply(
+  list.files("results/benchmarks/", full.names = TRUE),
+  readr::read_tsv
+) %>%
   bind_rows() %>%
   mutate(file = list.files("results/benchmarks/"))
 bc <- bc %>%

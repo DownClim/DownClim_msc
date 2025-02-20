@@ -21,55 +21,61 @@ To demonstrate the aim of the tool, we want to validate and/or assess the projec
 library(tidyverse)
 set.seed(42)
 arrow_height <- 28.5
+delta_bc <- -1
+sd_trajs <- 0.2266
+hist_cm <- data.frame(
+  year = 1980:2005,
+  period = "historical",
+  experiment = "historical",
+  product = "climate model raw"
+) %>%
+  mutate(mean_temperature = -6.717360 + 0.016125 * year) %>%
+  mutate(temperature = mean_temperature + rnorm(n(), 0, sd = sd_trajs))
+hist_ref <- hist_cm %>%
+  mutate(product = "downscaling product") %>%
+  mutate(mean_temperature = mean_temperature + delta_bc) %>%
+  mutate(temperature = temperature + delta_bc + rnorm(n(), 0, sd = sd_trajs))
+eval_ref <- data.frame(
+  year = 2006:2019,
+  period = "evaluation",
+  experiment = "historical",
+  product = "evaluation product"
+) %>%
+  mutate(mean_temperature = -6.717360 + 0.016125 * year - 0.8) %>%
+  mutate(temperature = mean_temperature + rnorm(n(), 0, sd = 0.2266))
+
+proj_26_cm <- data.frame(
+  year = 2006:2100,
+  period = "projection",
+  experiment = "2.6",
+  product = "climate model raw"
+) %>%
+  mutate(mean_temperature = 10.9 + 7.357e-03 * year) %>%
+  mutate(temperature = mean_temperature + rnorm(n(), 0, sd = 0.2492))
+proj_85_cm <- data.frame(
+  year = 2006:2100,
+  period = "projection",
+  experiment = "8.5",
+  product = "climate model raw"
+) %>%
+  mutate(mean_temperature = -19.9 + 2.272e-02 * year) %>%
+  mutate(temperature = mean_temperature + rnorm(n(), 0, sd = 0.2285))
+proj_26_ds <- proj_26_cm %>%
+  mutate(product = "climate model downscaled") %>%
+  mutate(mean_temperature = mean_temperature + delta_bc) %>%
+  mutate(temperature = temperature + delta_bc + rnorm(n(), 0, sd = sd_trajs))
+proj_85_ds <- proj_85_cm %>%
+  mutate(product = "climate model downscaled") %>%
+  mutate(mean_temperature = mean_temperature + delta_bc) %>%
+  mutate(temperature = temperature + delta_bc + rnorm(n(), 0, sd = sd_trajs))
 g <- bind_rows(
-  data.frame(
-    year = 1980:2005,
-    period = "historical",
-    experiment = "historical",
-    product = "climate model"
-  ) %>%
-    mutate(mean_temperature = -6.717360 + 0.016125 * year) %>%
-    mutate(temperature = mean_temperature + rnorm(n(), 0, sd = 0.2266)),
-  data.frame(
-    year = 1980:2005,
-    period = "historical",
-    experiment = "historical",
-    product = "downscaling data"
-  ) %>%
-    mutate(mean_temperature = -6.717360 + 0.016125 * year - 1) %>%
-    mutate(temperature = mean_temperature + rnorm(n(), 0, sd = 0.2266)),
-  data.frame(
-    year = 2006:2019,
-    period = "evaluation",
-    experiment = "historical",
-    product = "climate model"
-  ) %>%
-    mutate(mean_temperature = -6.717360 + 0.016125 * year) %>%
-    mutate(temperature = mean_temperature + rnorm(n(), 0, sd = 0.2266)),
-  data.frame(
-    year = 2006:2019,
-    period = "evaluation",
-    experiment = "historical",
-    product = "evaluation data"
-  ) %>%
-    mutate(mean_temperature = -6.717360 + 0.016125 * year - 0.8) %>%
-    mutate(temperature = mean_temperature + rnorm(n(), 0, sd = 0.2266)),
-  data.frame(
-    year = 2020:2100,
-    period = "projection",
-    experiment = "2.6",
-    product = "climate model"
-  ) %>%
-    mutate(mean_temperature = 1.094e+01 + 7.357e-03 * year) %>%
-    mutate(temperature = mean_temperature + rnorm(n(), 0, sd = 0.2492)),
-  data.frame(
-    year = 2020:2100,
-    period = "projection",
-    experiment = "8.5",
-    product = "climate model"
-  ) %>%
-    mutate(mean_temperature = -20 + 2.272e-02 * year) %>%
-    mutate(temperature = mean_temperature + rnorm(n(), 0, sd = 0.2285))
+  hist_cm,
+  hist_ref,
+  eval_ref,
+  proj_26_cm,
+  proj_85_cm,
+  proj_26_ds,
+  proj_85_ds
 ) %>%
   ggplot(aes(x = year)) +
   geom_line(aes(
@@ -79,7 +85,7 @@ g <- bind_rows(
   geom_line(aes(
     y = mean_temperature, col = product,
     group = paste(period, experiment, product)
-  ), alpha = .5) +
+  ), linewidth = 1.1) +
   theme_bw() +
   ylab("Temperature (°C)") +
   scale_colour_discrete("") +
@@ -119,7 +125,7 @@ g <- bind_rows(
   geom_segment(aes(x = x, y = y, xend = xend, yend = yend),
     col = "darkgrey",
     data.frame(
-      x = 2070, xend = 2100,
+      x = 2020, xend = 2100,
       y = arrow_height, yend = arrow_height
     ),
     arrow = arrow(length = unit(0.2, "cm"))
@@ -127,14 +133,14 @@ g <- bind_rows(
   geom_segment(aes(x = x, y = y, xend = xend, yend = yend),
     col = "darkgrey",
     data.frame(
-      x = 2100, xend = 2070,
+      x = 2100, xend = 2020,
       y = arrow_height, yend = arrow_height
     ),
     arrow = arrow(length = unit(0.2, "cm"))
   ) +
   annotate("text",
     x = 1990, y = arrow_height - 0.25,
-    label = "downscaling", col = "darkgrey"
+    label = "Downscaling", col = "darkgrey"
   ) +
   annotate("text",
     x = 1990, y = arrow_height - 0.5,
@@ -143,7 +149,7 @@ g <- bind_rows(
   ) +
   annotate("text",
     x = 2012, y = arrow_height - 0.25,
-    label = "evaluation", col = "darkgrey"
+    label = "Evaluation", col = "darkgrey"
   ) +
   annotate("text",
     x = 2012, y = arrow_height - 0.5,
@@ -151,32 +157,49 @@ g <- bind_rows(
     parse = TRUE, size = 3, col = "darkgrey"
   ) +
   annotate("text",
-    x = 2085, y = arrow_height - 0.35,
-    label = "TMF projection", col = "darkgrey"
+    x = 2060, y = arrow_height - 0.25,
+    label = "Downscaled projection", col = "darkgrey"
   ) +
   geom_segment(aes(x = x, y = y, xend = xend, yend = yend),
     col = "black", size = 1.1,
     data.frame(
       x = 1991, xend = 1991,
-      y = 24.5, yend = 25.2
+      y = 25.2, yend = 24.5
     ),
     arrow = arrow(length = unit(0.2, "cm"))
-  ) +
-  annotate("text",
-    x = 1982, y = 25 - 0.2,
-    label = "bias\ncorrection", col = "black"
   ) +
   geom_segment(aes(x = x, y = y, xend = xend, yend = yend),
     col = "black", size = 1.1,
     data.frame(
-      x = 2010, xend = 2010,
-      y = 25.5, yend = 25
+      x = 2020, xend = 2020,
+      y = 24.5, yend = 25.2
     ),
     arrow = arrow(length = unit(0.2, "cm"))
   ) +
+  geom_segment(aes(x = x, y = y, xend = xend, yend = yend),
+    col = "black", size = 1.1,
+    data.frame(
+      x = 2020, xend = 2020,
+      y = 25.2, yend = 24.5
+    ),
+    arrow = arrow(length = unit(0.2, "cm"))
+  ) +
+  guides(col = guide_legend(nrow = 2, byrow = TRUE)) +
   annotate("text",
-    x = 2019, y = 25.3,
-    label = "evaluation", col = "black"
+    x = 2108, y = 27.9,
+    label = "8.5~W~m^{-~2}", parse = TRUE, col = "#7cae00", size = 3
+  ) +
+  annotate("text",
+    x = 2108, y = 26.4,
+    label = "2.6~W~m^{-~2}", parse = TRUE, col = "#7cae00", size = 3
+  ) +
+  annotate("text",
+    x = 2108, y = 27,
+    label = "8.5~W~m^{-~2}", parse = TRUE, col = "#f8766d", size = 3
+  ) +
+  annotate("text",
+    x = 2108, y = 25.5,
+    label = "2.6~W~m^{-~2}", parse = TRUE, col = "#f8766d", size = 3
   )
 ggsave("figures/f01.png", g, bg = "white", dpi = 800, height = 4, width = 7)
 g
