@@ -7,7 +7,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
 <meta name="author" content="Sylvain Schmitt">
-<meta name="dcterms.date" content="2025-02-20">
+<meta name="dcterms.date" content="2025-03-07">
 
 <title>DownClim - Downscale Climate Projections</title>
 <style>
@@ -263,7 +263,7 @@ div.csl-indent {
     <div>
     <div class="quarto-title-meta-heading">Published</div>
     <div class="quarto-title-meta-contents">
-      <p class="date">February 20, 2025</p>
+      <p class="date">March 7, 2025</p>
     </div>
   </div>
   
@@ -296,48 +296,48 @@ div.csl-indent {
 <span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a>delta_bc <span class="ot">&lt;-</span> <span class="sc">-</span><span class="dv">1</span></span>
 <span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a>sd_trajs <span class="ot">&lt;-</span> <span class="fl">0.2266</span></span>
 <span id="cb1-6"><a href="#cb1-6" aria-hidden="true" tabindex="-1"></a>hist_cm <span class="ot">&lt;-</span> <span class="fu">data.frame</span>(</span>
-<span id="cb1-7"><a href="#cb1-7" aria-hidden="true" tabindex="-1"></a>    <span class="at">year =</span> <span class="dv">1980</span><span class="sc">:</span><span class="dv">2005</span>,</span>
-<span id="cb1-8"><a href="#cb1-8" aria-hidden="true" tabindex="-1"></a>    <span class="at">period =</span> <span class="st">"historical"</span>,</span>
-<span id="cb1-9"><a href="#cb1-9" aria-hidden="true" tabindex="-1"></a>    <span class="at">experiment =</span> <span class="st">"historical"</span>,</span>
-<span id="cb1-10"><a href="#cb1-10" aria-hidden="true" tabindex="-1"></a>    <span class="at">product =</span> <span class="st">"climate model raw"</span></span>
-<span id="cb1-11"><a href="#cb1-11" aria-hidden="true" tabindex="-1"></a>  ) <span class="sc">%&gt;%</span></span>
-<span id="cb1-12"><a href="#cb1-12" aria-hidden="true" tabindex="-1"></a>    <span class="fu">mutate</span>(<span class="at">mean_temperature =</span> <span class="sc">-</span><span class="fl">6.717360</span> <span class="sc">+</span> <span class="fl">0.016125</span> <span class="sc">*</span> year) <span class="sc">%&gt;%</span></span>
-<span id="cb1-13"><a href="#cb1-13" aria-hidden="true" tabindex="-1"></a>    <span class="fu">mutate</span>(<span class="at">temperature =</span> mean_temperature <span class="sc">+</span> <span class="fu">rnorm</span>(<span class="fu">n</span>(), <span class="dv">0</span>, <span class="at">sd =</span> sd_trajs))</span>
-<span id="cb1-14"><a href="#cb1-14" aria-hidden="true" tabindex="-1"></a>hist_ref <span class="ot">&lt;-</span> hist_cm <span class="sc">%&gt;%</span> </span>
-<span id="cb1-15"><a href="#cb1-15" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">product =</span> <span class="st">"downscaling product"</span>) <span class="sc">%&gt;%</span> </span>
+<span id="cb1-7"><a href="#cb1-7" aria-hidden="true" tabindex="-1"></a>  <span class="at">year =</span> <span class="dv">1980</span><span class="sc">:</span><span class="dv">2005</span>,</span>
+<span id="cb1-8"><a href="#cb1-8" aria-hidden="true" tabindex="-1"></a>  <span class="at">period =</span> <span class="st">"historical"</span>,</span>
+<span id="cb1-9"><a href="#cb1-9" aria-hidden="true" tabindex="-1"></a>  <span class="at">experiment =</span> <span class="st">"historical"</span>,</span>
+<span id="cb1-10"><a href="#cb1-10" aria-hidden="true" tabindex="-1"></a>  <span class="at">product =</span> <span class="st">"climate model raw  (~100-50km)"</span></span>
+<span id="cb1-11"><a href="#cb1-11" aria-hidden="true" tabindex="-1"></a>) <span class="sc">%&gt;%</span></span>
+<span id="cb1-12"><a href="#cb1-12" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">mean_temperature =</span> <span class="sc">-</span><span class="fl">6.717360</span> <span class="sc">+</span> <span class="fl">0.016125</span> <span class="sc">*</span> year) <span class="sc">%&gt;%</span></span>
+<span id="cb1-13"><a href="#cb1-13" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">temperature =</span> mean_temperature <span class="sc">+</span> <span class="fu">rnorm</span>(<span class="fu">n</span>(), <span class="dv">0</span>, <span class="at">sd =</span> sd_trajs))</span>
+<span id="cb1-14"><a href="#cb1-14" aria-hidden="true" tabindex="-1"></a>hist_ref <span class="ot">&lt;-</span> hist_cm <span class="sc">%&gt;%</span></span>
+<span id="cb1-15"><a href="#cb1-15" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">product =</span> <span class="st">"downscaling product (~1km)"</span>) <span class="sc">%&gt;%</span></span>
 <span id="cb1-16"><a href="#cb1-16" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">mean_temperature =</span> mean_temperature <span class="sc">+</span> delta_bc) <span class="sc">%&gt;%</span></span>
 <span id="cb1-17"><a href="#cb1-17" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">temperature =</span> temperature <span class="sc">+</span> delta_bc <span class="sc">+</span> <span class="fu">rnorm</span>(<span class="fu">n</span>(), <span class="dv">0</span>, <span class="at">sd =</span> sd_trajs))</span>
 <span id="cb1-18"><a href="#cb1-18" aria-hidden="true" tabindex="-1"></a>eval_ref <span class="ot">&lt;-</span> <span class="fu">data.frame</span>(</span>
-<span id="cb1-19"><a href="#cb1-19" aria-hidden="true" tabindex="-1"></a>    <span class="at">year =</span> <span class="dv">2006</span><span class="sc">:</span><span class="dv">2019</span>,</span>
-<span id="cb1-20"><a href="#cb1-20" aria-hidden="true" tabindex="-1"></a>    <span class="at">period =</span> <span class="st">"evaluation"</span>,</span>
-<span id="cb1-21"><a href="#cb1-21" aria-hidden="true" tabindex="-1"></a>    <span class="at">experiment =</span> <span class="st">"historical"</span>,</span>
-<span id="cb1-22"><a href="#cb1-22" aria-hidden="true" tabindex="-1"></a>    <span class="at">product =</span> <span class="st">"evaluation product"</span></span>
-<span id="cb1-23"><a href="#cb1-23" aria-hidden="true" tabindex="-1"></a>  ) <span class="sc">%&gt;%</span></span>
-<span id="cb1-24"><a href="#cb1-24" aria-hidden="true" tabindex="-1"></a>    <span class="fu">mutate</span>(<span class="at">mean_temperature =</span> <span class="sc">-</span><span class="fl">6.717360</span> <span class="sc">+</span> <span class="fl">0.016125</span> <span class="sc">*</span> year <span class="sc">-</span> <span class="fl">0.8</span>) <span class="sc">%&gt;%</span></span>
-<span id="cb1-25"><a href="#cb1-25" aria-hidden="true" tabindex="-1"></a>    <span class="fu">mutate</span>(<span class="at">temperature =</span> mean_temperature <span class="sc">+</span> <span class="fu">rnorm</span>(<span class="fu">n</span>(), <span class="dv">0</span>, <span class="at">sd =</span> <span class="fl">0.2266</span>))</span>
+<span id="cb1-19"><a href="#cb1-19" aria-hidden="true" tabindex="-1"></a>  <span class="at">year =</span> <span class="dv">2006</span><span class="sc">:</span><span class="dv">2019</span>,</span>
+<span id="cb1-20"><a href="#cb1-20" aria-hidden="true" tabindex="-1"></a>  <span class="at">period =</span> <span class="st">"evaluation"</span>,</span>
+<span id="cb1-21"><a href="#cb1-21" aria-hidden="true" tabindex="-1"></a>  <span class="at">experiment =</span> <span class="st">"historical"</span>,</span>
+<span id="cb1-22"><a href="#cb1-22" aria-hidden="true" tabindex="-1"></a>  <span class="at">product =</span> <span class="st">"evaluation product (~1-5km)"</span></span>
+<span id="cb1-23"><a href="#cb1-23" aria-hidden="true" tabindex="-1"></a>) <span class="sc">%&gt;%</span></span>
+<span id="cb1-24"><a href="#cb1-24" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">mean_temperature =</span> <span class="sc">-</span><span class="fl">6.717360</span> <span class="sc">+</span> <span class="fl">0.016125</span> <span class="sc">*</span> year <span class="sc">-</span> <span class="fl">0.8</span>) <span class="sc">%&gt;%</span></span>
+<span id="cb1-25"><a href="#cb1-25" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">temperature =</span> mean_temperature <span class="sc">+</span> <span class="fu">rnorm</span>(<span class="fu">n</span>(), <span class="dv">0</span>, <span class="at">sd =</span> <span class="fl">0.2266</span>))</span>
 <span id="cb1-26"><a href="#cb1-26" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb1-27"><a href="#cb1-27" aria-hidden="true" tabindex="-1"></a>proj_26_cm <span class="ot">&lt;-</span> <span class="fu">data.frame</span>(</span>
-<span id="cb1-28"><a href="#cb1-28" aria-hidden="true" tabindex="-1"></a>    <span class="at">year =</span> <span class="dv">2006</span><span class="sc">:</span><span class="dv">2100</span>,</span>
-<span id="cb1-29"><a href="#cb1-29" aria-hidden="true" tabindex="-1"></a>    <span class="at">period =</span> <span class="st">"projection"</span>,</span>
-<span id="cb1-30"><a href="#cb1-30" aria-hidden="true" tabindex="-1"></a>    <span class="at">experiment =</span> <span class="st">"2.6"</span>,</span>
-<span id="cb1-31"><a href="#cb1-31" aria-hidden="true" tabindex="-1"></a>    <span class="at">product =</span> <span class="st">"climate model raw"</span></span>
-<span id="cb1-32"><a href="#cb1-32" aria-hidden="true" tabindex="-1"></a>  ) <span class="sc">%&gt;%</span></span>
-<span id="cb1-33"><a href="#cb1-33" aria-hidden="true" tabindex="-1"></a>    <span class="fu">mutate</span>(<span class="at">mean_temperature =</span> <span class="fl">10.9</span> <span class="sc">+</span> <span class="fl">7.357e-03</span> <span class="sc">*</span> year) <span class="sc">%&gt;%</span></span>
-<span id="cb1-34"><a href="#cb1-34" aria-hidden="true" tabindex="-1"></a>    <span class="fu">mutate</span>(<span class="at">temperature =</span> mean_temperature <span class="sc">+</span> <span class="fu">rnorm</span>(<span class="fu">n</span>(), <span class="dv">0</span>, <span class="at">sd =</span> <span class="fl">0.2492</span>))</span>
+<span id="cb1-28"><a href="#cb1-28" aria-hidden="true" tabindex="-1"></a>  <span class="at">year =</span> <span class="dv">2006</span><span class="sc">:</span><span class="dv">2100</span>,</span>
+<span id="cb1-29"><a href="#cb1-29" aria-hidden="true" tabindex="-1"></a>  <span class="at">period =</span> <span class="st">"projection"</span>,</span>
+<span id="cb1-30"><a href="#cb1-30" aria-hidden="true" tabindex="-1"></a>  <span class="at">experiment =</span> <span class="st">"2.6"</span>,</span>
+<span id="cb1-31"><a href="#cb1-31" aria-hidden="true" tabindex="-1"></a>  <span class="at">product =</span> <span class="st">"climate model raw  (~100-50km)"</span></span>
+<span id="cb1-32"><a href="#cb1-32" aria-hidden="true" tabindex="-1"></a>) <span class="sc">%&gt;%</span></span>
+<span id="cb1-33"><a href="#cb1-33" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">mean_temperature =</span> <span class="fl">10.9</span> <span class="sc">+</span> <span class="fl">7.357e-03</span> <span class="sc">*</span> year) <span class="sc">%&gt;%</span></span>
+<span id="cb1-34"><a href="#cb1-34" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">temperature =</span> mean_temperature <span class="sc">+</span> <span class="fu">rnorm</span>(<span class="fu">n</span>(), <span class="dv">0</span>, <span class="at">sd =</span> <span class="fl">0.2492</span>))</span>
 <span id="cb1-35"><a href="#cb1-35" aria-hidden="true" tabindex="-1"></a>proj_85_cm <span class="ot">&lt;-</span> <span class="fu">data.frame</span>(</span>
-<span id="cb1-36"><a href="#cb1-36" aria-hidden="true" tabindex="-1"></a>    <span class="at">year =</span> <span class="dv">2006</span><span class="sc">:</span><span class="dv">2100</span>,</span>
-<span id="cb1-37"><a href="#cb1-37" aria-hidden="true" tabindex="-1"></a>    <span class="at">period =</span> <span class="st">"projection"</span>,</span>
-<span id="cb1-38"><a href="#cb1-38" aria-hidden="true" tabindex="-1"></a>    <span class="at">experiment =</span> <span class="st">"8.5"</span>,</span>
-<span id="cb1-39"><a href="#cb1-39" aria-hidden="true" tabindex="-1"></a>    <span class="at">product =</span> <span class="st">"climate model raw"</span></span>
-<span id="cb1-40"><a href="#cb1-40" aria-hidden="true" tabindex="-1"></a>  ) <span class="sc">%&gt;%</span></span>
-<span id="cb1-41"><a href="#cb1-41" aria-hidden="true" tabindex="-1"></a>    <span class="fu">mutate</span>(<span class="at">mean_temperature =</span> <span class="sc">-</span><span class="fl">19.9</span> <span class="sc">+</span> <span class="fl">2.272e-02</span> <span class="sc">*</span> year) <span class="sc">%&gt;%</span></span>
-<span id="cb1-42"><a href="#cb1-42" aria-hidden="true" tabindex="-1"></a>    <span class="fu">mutate</span>(<span class="at">temperature =</span> mean_temperature <span class="sc">+</span> <span class="fu">rnorm</span>(<span class="fu">n</span>(), <span class="dv">0</span>, <span class="at">sd =</span> <span class="fl">0.2285</span>))</span>
-<span id="cb1-43"><a href="#cb1-43" aria-hidden="true" tabindex="-1"></a>proj_26_ds <span class="ot">&lt;-</span> proj_26_cm <span class="sc">%&gt;%</span> </span>
-<span id="cb1-44"><a href="#cb1-44" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">product =</span> <span class="st">"climate model downscaled"</span>) <span class="sc">%&gt;%</span> </span>
+<span id="cb1-36"><a href="#cb1-36" aria-hidden="true" tabindex="-1"></a>  <span class="at">year =</span> <span class="dv">2006</span><span class="sc">:</span><span class="dv">2100</span>,</span>
+<span id="cb1-37"><a href="#cb1-37" aria-hidden="true" tabindex="-1"></a>  <span class="at">period =</span> <span class="st">"projection"</span>,</span>
+<span id="cb1-38"><a href="#cb1-38" aria-hidden="true" tabindex="-1"></a>  <span class="at">experiment =</span> <span class="st">"8.5"</span>,</span>
+<span id="cb1-39"><a href="#cb1-39" aria-hidden="true" tabindex="-1"></a>  <span class="at">product =</span> <span class="st">"climate model raw  (~100-50km)"</span></span>
+<span id="cb1-40"><a href="#cb1-40" aria-hidden="true" tabindex="-1"></a>) <span class="sc">%&gt;%</span></span>
+<span id="cb1-41"><a href="#cb1-41" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">mean_temperature =</span> <span class="sc">-</span><span class="fl">19.9</span> <span class="sc">+</span> <span class="fl">2.272e-02</span> <span class="sc">*</span> year) <span class="sc">%&gt;%</span></span>
+<span id="cb1-42"><a href="#cb1-42" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">temperature =</span> mean_temperature <span class="sc">+</span> <span class="fu">rnorm</span>(<span class="fu">n</span>(), <span class="dv">0</span>, <span class="at">sd =</span> <span class="fl">0.2285</span>))</span>
+<span id="cb1-43"><a href="#cb1-43" aria-hidden="true" tabindex="-1"></a>proj_26_ds <span class="ot">&lt;-</span> proj_26_cm <span class="sc">%&gt;%</span></span>
+<span id="cb1-44"><a href="#cb1-44" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">product =</span> <span class="st">"climate model downscaled (~1km)"</span>) <span class="sc">%&gt;%</span></span>
 <span id="cb1-45"><a href="#cb1-45" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">mean_temperature =</span> mean_temperature <span class="sc">+</span> delta_bc) <span class="sc">%&gt;%</span></span>
 <span id="cb1-46"><a href="#cb1-46" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">temperature =</span> temperature <span class="sc">+</span> delta_bc <span class="sc">+</span> <span class="fu">rnorm</span>(<span class="fu">n</span>(), <span class="dv">0</span>, <span class="at">sd =</span> sd_trajs))</span>
-<span id="cb1-47"><a href="#cb1-47" aria-hidden="true" tabindex="-1"></a>proj_85_ds <span class="ot">&lt;-</span> proj_85_cm <span class="sc">%&gt;%</span> </span>
-<span id="cb1-48"><a href="#cb1-48" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">product =</span> <span class="st">"climate model downscaled"</span>) <span class="sc">%&gt;%</span> </span>
+<span id="cb1-47"><a href="#cb1-47" aria-hidden="true" tabindex="-1"></a>proj_85_ds <span class="ot">&lt;-</span> proj_85_cm <span class="sc">%&gt;%</span></span>
+<span id="cb1-48"><a href="#cb1-48" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">product =</span> <span class="st">"climate model downscaled (~1km)"</span>) <span class="sc">%&gt;%</span></span>
 <span id="cb1-49"><a href="#cb1-49" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">mean_temperature =</span> mean_temperature <span class="sc">+</span> delta_bc) <span class="sc">%&gt;%</span></span>
 <span id="cb1-50"><a href="#cb1-50" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">temperature =</span> temperature <span class="sc">+</span> delta_bc <span class="sc">+</span> <span class="fu">rnorm</span>(<span class="fu">n</span>(), <span class="dv">0</span>, <span class="at">sd =</span> sd_trajs))</span>
 <span id="cb1-51"><a href="#cb1-51" aria-hidden="true" tabindex="-1"></a>g <span class="ot">&lt;-</span> <span class="fu">bind_rows</span>(</span>
@@ -474,13 +474,13 @@ div.csl-indent {
 <span id="cb1-182"><a href="#cb1-182" aria-hidden="true" tabindex="-1"></a>    <span class="at">label =</span> <span class="st">"2.6~W~m^{-~2}"</span>, <span class="at">parse =</span> <span class="cn">TRUE</span>, <span class="at">col =</span> <span class="st">"#f8766d"</span>, <span class="at">size =</span> <span class="dv">3</span></span>
 <span id="cb1-183"><a href="#cb1-183" aria-hidden="true" tabindex="-1"></a>  )</span>
 <span id="cb1-184"><a href="#cb1-184" aria-hidden="true" tabindex="-1"></a><span class="fu">ggsave</span>(<span class="st">"figures/f01.png"</span>, g, <span class="at">bg =</span> <span class="st">"white"</span>, <span class="at">dpi =</span> <span class="dv">800</span>, <span class="at">height =</span> <span class="dv">4</span>, <span class="at">width =</span> <span class="dv">7</span>)</span>
-<span id="cb1-185"><a href="#cb1-185" aria-hidden="true" tabindex="-1"></a>g </span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb1-185"><a href="#cb1-185" aria-hidden="true" tabindex="-1"></a>g</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </details>
 <div class="cell-output-display">
 <div class="quarto-figure quarto-figure-center">
 <figure class="figure">
 <p><img src="index_files/figure-html/scheme-1.png" class="img-fluid figure-img" width="672"></p>
-<figcaption class="figure-caption">Fig. 1. Study scheme. We first downscaled CMIP6 global climate models (GCMs) and CORDEX regional climate models (RCMs) for experiments 2.6 and 8.5 against CHELSA2 using bias correction with monthly means of the period 1980-2005. We then assessed the downscaled projections against monthly means of precipitation (CHIRPS) and temperature (GSHTD) for the period 2006-2019. Finally, we projected the potential future tropical moist forest (TMF) climate niche for all models and experiments for the period 2070-2100.</figcaption>
+<figcaption class="figure-caption">Fig. 1. Study scheme. We first downscaled CMIP6 global climate models (GCMs, ~100km) and CORDEX regional climate models (RCMs, ~50km) for scenarios 2.6 and 8.5 against CHELSA2 (~1km) using bias correction with monthly means of the period 1980-2005. Bias correction consists of adding interpolated differences (anomalies) between climate model predictions to the baseline (here CHELSA2). We then assessed the downscaled projections against monthly means of precipitation (CHIRPS, ~5km) and temperature (GSHTD, ~1km) for the period 2006-2019. Finally, we projected the potential future tropical moist forest (TMF) climate niche for all models and scenarios for the period 2070-2100.</figcaption>
 </figure>
 </div>
 </div>

@@ -39,11 +39,12 @@ pr_eval <- lapply(c(
     as.data.frame(xy = TRUE) %>%
     gather(key, value, -x, -y) %>%
     separate(key, c("v", "m", "month")) %>%
-    mutate(area = "French-Guiana", variable = "pr", base_eval = "chirps") %>%
+    mutate(area = area, variable = "pr", base_eval = "chirps") %>%
     select(x, y, area, variable, base_eval, month, value)
   t2 %>%
     left_join(t1) %>%
     group_by(area, variable, month) %>%
+    na.omit() %>%
     summarise(
       CC = cor(value, obs),
       RMSE = sqrt(mean((value - obs)^2))
@@ -59,29 +60,28 @@ tas_eval <- lapply(c(
     "results/baselines/",
     area,
     "_gshtd_monthly-means_2006-2019.nc"
-  ))
+  ), lyrs = paste0("tas_month=", 1:12))
   r1 <- rast(paste0(
     "results/baselines/",
     area,
     "_chelsa2_monthly-means_2006-2019.nc"
-  )) %>%
+  ), lyrs = paste0("tas_month=", 1:12)) %>%
     project(r2)
   t1 <- r1 %>%
     as.data.frame(xy = TRUE) %>%
     gather(key, value, -x, -y) %>%
-    filter(grepl("tas_", key)) %>%
     separate(key, c("v", "m", "month")) %>%
     rename(obs = value) %>%
     select(x, y, month, obs)
   t2 <- r2 %>%
     as.data.frame(xy = TRUE) %>%
     gather(key, value, -x, -y) %>%
-    filter(grepl("tas_", key)) %>%
     separate(key, c("v", "m", "month")) %>%
-    mutate(area = "French-Guiana", variable = "tas", base_eval = "chirps") %>%
+    mutate(area = area, variable = "tas", base_eval = "chirps") %>%
     select(x, y, area, variable, base_eval, month, value)
   t2 %>%
     left_join(t1) %>%
+    na.omit() %>%
     group_by(area, variable, month) %>%
     summarise(
       CC = cor(value, obs),
@@ -94,10 +94,31 @@ pr_eval %>%
   write_tsv("outputs/chelsa_eval.tsv")
 ```
 
+```{r chelsa_eval_summary}
+#| warning: false
+#| message: false
+t <- read_tsv("outputs/chelsa_eval.tsv") %>%
+  group_by(area, variable) %>%
+  summarise(
+    CC = paste0(round(mean(CC), 2), " (", round(sd(CC), 2), ")"),
+    RMSE = paste0(round(mean(RMSE), 2), " (", round(sd(RMSE), 2), ")")
+  ) %>%
+  mutate(area = ifelse(area == "Côte-d'Ivoire", "Ivory-Coast", area)) %>%
+  mutate(area = gsub("-", " ", area)) %>%
+  mutate(variable = recode(variable,
+    "pr" = "CHIRPS precipitation",
+    "tas" = "GSHTD temperature"
+  )) %>%
+  rename(Country = area, Evaluation = variable)
+write_tsv(t, "figures/ts01.tsv")
+read_tsv("figures/ts01.tsv") %>%
+  kable(caption = "Table S1. Evaluation of baseline CHELSA 2 data between 2006 and 2019  against CHIRPS precipitation and GSHTD temperature data in Ivory Coast, French Guiana and New Caledonia. Numbers indicate root mean square error (RMSE) or correlation coefficient (CC) with mean followed by standard deviation in parentheses. Assessments are averaged across months.") # nolint
+```
+
 ```{r eval}
 #| message: false
 #| warning: false
-#| fig-cap: "Fig 3. Evaluation of downscaled projections from global (CMIP6) and regional (CORDEX) climate models. Monthly precipitation and mean temperature from climate models were downscaled against CHELSA2 data for the period 1980-2005 for French Guiana, Ivory Coast and New Caledonia. We evaluated downscaled projected monthly precipitation against CHIRPS data and downscaled projected monthly mean temperature against GSHTD data for the period 2006-2019. The x-axis represents the root mean square error (RMSE) and the y-axis the correlation coefficient (CC), such that the best evaluation is located in the lower left corner with a RMSEP of 0 and a CC of 1. Each point represents the mean evaluation across months of a single climate model for experiment 2.6 or 8.5, with intervals around representing half the standard deviation across months. Blue dots represent CMIP6 global climate models with experiment 2.6 in light blue and 8.5 in dark blue, while red dots represent CORDEX regional climate models with experiment 2.6 in light red and 8.5 in dark red. Grey lines represent matching experiments for a single model. Zoom on model mean evaluations can be found in Supplementary Figure S3, while details on model evaluations across months can be found in Supplementary Figure S4." #nolint
+#| fig-cap: "Fig 3. Evaluation of downscaled projections from global (CMIP6) and regional (CORDEX) climate models. Monthly precipitation and mean temperature from climate models were downscaled against CHELSA2 data for the period 1980-2005 for French Guiana, Ivory Coast and New Caledonia. We evaluated downscaled projected monthly precipitation against CHIRPS data and downscaled projected monthly mean temperature against GSHTD data for the period 2006-2019. The x-axis represents the root mean square error (RMSE) and the y-axis the correlation coefficient (CC), such that the best evaluation is located in the lower left corner with a RMSEP of 0 and a CC of 1. Each point represents the mean evaluation across months of a single climate model for scenario 2.6 or 8.5, with intervals around representing half the standard deviation across months. Blue dots represent CMIP6 global climate models with scenario 2.6 in light blue and 8.5 in dark blue, while red dots represent CORDEX regional climate models with scenario 2.6 in light red and 8.5 in dark red. Grey lines connecting two dots represent matching scenarios for a single model. Zoom on model mean evaluations can be found in Supplementary Figure S3, while details on model evaluations across months can be found in Supplementary Figure S4. The evaluations show that we do not have a single best climate model, but that the best climate models are context dependent, which underlines the importance of the ensemble forecasting approach, as shown in Fig. 4." #nolint
 g <- read_tsv("results/evaluation/evaluations.tsv") %>%
   mutate(area = ifelse(area == "Côte-d'Ivoire", "Ivory-Coast", area)) %>%
   mutate(area = gsub("-", " ", area)) %>%
@@ -147,7 +168,7 @@ g <- read_tsv("results/evaluation/evaluations.tsv") %>%
   theme(legend.position = "bottom") +
   scale_color_manual("",
     labels = scales::parse_format(),
-    values = c("#95b3cb", "#79a0cb", "#feacad", "#f9665e")
+    values = c("#95B4CC", "#0018A9", "#FEC9C9", "#ED1C23")
   ) +
   xlab("Root Mean Square Error (RMSE)") +
   ylab("Correlation Coefficient (CC)") +
@@ -159,7 +180,7 @@ g
 ```{r eval_scenario}
 #| message: false
 #| warning: false
-#| fig-cap: "Fig S3. Evaluation of downscaled projections from global (CMIP6) and regional (CORDEX) climate models. Monthly precipitation and mean temperature from climate models were downscaled against CHELSA2 data for the period 1980-2005 for French Guiana, Ivory Coast and New Caledonia. We evaluated downscaled projected monthly precipitation against CHIRPS data and downscaled projected monthly mean temperature against GSHTD data for the period 2006-2019. The x-axis represents the root mean square error (RMSE) and the y-axis the correlation coefficient (CC), such that the best evaluation is located in the lower left corner with a RMSEP of 0 and a CC of 1. Each point represents the mean evaluation across months of a single climate model for experiment 2.6 or 8.5. Blue dots represent CMIP6 global climate models with experiment 2.6 in light blue and 8.5 in dark blue, while red dots represent CORDEX regional climate models with experiment 2.6 in light red and 8.5 in dark red. Grey lines represent matching experiments for a single model." #nolint
+#| fig-cap: "Fig S3. Evaluation of downscaled projections from global (CMIP6) and regional (CORDEX) climate models. Monthly precipitation and mean temperature from climate models were downscaled against CHELSA2 data for the period 1980-2005 for French Guiana, Ivory Coast and New Caledonia. We evaluated downscaled projected monthly precipitation against CHIRPS data and downscaled projected monthly mean temperature against GSHTD data for the period 2006-2019. The x-axis represents the root mean square error (RMSE) and the y-axis the correlation coefficient (CC), such that the best evaluation is located in the lower left corner with a RMSEP of 0 and a CC of 1. Each point represents the mean evaluation across months of a single climate model for scenario 2.6 or 8.5. Blue dots represent CMIP6 global climate models with scenario 2.6 in light blue and 8.5 in dark blue, while red dots represent CORDEX regional climate models with scenario 2.6 in light red and 8.5 in dark red. Grey lines connecting two dots represent matching scenarios for a single model." #nolint
 g <- read_tsv("results/evaluation/evaluations.tsv") %>%
   mutate(area = ifelse(area == "Côte-d'Ivoire", "Ivory-Coast", area)) %>%
   mutate(area = gsub("-", " ", area)) %>%
@@ -203,7 +224,7 @@ g <- read_tsv("results/evaluation/evaluations.tsv") %>%
   theme(legend.position = "bottom") +
   scale_color_manual("",
     labels = scales::parse_format(),
-    values = c("#95b3cb", "#79a0cb", "#feacad", "#f9665e")
+    values = c("#95B4CC", "#0018A9", "#FEC9C9", "#ED1C23")
   ) +
   xlab("Root Mean Square Error (RMSE)") +
   ylab("Correlation Coefficient (CC)") +
@@ -215,7 +236,7 @@ g
 ```{r eval_month}
 #| message: false
 #| warning: false
-#| fig-cap: "Fig S4. Evaluation of downscaled projections from global (CMIP6) and regional (CORDEX) climate models. Monthly precipitation and mean temperature from climate models were downscaled against CHELSA2 data for the period 1980-2005 for French Guiana, Ivory Coast and New Caledonia. We evaluated downscaled projected monthly precipitation against CHIRPS data and downscaled projected monthly mean temperature against GSHTD data for the period 2006-2019. The x-axis represents the root mean square error (RMSE) and the y-axis the correlation coefficient (CC), such that the best evaluation is located in the lower left corner with a RMSEP of 0 and a CC of 1. Each point represents the evaluation for June or December of a single climate model for experiment 2.6. Blue dots represent CMIP6 global climate models with June in light blue and December in dark blue, while red dots represent CORDEX regional climate models with June in light red and December in dark red. Grey lines represent matching experiments for a single model." #nolint
+#| fig-cap: "Fig S4. Evaluation of downscaled projections from global (CMIP6) and regional (CORDEX) climate models. Monthly precipitation and mean temperature from climate models were downscaled against CHELSA2 data for the period 1980-2005 for French Guiana, Ivory Coast and New Caledonia. We evaluated downscaled projected monthly precipitation against CHIRPS data and downscaled projected monthly mean temperature against GSHTD data for the period 2006-2019. The x-axis represents the root mean square error (RMSE) and the y-axis the correlation coefficient (CC), such that the best evaluation is located in the lower left corner with a RMSEP of 0 and a CC of 1. Each point represents the evaluation for June or December of a single climate model for scenario 2.6. Blue dots represent CMIP6 global climate models with June in light blue and December in dark blue, while red dots represent CORDEX regional climate models with June in light red and December in dark red. Grey lines connecting two dots represent matching scenarios for a single model." #nolint
 g <- read_tsv("results/evaluation/evaluations.tsv") %>%
   mutate(area = ifelse(area == "Côte-d'Ivoire", "Ivory-Coast", area)) %>%
   mutate(area = gsub("-", " ", area)) %>%
@@ -262,7 +283,7 @@ g <- read_tsv("results/evaluation/evaluations.tsv") %>%
   theme(legend.position = "bottom") +
   scale_color_manual("",
     labels = scales::parse_format(),
-    values = c("#95b3cb", "#79a0cb", "#feacad", "#f9665e")
+    values = c("#95B4CC", "#0018A9", "#FEC9C9", "#ED1C23")
   ) +
   xlab("Root Mean Square Error (RMSE)") +
   ylab("Correlation Coefficient (CC)") +

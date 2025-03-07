@@ -17,7 +17,7 @@ To demonstrate the aim of the tool, we want to validate and/or assess the projec
 ```{r scheme}
 #| message: false
 #| warning: false
-#| fig-cap: "Fig. 1. Study scheme. We first downscaled CMIP6 global climate models (GCMs) and CORDEX regional climate models (RCMs) for experiments 2.6 and 8.5 against CHELSA2 using bias correction with monthly means of the period 1980-2005. We then assessed the downscaled projections against monthly means of precipitation (CHIRPS) and temperature (GSHTD) for the period 2006-2019. Finally, we projected the potential future tropical moist forest (TMF) climate niche for all models and experiments for the period 2070-2100." #nolint
+#| fig-cap: "Fig. 1. Study scheme. We first downscaled CMIP6 global climate models (GCMs, ~100km) and CORDEX regional climate models (RCMs, ~50km) for scenarios 2.6 and 8.5 against CHELSA2 (~1km) using bias correction with monthly means of the period 1980-2005. Bias correction consists of adding interpolated differences (anomalies) between climate model predictions to the baseline (here CHELSA2). We then assessed the downscaled projections against monthly means of precipitation (CHIRPS, ~5km) and temperature (GSHTD, ~1km) for the period 2006-2019. Finally, we projected the potential future tropical moist forest (TMF) climate niche for all models and scenarios for the period 2070-2100." #nolint
 library(tidyverse)
 set.seed(42)
 arrow_height <- 28.5
@@ -27,19 +27,19 @@ hist_cm <- data.frame(
   year = 1980:2005,
   period = "historical",
   experiment = "historical",
-  product = "climate model raw"
+  product = "climate model raw  (~100-50km)"
 ) %>%
   mutate(mean_temperature = -6.717360 + 0.016125 * year) %>%
   mutate(temperature = mean_temperature + rnorm(n(), 0, sd = sd_trajs))
 hist_ref <- hist_cm %>%
-  mutate(product = "downscaling product") %>%
+  mutate(product = "downscaling product (~1km)") %>%
   mutate(mean_temperature = mean_temperature + delta_bc) %>%
   mutate(temperature = temperature + delta_bc + rnorm(n(), 0, sd = sd_trajs))
 eval_ref <- data.frame(
   year = 2006:2019,
   period = "evaluation",
   experiment = "historical",
-  product = "evaluation product"
+  product = "evaluation product (~1-5km)"
 ) %>%
   mutate(mean_temperature = -6.717360 + 0.016125 * year - 0.8) %>%
   mutate(temperature = mean_temperature + rnorm(n(), 0, sd = 0.2266))
@@ -48,7 +48,7 @@ proj_26_cm <- data.frame(
   year = 2006:2100,
   period = "projection",
   experiment = "2.6",
-  product = "climate model raw"
+  product = "climate model raw  (~100-50km)"
 ) %>%
   mutate(mean_temperature = 10.9 + 7.357e-03 * year) %>%
   mutate(temperature = mean_temperature + rnorm(n(), 0, sd = 0.2492))
@@ -56,16 +56,16 @@ proj_85_cm <- data.frame(
   year = 2006:2100,
   period = "projection",
   experiment = "8.5",
-  product = "climate model raw"
+  product = "climate model raw  (~100-50km)"
 ) %>%
   mutate(mean_temperature = -19.9 + 2.272e-02 * year) %>%
   mutate(temperature = mean_temperature + rnorm(n(), 0, sd = 0.2285))
 proj_26_ds <- proj_26_cm %>%
-  mutate(product = "climate model downscaled") %>%
+  mutate(product = "climate model downscaled (~1km)") %>%
   mutate(mean_temperature = mean_temperature + delta_bc) %>%
   mutate(temperature = temperature + delta_bc + rnorm(n(), 0, sd = sd_trajs))
 proj_85_ds <- proj_85_cm %>%
-  mutate(product = "climate model downscaled") %>%
+  mutate(product = "climate model downscaled (~1km)") %>%
   mutate(mean_temperature = mean_temperature + delta_bc) %>%
   mutate(temperature = temperature + delta_bc + rnorm(n(), 0, sd = sd_trajs))
 g <- bind_rows(

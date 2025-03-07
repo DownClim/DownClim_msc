@@ -19,16 +19,25 @@ g <- vroom::vroom("results/evaluation/histograms.tsv") %>%
   filter(variable == "tas", area == "Côte-d'Ivoire") %>%
   group_by(origin, type, area, month) %>%
   mutate(density = count / sum(count)) %>%
-  mutate(type = ifelse(origin == "chelsa2", "downscaled", type)) %>%
+  mutate(type = ifelse(origin == "chelsa2", "", type)) %>%
   mutate(origin = toupper(origin)) %>%
-  mutate(type = factor(type, levels = c("raw", "downscaled"))) %>%
+  mutate(origin_type = paste(origin, type)) %>%
+  mutate(origin_type = factor(origin_type,
+    levels = c(
+      "CMIP6 downscaled",
+      "CORDEX downscaled",
+      "CHELSA2 ",
+      "CMIP6 raw",
+      "CORDEX raw"
+    )
+  )) %>%
   ggplot(aes(bin, density,
     fill = as.factor(month),
     col = as.factor(month)
   )) +
   geom_col() +
   theme_bw() +
-  facet_grid(type ~ origin) +
+  facet_wrap(~origin_type) +
   xlab("Mean temperature (°C)") +
   ylab("") +
   scale_fill_viridis_d("",
@@ -57,9 +66,18 @@ g <- vroom::vroom("results/evaluation/histograms.tsv") %>%
   filter(variable == "tas") %>%
   group_by(origin, type, area, month) %>%
   mutate(density = count / sum(count)) %>%
-  mutate(type = ifelse(origin == "chelsa2", "downscaled", type)) %>%
+  mutate(type = ifelse(origin == "chelsa2", "", type)) %>%
   mutate(origin = toupper(origin)) %>%
-  mutate(type = factor(type, levels = c("raw", "downscaled"))) %>%
+  mutate(origin_type = paste0(origin, "\n", type)) %>%
+  mutate(origin_type = factor(origin_type,
+    levels = c(
+      "CMIP6\ndownscaled",
+      "CORDEX\ndownscaled",
+      "CHELSA2\n",
+      "CMIP6\nraw",
+      "CORDEX\nraw"
+    )
+  )) %>%
   mutate(area = ifelse(area == "Côte-d'Ivoire", "Ivory-Coast", area)) %>%
   mutate(area = gsub("-", " ", area)) %>%
   ggplot(aes(bin, density,
@@ -68,7 +86,7 @@ g <- vroom::vroom("results/evaluation/histograms.tsv") %>%
   )) +
   geom_col() +
   theme_bw() +
-  facet_grid(type ~ origin ~ area) +
+  facet_grid(origin_type ~ area) +
   xlab("Mean temperature (°C)") +
   ylab("") +
   scale_fill_viridis_d("",
@@ -97,9 +115,18 @@ g <- vroom::vroom("results/evaluation/histograms.tsv") %>%
   filter(variable == "pr") %>%
   group_by(origin, type, area, month) %>%
   mutate(density = count / sum(count)) %>%
-  mutate(type = ifelse(origin == "chelsa2", "downscaled", type)) %>%
+  mutate(type = ifelse(origin == "chelsa2", "", type)) %>%
   mutate(origin = toupper(origin)) %>%
-  mutate(type = factor(type, levels = c("raw", "downscaled"))) %>%
+  mutate(origin_type = paste0(origin, "\n", type)) %>%
+  mutate(origin_type = factor(origin_type,
+    levels = c(
+      "CMIP6\ndownscaled",
+      "CORDEX\ndownscaled",
+      "CHELSA2\n",
+      "CMIP6\nraw",
+      "CORDEX\nraw"
+    )
+  )) %>%
   mutate(area = ifelse(area == "Côte-d'Ivoire", "Ivory-Coast", area)) %>%
   mutate(area = gsub("-", " ", area)) %>%
   ggplot(aes(bin, density,
@@ -108,7 +135,7 @@ g <- vroom::vroom("results/evaluation/histograms.tsv") %>%
   )) +
   geom_col() +
   theme_bw() +
-  facet_grid(type ~ origin ~ area) +
+  facet_grid(origin_type ~ area) +
   xlab("Precipitation (mm)") +
   ylab("") +
   scale_fill_viridis_d("",

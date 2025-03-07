@@ -256,7 +256,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <div class="cell">
 <details>
 <summary>Code</summary>
-<div class="sourceCode cell-code" id="cb1"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a>cmip6 <span class="ot">&lt;-</span> <span class="fu">rast</span>(<span class="st">"results/evaluation/bias/French-Guiana_CMIP6_chirps.nc"</span>)[[<span class="dv">1</span><span class="sc">:</span><span class="dv">12</span>]] <span class="sc">%&gt;%</span> <span class="co">#nolint</span></span>
+<div class="sourceCode cell-code" id="cb1"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a>cmip6 <span class="ot">&lt;-</span> <span class="fu">rast</span>(<span class="st">"results/evaluation/bias/French-Guiana_CMIP6_chirps.nc"</span>)[[<span class="dv">1</span><span class="sc">:</span><span class="dv">12</span>]] <span class="sc">%&gt;%</span> <span class="co"># nolint</span></span>
 <span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">median</span>()</span>
 <span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>() <span class="sc">+</span></span>
 <span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a>  tidyterra<span class="sc">::</span><span class="fu">geom_spatraster</span>(<span class="at">data =</span> cmip6) <span class="sc">+</span></span>
@@ -279,7 +279,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <div class="cell">
 <details>
 <summary>Code</summary>
-<div class="sourceCode cell-code" id="cb2"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a>cordex <span class="ot">&lt;-</span> <span class="fu">rast</span>(<span class="st">"results/evaluation/bias/French-Guiana_CORDEX_chirps.nc"</span>)[[<span class="dv">1</span><span class="sc">:</span><span class="dv">12</span>]] <span class="sc">%&gt;%</span> <span class="co">#nolint</span></span>
+<div class="sourceCode cell-code" id="cb2"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a>cordex <span class="ot">&lt;-</span> <span class="fu">rast</span>(<span class="st">"results/evaluation/bias/French-Guiana_CORDEX_chirps.nc"</span>)[[<span class="dv">1</span><span class="sc">:</span><span class="dv">12</span>]] <span class="sc">%&gt;%</span> <span class="co"># nolint</span></span>
 <span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">median</span>()</span>
 <span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>() <span class="sc">+</span></span>
 <span id="cb2-4"><a href="#cb2-4" aria-hidden="true" tabindex="-1"></a>  tidyterra<span class="sc">::</span><span class="fu">geom_spatraster</span>(<span class="at">data =</span> cordex) <span class="sc">+</span></span>
@@ -305,7 +305,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <div class="cell">
 <details>
 <summary>Code</summary>
-<div class="sourceCode cell-code" id="cb3"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a>cmip6 <span class="ot">&lt;-</span> <span class="fu">rast</span>(<span class="st">"results/evaluation/bias/Côte-d'Ivoire_CMIP6_chirps.nc"</span>)[[<span class="dv">1</span><span class="sc">:</span><span class="dv">12</span>]] <span class="sc">%&gt;%</span> <span class="co">#nolint</span></span>
+<div class="sourceCode cell-code" id="cb3"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a>cmip6 <span class="ot">&lt;-</span> <span class="fu">rast</span>(<span class="st">"results/evaluation/bias/Côte-d'Ivoire_CMIP6_chirps.nc"</span>)[[<span class="dv">1</span><span class="sc">:</span><span class="dv">12</span>]] <span class="sc">%&gt;%</span> <span class="co"># nolint</span></span>
 <span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">median</span>()</span>
 <span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>() <span class="sc">+</span></span>
 <span id="cb3-4"><a href="#cb3-4" aria-hidden="true" tabindex="-1"></a>  tidyterra<span class="sc">::</span><span class="fu">geom_spatraster</span>(<span class="at">data =</span> cmip6) <span class="sc">+</span></span>
@@ -328,7 +328,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <div class="cell">
 <details>
 <summary>Code</summary>
-<div class="sourceCode cell-code" id="cb4"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a>cordex <span class="ot">&lt;-</span> <span class="fu">rast</span>(<span class="st">"results/evaluation/bias/Côte-d'Ivoire_CORDEX_chirps.nc"</span>)[[<span class="dv">1</span><span class="sc">:</span><span class="dv">12</span>]] <span class="sc">%&gt;%</span> <span class="co">#nolint</span></span>
+<div class="sourceCode cell-code" id="cb4"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a>cordex <span class="ot">&lt;-</span> <span class="fu">rast</span>(<span class="st">"results/evaluation/bias/Côte-d'Ivoire_CORDEX_chirps.nc"</span>)[[<span class="dv">1</span><span class="sc">:</span><span class="dv">12</span>]] <span class="sc">%&gt;%</span> <span class="co"># nolint</span></span>
 <span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">median</span>()</span>
 <span id="cb4-3"><a href="#cb4-3" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>() <span class="sc">+</span></span>
 <span id="cb4-4"><a href="#cb4-4" aria-hidden="true" tabindex="-1"></a>  tidyterra<span class="sc">::</span><span class="fu">geom_spatraster</span>(<span class="at">data =</span> cordex) <span class="sc">+</span></span>
@@ -354,7 +354,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <div class="cell">
 <details>
 <summary>Code</summary>
-<div class="sourceCode cell-code" id="cb5"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a>cmip6 <span class="ot">&lt;-</span> <span class="fu">rast</span>(<span class="st">"results/evaluation/bias/New-Caledonia_CMIP6_chirps.nc"</span>)[[<span class="dv">1</span><span class="sc">:</span><span class="dv">12</span>]] <span class="sc">%&gt;%</span> <span class="co">#nolint</span></span>
+<div class="sourceCode cell-code" id="cb5"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a>cmip6 <span class="ot">&lt;-</span> <span class="fu">rast</span>(<span class="st">"results/evaluation/bias/New-Caledonia_CMIP6_chirps.nc"</span>)[[<span class="dv">1</span><span class="sc">:</span><span class="dv">12</span>]] <span class="sc">%&gt;%</span> <span class="co"># nolint</span></span>
 <span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">median</span>() <span class="sc">%&gt;%</span></span>
 <span id="cb5-3"><a href="#cb5-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">crop</span>(<span class="fu">c</span>(<span class="dv">163</span>, <span class="fl">168.5</span>, <span class="sc">-</span><span class="dv">23</span>, <span class="sc">-</span><span class="dv">19</span>))</span>
 <span id="cb5-4"><a href="#cb5-4" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>() <span class="sc">+</span></span>
@@ -378,7 +378,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <div class="cell">
 <details>
 <summary>Code</summary>
-<div class="sourceCode cell-code" id="cb6"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a>cordex <span class="ot">&lt;-</span> <span class="fu">rast</span>(<span class="st">"results/evaluation/bias/New-Caledonia_CORDEX_chirps.nc"</span>)[[<span class="dv">1</span><span class="sc">:</span><span class="dv">12</span>]] <span class="sc">%&gt;%</span> <span class="co">#nolint</span></span>
+<div class="sourceCode cell-code" id="cb6"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a>cordex <span class="ot">&lt;-</span> <span class="fu">rast</span>(<span class="st">"results/evaluation/bias/New-Caledonia_CORDEX_chirps.nc"</span>)[[<span class="dv">1</span><span class="sc">:</span><span class="dv">12</span>]] <span class="sc">%&gt;%</span> <span class="co"># nolint</span></span>
 <span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">median</span>() <span class="sc">%&gt;%</span></span>
 <span id="cb6-3"><a href="#cb6-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">crop</span>(<span class="fu">c</span>(<span class="dv">163</span>, <span class="fl">168.5</span>, <span class="sc">-</span><span class="dv">23</span>, <span class="sc">-</span><span class="dv">19</span>))</span>
 <span id="cb6-4"><a href="#cb6-4" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>() <span class="sc">+</span></span>
@@ -408,7 +408,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <div class="cell">
 <details>
 <summary>Code</summary>
-<div class="sourceCode cell-code" id="cb7"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a>cmip6 <span class="ot">&lt;-</span> <span class="fu">rast</span>(<span class="st">"results/evaluation/bias/French-Guiana_CMIP6_gshtd.nc"</span>)[[<span class="dv">1</span><span class="sc">:</span><span class="dv">12</span>]] <span class="sc">%&gt;%</span> <span class="co">#nolint</span></span>
+<div class="sourceCode cell-code" id="cb7"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a>cmip6 <span class="ot">&lt;-</span> <span class="fu">rast</span>(<span class="st">"results/evaluation/bias/French-Guiana_CMIP6_gshtd.nc"</span>)[[<span class="dv">1</span><span class="sc">:</span><span class="dv">12</span>]] <span class="sc">%&gt;%</span> <span class="co"># nolint</span></span>
 <span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">median</span>()</span>
 <span id="cb7-3"><a href="#cb7-3" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>() <span class="sc">+</span></span>
 <span id="cb7-4"><a href="#cb7-4" aria-hidden="true" tabindex="-1"></a>  tidyterra<span class="sc">::</span><span class="fu">geom_spatraster</span>(<span class="at">data =</span> cmip6) <span class="sc">+</span></span>
@@ -431,7 +431,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <div class="cell">
 <details>
 <summary>Code</summary>
-<div class="sourceCode cell-code" id="cb8"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a>cordex <span class="ot">&lt;-</span> <span class="fu">rast</span>(<span class="st">"results/evaluation/bias/French-Guiana_CORDEX_gshtd.nc"</span>)[[<span class="dv">1</span><span class="sc">:</span><span class="dv">12</span>]] <span class="sc">%&gt;%</span> <span class="co">#nolint</span></span>
+<div class="sourceCode cell-code" id="cb8"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a>cordex <span class="ot">&lt;-</span> <span class="fu">rast</span>(<span class="st">"results/evaluation/bias/French-Guiana_CORDEX_gshtd.nc"</span>)[[<span class="dv">1</span><span class="sc">:</span><span class="dv">12</span>]] <span class="sc">%&gt;%</span> <span class="co"># nolint</span></span>
 <span id="cb8-2"><a href="#cb8-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">median</span>()</span>
 <span id="cb8-3"><a href="#cb8-3" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>() <span class="sc">+</span></span>
 <span id="cb8-4"><a href="#cb8-4" aria-hidden="true" tabindex="-1"></a>  tidyterra<span class="sc">::</span><span class="fu">geom_spatraster</span>(<span class="at">data =</span> cordex) <span class="sc">+</span></span>
@@ -457,7 +457,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <div class="cell">
 <details>
 <summary>Code</summary>
-<div class="sourceCode cell-code" id="cb9"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a>cmip6 <span class="ot">&lt;-</span> <span class="fu">rast</span>(<span class="st">"results/evaluation/bias/Côte-d'Ivoire_CMIP6_gshtd.nc"</span>)[[<span class="dv">1</span><span class="sc">:</span><span class="dv">12</span>]] <span class="sc">%&gt;%</span> <span class="co">#nolint</span></span>
+<div class="sourceCode cell-code" id="cb9"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a>cmip6 <span class="ot">&lt;-</span> <span class="fu">rast</span>(<span class="st">"results/evaluation/bias/Côte-d'Ivoire_CMIP6_gshtd.nc"</span>)[[<span class="dv">1</span><span class="sc">:</span><span class="dv">12</span>]] <span class="sc">%&gt;%</span> <span class="co"># nolint</span></span>
 <span id="cb9-2"><a href="#cb9-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">median</span>()</span>
 <span id="cb9-3"><a href="#cb9-3" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>() <span class="sc">+</span></span>
 <span id="cb9-4"><a href="#cb9-4" aria-hidden="true" tabindex="-1"></a>  tidyterra<span class="sc">::</span><span class="fu">geom_spatraster</span>(<span class="at">data =</span> cmip6) <span class="sc">+</span></span>
@@ -480,7 +480,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <div class="cell">
 <details>
 <summary>Code</summary>
-<div class="sourceCode cell-code" id="cb10"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a>cordex <span class="ot">&lt;-</span> <span class="fu">rast</span>(<span class="st">"results/evaluation/bias/Côte-d'Ivoire_CORDEX_gshtd.nc"</span>)[[<span class="dv">1</span><span class="sc">:</span><span class="dv">12</span>]] <span class="sc">%&gt;%</span> <span class="co">#nolint</span></span>
+<div class="sourceCode cell-code" id="cb10"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a>cordex <span class="ot">&lt;-</span> <span class="fu">rast</span>(<span class="st">"results/evaluation/bias/Côte-d'Ivoire_CORDEX_gshtd.nc"</span>)[[<span class="dv">1</span><span class="sc">:</span><span class="dv">12</span>]] <span class="sc">%&gt;%</span> <span class="co"># nolint</span></span>
 <span id="cb10-2"><a href="#cb10-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">median</span>()</span>
 <span id="cb10-3"><a href="#cb10-3" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>() <span class="sc">+</span></span>
 <span id="cb10-4"><a href="#cb10-4" aria-hidden="true" tabindex="-1"></a>  tidyterra<span class="sc">::</span><span class="fu">geom_spatraster</span>(<span class="at">data =</span> cordex) <span class="sc">+</span></span>
@@ -506,7 +506,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <div class="cell">
 <details>
 <summary>Code</summary>
-<div class="sourceCode cell-code" id="cb11"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a>cmip6 <span class="ot">&lt;-</span> <span class="fu">rast</span>(<span class="st">"results/evaluation/bias/New-Caledonia_CMIP6_gshtd.nc"</span>)[[<span class="dv">1</span><span class="sc">:</span><span class="dv">12</span>]] <span class="sc">%&gt;%</span> <span class="co">#nolint</span></span>
+<div class="sourceCode cell-code" id="cb11"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a>cmip6 <span class="ot">&lt;-</span> <span class="fu">rast</span>(<span class="st">"results/evaluation/bias/New-Caledonia_CMIP6_gshtd.nc"</span>)[[<span class="dv">1</span><span class="sc">:</span><span class="dv">12</span>]] <span class="sc">%&gt;%</span> <span class="co"># nolint</span></span>
 <span id="cb11-2"><a href="#cb11-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">median</span>() <span class="sc">%&gt;%</span></span>
 <span id="cb11-3"><a href="#cb11-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">crop</span>(<span class="fu">c</span>(<span class="dv">163</span>, <span class="fl">168.5</span>, <span class="sc">-</span><span class="dv">23</span>, <span class="sc">-</span><span class="dv">19</span>))</span>
 <span id="cb11-4"><a href="#cb11-4" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>() <span class="sc">+</span></span>
@@ -530,7 +530,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <div class="cell">
 <details>
 <summary>Code</summary>
-<div class="sourceCode cell-code" id="cb12"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a>cordex <span class="ot">&lt;-</span> <span class="fu">rast</span>(<span class="st">"results/evaluation/bias/New-Caledonia_CORDEX_gshtd.nc"</span>)[[<span class="dv">1</span><span class="sc">:</span><span class="dv">12</span>]] <span class="sc">%&gt;%</span> <span class="co">#nolint</span></span>
+<div class="sourceCode cell-code" id="cb12"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a>cordex <span class="ot">&lt;-</span> <span class="fu">rast</span>(<span class="st">"results/evaluation/bias/New-Caledonia_CORDEX_gshtd.nc"</span>)[[<span class="dv">1</span><span class="sc">:</span><span class="dv">12</span>]] <span class="sc">%&gt;%</span> <span class="co"># nolint</span></span>
 <span id="cb12-2"><a href="#cb12-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">median</span>() <span class="sc">%&gt;%</span></span>
 <span id="cb12-3"><a href="#cb12-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">crop</span>(<span class="fu">c</span>(<span class="dv">163</span>, <span class="fl">168.5</span>, <span class="sc">-</span><span class="dv">23</span>, <span class="sc">-</span><span class="dv">19</span>))</span>
 <span id="cb12-4"><a href="#cb12-4" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>() <span class="sc">+</span></span>
