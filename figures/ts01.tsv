@@ -1,0 +1,7 @@
+Country	Evaluation	CC	RMSE
+Ivory Coast	CHIRPS precipitation	0.62 (0.22)	51.78 (35.07)
+Ivory Coast	GSHTD temperature	0.77 (0.22)	0.62 (0.25)
+French Guiana	CHIRPS precipitation	0.21 (0.36)	94.37 (53.18)
+French Guiana	GSHTD temperature	0.52 (0.12)	0.91 (0.2)
+New Caledonia	CHIRPS precipitation	0.08 (0.08)	136.49 (59.1)
+New Caledonia	GSHTD temperature	0.73 (0.09)	1.51 (0.47)

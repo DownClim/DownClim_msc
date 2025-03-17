@@ -1,0 +1,13 @@
+Country	Evaluation	Metric	CMIP6	CORDEX
+French Guiana	CHIRPS precipitation	CC	0.663 (0.069)	0.596 (0.042)
+French Guiana	CHIRPS precipitation	RMSE	56.059 (17.183)	63.97 (9.759)
+French Guiana	GSHTD temperature	CC	0.336 (0.032)	0.316 (0.01)
+French Guiana	GSHTD temperature	RMSE	0.569 (0.078)	0.578 (0.048)
+Ivory Coast	CHIRPS precipitation	CC	0.909 (0.024)	0.894 (0.019)
+Ivory Coast	CHIRPS precipitation	RMSE	21.873 (3.409)	24.498 (2.431)
+Ivory Coast	GSHTD temperature	CC	0.662 (0.028)	0.671 (0.014)
+Ivory Coast	GSHTD temperature	RMSE	0.674 (0.07)	0.747 (0.085)
+New Caledonia	CHIRPS precipitation	CC	0.313 (0.019)	0.304 (0.009)
+New Caledonia	CHIRPS precipitation	RMSE	67.197 (10.456)	70.323 (4.996)
+New Caledonia	GSHTD temperature	CC	0.957 (0)	0.957 (0.001)
+New Caledonia	GSHTD temperature	RMSE	0.667 (0.071)	0.742 (0.044)

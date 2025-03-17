@@ -1,0 +1,9 @@
+Country	Evaluation	Metric	CMIP6	CORDEX
+French Guiana	Météo France precipitation	CC	0.709 (0.04)	0.566 (0.056)
+French Guiana	Météo France precipitation	RMSE	64.928 (16.158)	74.762 (9.647)
+French Guiana	Météo France temperature	CC	0.356 (0.026)	0.268 (0.086)
+French Guiana	Météo France temperature	RMSE	0.992 (0.153)	0.886 (0.174)
+New Caledonia	Météo France precipitation	CC	0.848 (0.013)	0.815 (0.025)
+New Caledonia	Météo France precipitation	RMSE	42.539 (5.761)	47.826 (7.626)
+New Caledonia	Météo France temperature	CC	0.784 (0.003)	0.767 (0.038)
+New Caledonia	Météo France temperature	RMSE	0.74 (0.031)	0.732 (0.02)
